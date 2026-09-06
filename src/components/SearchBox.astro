@@ -1,0 +1,32 @@
+---
+interface Props { target: string; placeholder?: string; label?: string; }
+const { target, placeholder = "Search the database…", label = "Search entries" } = Astro.props;
+const inputId = `search-${target.replace(/[^a-z0-9]/gi, "")}`;
+---
+<div class="search-box" data-search-box data-target={target}>
+  <label for={inputId}>{label}</label>
+  <div class="input-wrap"><span aria-hidden="true">⌕</span><input id={inputId} type="search" placeholder={placeholder} autocomplete="off" /></div>
+  <p class="result-status" aria-live="polite"></p>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-search-box]").forEach((box) => {
+    const input = box.querySelector<HTMLInputElement>("input[type='search']");
+    const status = box.querySelector<HTMLElement>(".result-status");
+    const selector = box.dataset.target;
+    if (!input || !status || !selector) return;
+    input.addEventListener("input", () => {
+      const query = input.value.trim().toLowerCase();
+      const rows = Array.from(document.querySelectorAll<HTMLElement>(`${selector} [data-search-row]`));
+      let visible = 0;
+      rows.forEach((row) => { const matches = !query || (row.textContent ?? "").toLowerCase().includes(query); row.hidden = !matches; if (matches) visible += 1; });
+      status.textContent = query ? `${visible} ${visible === 1 ? "result" : "results"} found.` : "";
+    });
+  });
+</script>
+<style>
+  .search-box { margin: 1.5rem 0 1rem; } label { display: block; margin-bottom: .45rem; font-size: .88rem; font-weight: 700; }
+  .input-wrap { position: relative; max-width: 620px; } .input-wrap span { position: absolute; top: 50%; left: .95rem; transform: translateY(-50%); color: var(--color-accent); font-size: 1.2rem; }
+  input { width: 100%; padding: .85rem 1rem .85rem 2.65rem; border: 1px solid var(--color-border-strong); border-radius: 10px; background: var(--color-surface); box-shadow: 0 5px 18px rgba(19,31,50,.05); color: var(--color-text); font: inherit; }
+  input:focus { border-color: var(--color-accent); outline: 3px solid rgba(180, 35, 24, .12); }
+  .result-status { min-height: 1.4em; margin: .35rem 0 0; color: var(--color-muted); font-size: .85rem; }
+</style>

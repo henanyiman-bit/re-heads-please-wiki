@@ -1,0 +1,16 @@
+[
+  {
+    "name": "REPLACE_WITH_VERIFIED_COIN_NAME",
+    "slug": "replace-with-verified-coin-slug",
+    "value": "Check the latest in-game information.",
+    "rarity": "Check the latest in-game information.",
+    "source": "Check the latest in-game information.",
+    "description": "Replace this template text with an original, verified coin description between 50 and 320 characters before importing it.",
+    "howToGet": "Check the latest in-game information.",
+    "verified": false,
+    "verifiedAt": "",
+    "updatedAt": "2026-09-05",
+    "keywords": ["RE:Heads, Please! replace with verified coin keyword"],
+    "relatedSlugs": []
+  }
+]

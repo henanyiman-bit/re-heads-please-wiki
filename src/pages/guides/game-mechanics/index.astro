@@ -1,0 +1,14 @@
+---
+import WikiArticleShell from "../../../components/WikiArticleShell.astro";
+import GuideContentExpansion from "../../../components/GuideContentExpansion.astro";
+---
+<WikiArticleShell
+  title="RE:Heads, Please! Game Mechanics Explained"
+  description="Understand RE:Heads, Please! rarity, values, progression, currencies and other core game mechanics."
+  label="Guides" h1="Game Mechanics" intro="A growing reference for the systems that determine progression, acquisition and item comparisons."
+  toc={[{ label: "Introduction", href: "#introduction" }, { label: "Steps", href: "#steps" }, { label: "Tips", href: "#tips" }, { label: "Mistakes", href: "#mistakes" }, { label: "FAQ", href: "#faq" }]}
+  related={[{ label: "Database", href: "/database" }, { label: "Tier List", href: "/tier-list" }, { label: "Progression Guide", href: "/guides/progression-guide" }]}
+>
+  <GuideContentExpansion guide="mechanics" />
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database">Database</a></li><li><a href="/tier-list">Tier List</a></li><li><a href="/guides/progression-guide">Progression Guide</a></li></ul></section>
+</WikiArticleShell>

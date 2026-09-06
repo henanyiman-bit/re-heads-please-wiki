@@ -1,0 +1,212 @@
+[
+  {
+    "name": "Dalgona Coin",
+    "slug": "dalgona-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Common",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Common coin shown in the live RE:Heads, Please! coin collection and Coin Gacha interface.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/dalgona-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Dalgona Coin",
+      "Dalgona Coin"
+    ],
+    "relatedSlugs": [
+      "plush-toy-coin",
+      "slime-coin"
+    ]
+  },
+  {
+    "name": "Plush Toy Coin",
+    "slug": "plush-toy-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Common",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Common coin displayed in the live coin collection and the Pancake Station Coin Gacha interface.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/plush-toy-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Plush Toy Coin",
+      "Plush Toy Coin"
+    ],
+    "relatedSlugs": [
+      "dalgona-coin",
+      "slime-coin"
+    ]
+  },
+  {
+    "name": "Slime Coin",
+    "slug": "slime-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Uncommon",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Uncommon coin visibly listed by the game and demonstrated with its own coin model and flip effect.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/slime-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Slime Coin",
+      "Slime Coin"
+    ],
+    "relatedSlugs": [
+      "dalgona-coin",
+      "clover-coin"
+    ]
+  },
+  {
+    "name": "Clover Coin",
+    "slug": "clover-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Check the latest in-game information.",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named coin shown in the live coin inventory and demonstrated with a clover-themed model and flip effect.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/clover-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Clover Coin",
+      "Clover Coin"
+    ],
+    "relatedSlugs": [
+      "slime-coin",
+      "friendship-coin"
+    ]
+  },
+  {
+    "name": "Friendship Coin",
+    "slug": "friendship-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Check the latest in-game information.",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named coin shown in the live inventory and demonstrated in gameplay with its own model and server-based effect.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/friendship-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Friendship Coin",
+      "Friendship Coin"
+    ],
+    "relatedSlugs": [
+      "clover-coin",
+      "graph-coin"
+    ]
+  },
+  {
+    "name": "Graph Coin",
+    "slug": "graph-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Rare",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Rare coin shown in the live collection with a graph-themed model and a changing flip presentation.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/graph-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Graph Coin",
+      "Graph Coin"
+    ],
+    "relatedSlugs": [
+      "friendship-coin",
+      "rhythm-coin"
+    ]
+  },
+  {
+    "name": "Rhythm Coin",
+    "slug": "rhythm-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Rare",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Rare coin displayed in the live collection and demonstrated with a rhythm-based flip interaction.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/rhythm-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Rhythm Coin",
+      "Rhythm Coin"
+    ],
+    "relatedSlugs": [
+      "graph-coin",
+      "zone-coin"
+    ]
+  },
+  {
+    "name": "Zone Coin",
+    "slug": "zone-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Epic",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Epic coin shown in the live collection and demonstrated with a circular zone effect during gameplay.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/zone-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Zone Coin",
+      "Zone Coin"
+    ],
+    "relatedSlugs": [
+      "rhythm-coin",
+      "lock-coin"
+    ]
+  },
+  {
+    "name": "Lock Coin",
+    "slug": "lock-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Legendary",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Legendary coin shown in the live collection with a lock-shaped model and a distinctive flip behavior.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/lock-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Lock Coin",
+      "Lock Coin"
+    ],
+    "relatedSlugs": [
+      "zone-coin",
+      "calendar-coin"
+    ]
+  },
+  {
+    "name": "Calendar Coin",
+    "slug": "calendar-coin",
+    "value": "Check the latest in-game information.",
+    "rarity": "Mythic",
+    "source": "Coin Gacha at the Fountain in Pancake Station",
+    "description": "A named Mythic coin shown in the live collection and Update 2.5 gameplay with its calendar-style model.",
+    "howToGet": "Roll the Coin Gacha at the Fountain in Pancake Station. Check the latest in-game information for current availability.",
+    "image": "/images/wiki/coins/calendar-coin.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Calendar Coin",
+      "Calendar Coin"
+    ],
+    "relatedSlugs": [
+      "lock-coin",
+      "zone-coin"
+    ]
+  }
+]

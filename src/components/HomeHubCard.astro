@@ -1,0 +1,70 @@
+---
+export type HomeHubIcon = "database" | "codes" | "items" | "coins" | "accessories" | "guides" | "tier-list";
+
+interface Props {
+  icon: HomeHubIcon;
+  title: string;
+  count: string;
+  type: string;
+  href: string;
+  action: string;
+  intent?: string;
+  highlights?: string[];
+  variant?: "featured" | "quick" | "collection";
+}
+
+const { icon, title, count, type, href, action, intent, highlights = [], variant = "quick" } = Astro.props;
+const iconPaths: Record<HomeHubIcon, string> = {
+  database: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  codes: '<path d="M4 6.5h16v4a2.5 2.5 0 0 0 0 5v2H4v-2a2.5 2.5 0 0 0 0-5v-4Z"/><path d="M9 9.5v5M13 9.5v5"/>',
+  items: '<path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/>',
+  coins: '<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.6-.7-1.4-1-2.5-1-1.4 0-2.4.7-2.4 1.8 0 2.8 5.1 1.1 5.1 3.9 0 1.1-1 1.9-2.6 1.9-1.2 0-2.2-.4-2.9-1.2M12 6.5v11"/>',
+  accessories: '<path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/>',
+  guides: '<path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H12v18H7.5A3.5 3.5 0 0 0 4 23.5v-18ZM20 5.5A3.5 3.5 0 0 0 16.5 2H12v18h4.5a3.5 3.5 0 0 1 3.5 3.5v-18Z"/>',
+  "tier-list": '<path d="M8 4h8v4a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 12v5M8 21h8M9 17h6v4H9z"/>',
+};
+---
+
+<article class:list={["home-hub-card", `home-hub-card--${variant}`]} data-category={icon}>
+  <div class="home-hub-card__top">
+    <span class="home-hub-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={iconPaths[icon]}></svg></span>
+    <span class="home-hub-card__count">{count}</span>
+  </div>
+  <div class="home-hub-card__copy">
+    {intent && <span class="home-hub-card__intent">{intent}</span>}
+    <span class="home-hub-card__type">{type}</span>
+    <h4>{title}</h4>
+    {highlights.length > 0 && <ul aria-label={`${title} topics`}>{highlights.map((highlight) => <li>{highlight}</li>)}</ul>}
+  </div>
+  <a href={href} aria-label={`${action}: ${title}`}>{action}<span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+  .home-hub-card { --hub-color: #c33225; --hub-soft: #fff0ec; position: relative; display: flex; min-width: 0; flex-direction: column; padding: 1.15rem; overflow: hidden; border: 1px solid var(--color-border); border-top: 3px solid var(--hub-color); border-radius: 14px; background: linear-gradient(145deg, #fff 58%, var(--hub-soft)); box-shadow: 0 8px 22px rgba(19,31,50,.065); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+  .home-hub-card::after { position: absolute; right: -24px; bottom: -28px; width: 104px; height: 104px; background: var(--hub-color); content: ""; mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M18 73 60 18l42 55-42 29z' fill='black'/%3E%3Ccircle cx='61' cy='61' r='23' fill='none' stroke='black' stroke-width='9'/%3E%3C/svg%3E"); mask-position: center; mask-repeat: no-repeat; mask-size: contain; opacity: .055; pointer-events: none; transform: rotate(8deg); }
+  .home-hub-card:hover { transform: translateY(-6px); border-color: var(--hub-color); box-shadow: 0 20px 44px rgba(19,31,50,.15); }
+  .home-hub-card[data-category="items"] { --hub-color: #168658; --hub-soft: #edf9f3; }
+  .home-hub-card[data-category="coins"] { --hub-color: #a66a00; --hub-soft: #fff8e8; }
+  .home-hub-card[data-category="accessories"] { --hub-color: #7a4fc3; --hub-soft: #f6f0ff; }
+  .home-hub-card[data-category="database"] { --hub-color: #2674c7; --hub-soft: #eef6ff; }
+  .home-hub-card[data-category="guides"] { --hub-color: #087d88; --hub-soft: #ecf9fa; }
+  .home-hub-card[data-category="tier-list"] { --hub-color: #d04f82; --hub-soft: #fff0f6; }
+  .home-hub-card--featured { min-height: 150px; }
+  .home-hub-card--quick { min-height: 224px; }
+  .home-hub-card--collection { min-height: 184px; }
+  .home-hub-card__top { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+  .home-hub-card__icon { display: grid; width: 40px; height: 40px; flex: 0 0 auto; place-items: center; border-radius: 10px; background: var(--hub-color); color: #fff; box-shadow: 0 7px 16px color-mix(in srgb, var(--hub-color) 25%, transparent); }
+  .home-hub-card__icon svg { width: 22px; height: 22px; }
+  .home-hub-card__count { overflow: hidden; max-width: 155px; padding: .28rem .52rem; border: 1px solid color-mix(in srgb, var(--hub-color) 22%, #e1e6ed); border-radius: 999px; background: rgba(255,255,255,.9); color: var(--hub-color); font-size: .65rem; font-weight: 850; text-overflow: ellipsis; white-space: nowrap; }
+  .home-hub-card__copy { position: relative; z-index: 1; min-width: 0; margin-top: .7rem; }
+  .home-hub-card__type { display: block; color: var(--hub-color); font-size: .56rem; font-weight: 900; letter-spacing: .11em; line-height: 1.2; text-transform: uppercase; }
+  .home-hub-card__intent { display: block; margin-bottom: .22rem; color: var(--color-muted); font-size: .61rem; font-weight: 800; }
+  h4 { display: -webkit-box; margin: .24rem 0 0; overflow: hidden; color: var(--color-ink); font-size: 1.15rem; line-height: 1.2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  ul { display: flex; flex-wrap: wrap; gap: .32rem; margin: .5rem 0 0; padding: 0; list-style: none; }
+  li { padding: .17rem .38rem; border-radius: 5px; background: color-mix(in srgb, var(--hub-color) 9%, #fff); color: color-mix(in srgb, var(--hub-color) 78%, #172235); font-size: .59rem; font-weight: 800; line-height: 1.3; white-space: nowrap; }
+  a { position: relative; z-index: 1; display: flex; min-height: 36px; align-items: end; justify-content: space-between; gap: .65rem; margin-top: auto; padding-top: .62rem; border-top: 1px solid color-mix(in srgb, var(--hub-color) 14%, var(--color-border)); color: var(--hub-color); font-size: .72rem; font-weight: 850; text-decoration: none; }
+  a span { transition: transform .18s ease; }
+  a:hover span { transform: translateX(4px); }
+  @media (max-width: 520px) { .home-hub-card { padding: 1rem; } .home-hub-card--featured { min-height: 145px; } .home-hub-card--quick { min-height: 210px; } }
+  @media (prefers-reduced-motion: reduce) { .home-hub-card, a span { transition: none; } }
+</style>

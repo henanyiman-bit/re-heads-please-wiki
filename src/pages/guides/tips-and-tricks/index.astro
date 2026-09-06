@@ -1,0 +1,12 @@
+---
+import WikiLayout from "../../../layouts/WikiLayout.astro";
+import WikiPageHeader from "../../../components/WikiPageHeader.astro";
+import GuideContentExpansion from "../../../components/GuideContentExpansion.astro";
+---
+<WikiLayout title="RE:Heads, Please! Tips and Tricks" description="Use helpful RE:Heads, Please! tips for resources, progression, codes and game updates.">
+  <article class="page-shell">
+    <WikiPageHeader label="Guides" title="Tips and Tricks" description="Small habits that help you make better decisions as the game and wiki continue to grow." />
+    <GuideContentExpansion guide="tips" />
+    <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/codes">Codes</a></li><li><a href="/updates">Updates</a></li><li><a href="/database/value-list">Value List</a></li></ul></section>
+  </article>
+</WikiLayout>

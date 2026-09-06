@@ -1,0 +1,73 @@
+---
+interface Props { verified: number; items: number; coins: number; accessories: number; }
+const { verified, items, coins, accessories } = Astro.props;
+---
+
+<section class="database-hero" aria-labelledby="home-database-hero-title">
+  <div class="database-hero__copy">
+    <div class="database-hero__eyebrow"><span aria-hidden="true"></span> Database online</div>
+    <p>Database</p>
+    <h3 id="home-database-hero-title">RE:Heads, Please! Wiki Database</h3>
+    <span class="database-hero__description">Complete verified game references</span>
+    <a class="database-hero__primary" href="/database">Explore Database <span aria-hidden="true">→</span></a>
+    <nav class="database-hero__browse" aria-label="Browse database categories">
+      <a href="/items">Browse Items</a>
+      <a href="/coins">View Coins</a>
+      <a href="/accessories">Accessories</a>
+      <a href="/codes">Find Codes</a>
+    </nav>
+    <a class="database-hero__search" href="/database" aria-label="Search the wiki database">
+      <span class="database-hero__search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></span>
+      <span><strong>Search Wiki Database</strong><small>Items · Coins · Accessories · Codes</small></span>
+      <b aria-hidden="true">→</b>
+    </a>
+  </div>
+  <div class="database-hero__stats" aria-label="Verified database totals">
+    <div class="database-hero__total"><strong>{verified}</strong><span>Verified Entries</span></div>
+    <dl>
+      <div><dt>{items}</dt><dd>Items</dd></div>
+      <div><dt>{coins}</dt><dd>Coins</dd></div>
+      <div><dt>{accessories}</dt><dd>Accessories</dd></div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .database-hero { position: relative; display: grid; min-width: 0; min-height: 286px; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr); gap: 2rem; align-items: center; margin: 1rem 0 2.5rem; padding: clamp(1.5rem, 4vw, 2.5rem); overflow: hidden; border: 1px solid #2d405e; border-top: 4px solid var(--color-accent-bright); border-radius: 18px; background-color: #111827; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px), radial-gradient(circle at 82% 18%, rgba(255,101,77,.16), transparent 30%); background-size: 28px 28px, 28px 28px, auto; box-shadow: 0 24px 54px rgba(17,24,39,.22); color: #fff; }
+  .database-hero::after { position: absolute; right: -35px; bottom: -65px; width: 210px; height: 170px; transform: rotate(10deg); border: 22px solid rgba(255,255,255,.035); border-radius: 38px; content: ""; pointer-events: none; }
+  .database-hero__copy, .database-hero__stats { position: relative; z-index: 1; min-width: 0; }
+  .database-hero__eyebrow { display: flex; align-items: center; gap: .48rem; color: #9ce7bd; font-size: .65rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .database-hero__eyebrow span { width: 8px; height: 8px; border-radius: 50%; background: #51d88a; box-shadow: 0 0 0 5px rgba(81,216,138,.12); }
+  .database-hero__copy > p { margin: 1.15rem 0 .25rem; color: #ff9584; font-size: .65rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+  h3 { max-width: 650px; margin: 0; color: #fff; font-size: clamp(1.7rem, 4vw, 2.65rem); letter-spacing: -.035em; line-height: 1.08; }
+  .database-hero__description { display: block; margin-top: .65rem; color: #b6c2d3; font-size: .92rem; }
+  .database-hero__primary { display: inline-flex; min-height: 42px; align-items: center; gap: .8rem; margin-top: 1.35rem; padding: .65rem .85rem; border: 1px solid var(--color-accent-bright); border-radius: 8px; background: var(--color-accent-bright); color: #141820; font-size: .76rem; font-weight: 900; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
+  .database-hero__primary span { transition: transform .18s ease; }
+  .database-hero__primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255,101,77,.22); color: #141820; }
+  .database-hero__primary:hover span { transform: translateX(4px); }
+  .database-hero__browse { display: flex; flex-wrap: wrap; gap: .38rem; margin-top: .7rem; }
+  .database-hero__browse a { display: inline-flex; min-height: 32px; align-items: center; padding: .32rem .48rem; border: 1px solid rgba(255,255,255,.13); border-radius: 6px; background: rgba(255,255,255,.055); color: #c6d0de; font-size: .62rem; font-weight: 800; text-decoration: none; }
+  .database-hero__browse a:hover { border-color: rgba(255,101,77,.5); background: rgba(255,101,77,.1); color: #fff; }
+  .database-hero__search { display: grid; max-width: 520px; min-height: 54px; grid-template-columns: 34px minmax(0, 1fr) auto; gap: .65rem; align-items: center; margin-top: .7rem; padding: .5rem .65rem; border: 1px solid rgba(255,255,255,.16); border-radius: 9px; background: rgba(255,255,255,.075); color: #fff; text-decoration: none; backdrop-filter: blur(8px); }
+  .database-hero__search:hover { border-color: var(--color-accent-bright); background: rgba(255,101,77,.1); color: #fff; }
+  .database-hero__search-icon { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 8px; background: rgba(255,255,255,.09); color: #ffac9f; }
+  .database-hero__search-icon svg { width: 18px; height: 18px; }
+  .database-hero__search > span:nth-child(2) { display: flex; min-width: 0; flex-direction: column; }
+  .database-hero__search strong { color: #fff; font-size: .69rem; }
+  .database-hero__search small { overflow: hidden; color: #9facc0; font-size: .57rem; text-overflow: ellipsis; white-space: nowrap; }
+  .database-hero__search b { color: #ffac9f; transition: transform .18s ease; }
+  .database-hero__search:hover b { transform: translateX(4px); }
+  .database-hero__stats { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(150px, 1fr); gap: .75rem; }
+  .database-hero__total, dl { border: 1px solid rgba(255,255,255,.12); border-radius: 13px; background: rgba(255,255,255,.055); backdrop-filter: blur(8px); }
+  .database-hero__total { display: flex; min-height: 154px; flex-direction: column; justify-content: center; padding: 1rem; }
+  .database-hero__total strong { color: #fff; font-size: 3rem; line-height: 1; }
+  .database-hero__total span { margin-top: .42rem; color: #aebbd0; font-size: .68rem; font-weight: 800; }
+  dl { display: grid; margin: 0; padding: .55rem .8rem; }
+  dl div { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .45rem 0; }
+  dl div + div { border-top: 1px solid rgba(255,255,255,.09); }
+  dt { color: #fff; font-size: 1.1rem; font-weight: 900; }
+  dd { margin: 0; color: #aebbd0; font-size: .68rem; font-weight: 750; }
+  @media (max-width: 768px) { .database-hero { min-height: 0; grid-template-columns: 1fr; gap: 1.4rem; margin-bottom: 2rem; padding: 1.25rem; } .database-hero__stats { grid-template-columns: 1fr 1.2fr; } }
+  @media (max-width: 420px) { .database-hero__stats { grid-template-columns: 1fr; } .database-hero__total { min-height: 110px; } dl { grid-template-columns: repeat(3, 1fr); } dl div { flex-direction: column; justify-content: center; gap: .1rem; padding: .4rem .2rem; text-align: center; } dl div + div { border-top: 0; border-left: 1px solid rgba(255,255,255,.09); } }
+  @media (prefers-reduced-motion: reduce) { .database-hero__primary, .database-hero__primary span { transition: none; } }
+</style>

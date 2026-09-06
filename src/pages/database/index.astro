@@ -1,0 +1,66 @@
+---
+import Card from "../../components/Card.astro";
+import HubEntryGrid from "../../components/HubEntryGrid.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import WikiArticleContent from "../../components/WikiArticleContent.astro";
+import WikiHubShell from "../../components/WikiHubShell.astro";
+import { getAccessories, getCategories, getCoins, getItems } from "../../lib/data";
+import { getKeywordCategory } from "../../lib/keywords";
+import { getWikiArticleEntry } from "../../lib/wikiContent";
+
+const category = getKeywordCategory("database");
+const entry = await getWikiArticleEntry("database", "index");
+if (!category || !entry) throw new Error("[database-hub] Missing keyword or MDX data.");
+const items = getItems();
+const coins = getCoins();
+const accessories = getAccessories();
+const verifiedEntries = [...items, ...coins, ...accessories].filter((item) => item.verified).length;
+const previewEntries = [
+  ...items.slice(0, 2).map((item) => ({ name: item.name, category: "Item", image: item.image, href: `/items/${item.slug}`, meta: `${item.rarity} · ${item.value}`, status: "Verified" })),
+  ...coins.slice(0, 2).map((item) => ({ name: item.name, category: "Coin", image: item.image || "/images/wiki/coins/dalgona-coin.png", href: `/coins/${item.slug}`, meta: `${item.rarity} · ${item.value}`, status: "Verified" })),
+  ...accessories.slice(0, 2).map((item) => ({ name: item.name, category: "Accessory", image: item.image || "/images/wiki/accessories/seraphim.png", href: `/accessories/${item.slug}`, meta: `${item.rarity} · ${item.value}`, status: "Verified" })),
+];
+const categories = [
+  { title: "Items Database", description: "Browse item rarity, values, locations and tier information.", href: "/database/items", eyebrow: "Database" },
+  { title: "Coins Database", description: "Explore coins, values and where each currency can be found.", href: "/database/coins", eyebrow: "Database" },
+  { title: "Accessories Database", description: "Find accessory rarity, value and acquisition details.", href: "/database/accessories", eyebrow: "Database" },
+  { title: "Value List", description: "Compare documented items, coins and accessories in one place.", href: "/database/value-list", eyebrow: "Database" },
+];
+const plannedCategories = getCategories();
+const allPages = category.l3.map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/database/${page.slug}` }));
+---
+<WikiHubShell
+  title="RE:Heads, Please! Database: Items, Coins & Values"
+  description="Complete RE:Heads, Please! database with item values, coins, rarity and game information."
+  label="Database" h1="RE:Heads, Please! Database" intro="Use the database to look up items, coins, accessories, values, rarity, locations and tier information."
+  updatedAt={entry.data.updatedAt} status="Verified"
+  stats={[{ label: "Total Verified Entries", value: verifiedEntries }, { label: "Items", value: items.length }, { label: "Coins", value: coins.length }, { label: "Accessories", value: accessories.length }]}
+  actions={[{ label: "Search Database", href: "#site-search-input" }, { label: "Browse Items", href: "/database/items" }, { label: "Value List", href: "/database/value-list" }]}
+  onThisPage={[{ label: "Database Categories", href: "#database-categories" }, { label: "Data Preview", href: "#database-preview" }, { label: "Overview", href: "#overview" }, { label: "FAQ", href: "#faq" }]}
+  popularPages={categories.slice(0, 3).map((item) => ({ label: item.title, href: item.href }))}
+  allPages={allPages}
+  relatedSections={[{ label: "Guides", href: "/guides" }, { label: "Tier List", href: "/tier-list" }, { label: "Codes", href: "/codes" }]}
+>
+  <section class="hub-data-panel" id="database-categories" aria-labelledby="database-categories-title">
+    <SectionHeader id="database-categories-title" eyebrow="Browse records" title="Database Categories" description="Choose a catalog to compare verified entries and acquisition details." />
+    <div class="topic-grid">{categories.map((item) => <Card {...item} />)}</div>
+  </section>
+  <section class="hub-data-panel" id="database-preview" aria-labelledby="database-preview-title">
+    <SectionHeader id="database-preview-title" eyebrow="Verified records" title="Database Preview" description="Real entries from the current Items, Coins and Accessories datasets." />
+    <HubEntryGrid entries={previewEntries} />
+    <div class="panel-actions"><a href="#site-search-input">Search Wiki Database</a><a href="/database/value-list">Open Value List</a></div>
+  </section>
+  <WikiArticleContent category="database" slug="index" entry={entry} variant="hub" />
+  <section aria-labelledby="planned-categories">
+    <SectionHeader id="planned-categories" eyebrow="Expansion map" title="Planned Categories" description="Future catalogs will only open after verified data is available." />
+    <ul class="planned-list">{plannedCategories.map((item) => <li><strong>{item.name}</strong><span>{item.description}</span></li>)}</ul>
+  </section>
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database/items">Items</a></li><li><a href="/database/coins">Coins</a></li><li><a href="/tier-list">Tier List</a></li></ul></section>
+</WikiHubShell>
+
+<style>
+  .planned-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .75rem; padding: 0; list-style: none; }
+  .planned-list li { padding: 1rem; border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent); border-radius: 0 9px 9px 0; background: var(--color-surface); }
+  .planned-list strong, .planned-list span { display: block; }
+  .planned-list span { margin-top: .2rem; color: var(--color-muted); font-size: .85rem; }
+</style>

@@ -1,0 +1,43 @@
+---
+import Table from "../../components/Table.astro";
+import HubEntryGrid from "../../components/HubEntryGrid.astro";
+import WikiArticleContent from "../../components/WikiArticleContent.astro";
+import WikiHubShell from "../../components/WikiHubShell.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { getCoins, getEntryPath } from "../../lib/data";
+import { getKeywordCategory } from "../../lib/keywords";
+import { getWikiArticleEntry } from "../../lib/wikiContent";
+
+const category = getKeywordCategory("coins");
+const entry = await getWikiArticleEntry("coins", "index");
+if (!category || !entry) throw new Error("[coins-hub] Missing keyword or MDX data.");
+const coins = getCoins();
+const verified = coins.filter((item) => item.verified);
+const columns = [{ key: "name", label: "Coin", hrefKey: "href" }, { key: "rarity", label: "Rarity" }, { key: "value", label: "Value" }, { key: "status", label: "Status" }];
+const rows = verified.slice(0, 6).map((item) => ({ name: item.name, rarity: item.rarity, value: item.value, status: "Verified", href: getEntryPath("coins", item) }));
+const previewEntries = verified.slice(0, 4).map((item) => ({ name: item.name, category: "Coin", image: item.image || "/images/wiki/coins/dalgona-coin.png", href: getEntryPath("coins", item), meta: `${item.rarity} · ${item.value}`, status: "Verified" }));
+const popularPages = category.l3.slice(0, 3).map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/coins/${page.slug}` }));
+const allPages = category.l3.map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/coins/${page.slug}` }));
+---
+<WikiHubShell
+  title="RE:Heads, Please! Coins - Values, Locations & Farming"
+  description="Find RE:Heads, Please! coins, currency values, locations and farming guidance."
+  label="Coins" h1="RE:Heads, Please! Coins" intro="Use the coins database for verified currency details, then visit the farming guide to plan efficient sessions."
+  updatedAt={entry.data.updatedAt} status="Verified"
+  stats={[{ label: "Verified Coins", value: verified.length }, { label: "Database Entries", value: coins.length }, { label: "Reference Pages", value: category.l3.length }]}
+  actions={[{ label: "Browse Coins", href: "/database/coins" }, { label: "Coin Values", href: "/coins/coin-values" }, { label: "Farming Guide", href: "/guides/farming-guide" }]}
+  onThisPage={[{ label: "Coins Database", href: "#database-preview" }, { label: "Overview", href: "#overview" }, { label: "Priority Topics", href: "#priority-topics" }, { label: "FAQ", href: "#faq" }]}
+  popularPages={popularPages}
+  allPages={allPages}
+  relatedSections={[{ label: "Items", href: "/items" }, { label: "Guides", href: "/guides" }, { label: "Tier List", href: "/tier-list" }]}
+>
+  <section class="hub-data-panel" id="database-preview" aria-labelledby="coins-data-title">
+    <SectionHeader id="coins-data-title" eyebrow="Live database" title="Verified Coins" description="A compact preview sourced from the current coins database." />
+    <HubEntryGrid entries={previewEntries} />
+    <nav class="hub-link-strip" aria-label="Related coin guides"><a href="/guides/farming-guide">Farming Guide</a><a href="/coins/how-to-get-coins">How to Get Coins</a><a href="/coins/coin-comparison">Coin Comparison</a></nav>
+    <Table columns={columns} rows={rows} caption="Verified coin records" />
+    <a class="panel-action" href="/database/coins">Open complete coins database →</a>
+  </section>
+  <WikiArticleContent category="coins" slug="index" entry={entry} variant="hub" />
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/guides/farming-guide">Farming Guide</a></li><li><a href="/database/value-list">Value List</a></li><li><a href="/database/items">Items</a></li></ul></section>
+</WikiHubShell>

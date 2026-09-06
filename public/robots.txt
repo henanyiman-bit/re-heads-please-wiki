@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reheadsplease.ymmyi.wiki/sitemap-index.xml

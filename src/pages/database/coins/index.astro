@@ -1,0 +1,18 @@
+---
+import WikiLayout from "../../../layouts/WikiLayout.astro";
+import SearchBox from "../../../components/SearchBox.astro";
+import Table from "../../../components/Table.astro";
+import WikiPageHeader from "../../../components/WikiPageHeader.astro";
+import { getCoins, getEntryPath } from "../../../lib/data";
+const rows = getCoins().map((item) => ({ ...item, detailUrl: getEntryPath("coins", item) })) as Record<string, string>[];
+const columns = [{ key: "name", label: "Coin", hrefKey: "detailUrl" }, { key: "rarity", label: "Rarity" }, { key: "value", label: "Value" }, { key: "source", label: "Source" }, { key: "description", label: "Description" }];
+---
+<WikiLayout title="RE:Heads, Please! Coins Database - Values & Locations" description="Browse RE:Heads, Please! coins, currency values, rarity, locations and descriptions.">
+  <article class="page-shell">
+    <WikiPageHeader label="Database" title="Coins Database" description="Find documented currencies, their values and where they can be obtained." />
+    <section class="database-explainer" aria-labelledby="coins-database-guide"><h2 id="coins-database-guide">How to use the Coins Database</h2><p>This table supports coin lookup rather than general farming advice. Search an exact RE:Heads, Please! coin name, a documented rarity, a value label, or a recorded source, then open the linked entity page for its full context. Use the Coins hub for broader navigation and the Farming Guide for a process-oriented question.</p><h3>Reading coin rows</h3><p>Name, rarity, value, source, and description answer different questions. A rare label does not automatically establish profit or availability, while a recorded source does not guarantee that an older acquisition route remains active. Search only filters verified rows in the current dataset. If a field is blank or conflicts with the live interface, keep it unconfirmed and check the latest in-game information.</p></section>
+    <SearchBox target="#coins-table" placeholder="Search coins, values or locations…" label="Search coins" />
+    <Table id="coins-table" columns={columns} rows={rows} caption="RE:Heads, Please! coin information" emptyMessage="Coin data is being verified and will be added soon." />
+    <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database/items">Items</a></li><li><a href="/database/value-list">Value List</a></li><li><a href="/guides/farming-guide">Farming Guide</a></li></ul></section>
+  </article>
+</WikiLayout>

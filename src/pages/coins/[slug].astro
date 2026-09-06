@@ -1,0 +1,25 @@
+---
+import WikiDetail from "../../components/WikiDetail.astro";
+import KeywordPageView from "../../components/KeywordPage.astro";
+import { getCoins, type WikiEntry } from "../../lib/data";
+import { getCategoryKeywordPaths, type KeywordCategory, type KeywordPage } from "../../lib/keywords";
+
+export function getStaticPaths() {
+  const entries = getCoins();
+  const entrySlugs = new Set(entries.map((entry) => entry.slug));
+  return [
+    ...entries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } })),
+    ...getCategoryKeywordPaths("coins").filter(({ params }) => !entrySlugs.has(params.slug)),
+  ];
+}
+
+interface Props {
+  entry?: WikiEntry;
+  keywordCategory?: KeywordCategory;
+  keywordPage?: KeywordPage;
+}
+const { entry, keywordCategory, keywordPage } = Astro.props;
+---
+{entry
+  ? <WikiDetail entry={entry} category="coins" categoryLabel="Coins" databaseHref="/database/coins" />
+  : keywordCategory && keywordPage && <KeywordPageView category={keywordCategory} page={keywordPage} />}

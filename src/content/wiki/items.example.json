@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Example Item",
+    "slug": "example-item",
+    "rarity": "Example Rarity",
+    "value": "Example Value",
+    "tier": "Example Tier",
+    "description": "Replace this example with a verified item description.",
+    "location": "Example Location",
+    "howToGet": "Explain the verified acquisition method here.",
+    "image": "/images/items/example-item.webp",
+    "verified": false,
+    "verifiedAt": "",
+    "updatedAt": "2026-09-05",
+    "keywords": ["RE:Heads, Please! example item"],
+    "relatedSlugs": []
+  }
+]

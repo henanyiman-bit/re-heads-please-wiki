@@ -1,0 +1,6 @@
+---
+import WikiCard from "./WikiCard.astro";
+interface Props { title: string; description: string; href: string; eyebrow?: string; }
+const { title, description, href, eyebrow } = Astro.props;
+---
+<WikiCard title={title} description={description} href={href} eyebrow={eyebrow} />

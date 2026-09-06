@@ -1,0 +1,28 @@
+---
+import WikiLayout from "../../../layouts/WikiLayout.astro";
+import SearchBox from "../../../components/SearchBox.astro";
+import Table from "../../../components/Table.astro";
+import WikiArticleContent from "../../../components/WikiArticleContent.astro";
+import WikiPageHeader from "../../../components/WikiPageHeader.astro";
+import { getWikiArticleEntry, isArticleEntry } from "../../../lib/wikiContent";
+import { getAccessories, getCoins, getEntryPath, getItems } from "../../../lib/data";
+const tagged = [
+  ...getItems().map((entry) => ({ ...entry, category: "Item", detailUrl: getEntryPath("items", entry) })),
+  ...getCoins().map((entry) => ({ ...entry, category: "Coin", detailUrl: getEntryPath("coins", entry) })),
+  ...getAccessories().map((entry) => ({ ...entry, category: "Accessory", detailUrl: getEntryPath("accessories", entry) })),
+];
+const rows = tagged as Record<string, string>[];
+const columns = [{ key: "name", label: "Name", hrefKey: "detailUrl" }, { key: "category", label: "Category" }, { key: "rarity", label: "Rarity" }, { key: "value", label: "Value" }, { key: "tier", label: "Tier" }];
+const articleEntry = await getWikiArticleEntry("database", "value-list");
+---
+<WikiLayout title="RE:Heads, Please! Value List - Item, Coin & Accessory Values" description="Compare RE:Heads, Please! item, coin and accessory values, rarity and tiers." image={articleEntry?.data.cover || undefined} pageType={isArticleEntry(articleEntry) ? "article" : "website"}>
+  <article class="page-shell">
+    <WikiPageHeader label="Database" title="RE:Heads, Please! Value List" description="Compare verified values across all documented database categories." />
+    <WikiArticleContent category="database" slug="value-list" entry={articleEntry} />
+    <section class="database-explainer" aria-labelledby="value-table-guide"><h2 id="value-table-guide">Using the combined value table</h2><p>This table answers a cross-category comparison intent. Search a documented item, coin, or accessory and read its category before comparing the value field. Values from different record types may describe different contexts, so the table should be used as an index rather than a universal exchange calculator.</p><p>The rarity and tier columns provide additional reference fields, not automatic substitutes for value. Open the linked entity page to review its source, location, acquisition note, and update status. When the live game and a stored value disagree, use the current interface for the immediate decision and mark the database entry for review.</p></section>
+    <div class="notice"><strong>Value notice:</strong> Game values may change after updates. Check the latest update notes before making decisions.</div>
+    <SearchBox target="#value-table" placeholder="Search names, categories or rarity…" label="Search the value list" />
+    <Table id="value-table" columns={columns} rows={rows} caption="Combined RE:Heads, Please! value list" emptyMessage="Verified values will be published here as data becomes available." />
+    <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database/items">Items</a></li><li><a href="/database/coins">Coins</a></li><li><a href="/tier-list">Tier List</a></li></ul></section>
+  </article>
+</WikiLayout>

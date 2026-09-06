@@ -1,0 +1,332 @@
+[
+  {
+    "name": "Enchant Book",
+    "slug": "enchant-book",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "An inventory resource visibly used by the live enchanting interface to apply an enchantment to a selected coin.",
+    "location": "Enchanting interface and inventory",
+    "howToGet": "Check the latest in-game information for currently active Enchant Book sources before recording a specific method.",
+    "image": "/images/wiki/items/enchant-book.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Enchant Book",
+      "Enchant Book"
+    ],
+    "relatedSlugs": [
+      "engraving-scroll",
+      "accessory-ticket"
+    ]
+  },
+  {
+    "name": "Accessory Ticket",
+    "slug": "accessory-ticket",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "The ticket resource displayed by the live Accessory Gacha and consumed when players perform accessory rolls.",
+    "location": "Accessory Gacha",
+    "howToGet": "Use the acquisition controls shown in the current Accessory Gacha, and check the latest in-game information for other sources.",
+    "image": "/images/wiki/items/accessory-ticket.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Accessory Ticket",
+      "Accessory Ticket"
+    ],
+    "relatedSlugs": [
+      "enchant-book",
+      "engraving-scroll"
+    ]
+  },
+  {
+    "name": "Engraving Scroll",
+    "slug": "engraving-scroll",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "An Update 2.5 inventory resource visibly consumed by the Ability Engraving interface when engraving a coin.",
+    "location": "Ability Engraving interface and inventory",
+    "howToGet": "Check the latest in-game information for currently active Engraving Scroll sources before recording a specific method.",
+    "image": "/images/wiki/items/engraving-scroll.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Engraving Scroll",
+      "Engraving Scroll"
+    ],
+    "relatedSlugs": [
+      "enchant-book",
+      "accessory-ticket"
+    ]
+  },
+  {
+    "name": "Skateboard",
+    "slug": "skateboard",
+    "rarity": "Standard",
+    "value": "Check the latest in-game information.",
+    "tier": "Traversal",
+    "description": "The standard traversal equipment named in the official Roblox experience description and used to explore station areas.",
+    "location": "Player traversal controls",
+    "howToGet": "Use the standard skateboard available through the live game controls. Check the current interface if the equip flow changes.",
+    "image": "/images/wiki/items/skateboard.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Skateboard",
+      "RE Heads Please traversal"
+    ],
+    "relatedSlugs": [
+      "vip-skateboard",
+      "spray-1"
+    ]
+  },
+  {
+    "name": "VIP Skateboard",
+    "slug": "vip-skateboard",
+    "rarity": "VIP",
+    "value": "Check the latest in-game information.",
+    "tier": "Traversal",
+    "description": "A VIP traversal variant shown in Update 2.5 gameplay and identified there as a benefit for current and future VIP owners.",
+    "location": "VIP benefits and player traversal controls",
+    "howToGet": "Available to qualifying VIP owners according to Update 2.5 gameplay; confirm the current VIP offer in the live game.",
+    "image": "/images/wiki/items/vip-skateboard.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please VIP Skateboard",
+      "VIP Skateboard"
+    ],
+    "relatedSlugs": [
+      "skateboard",
+      "boardmarker-1"
+    ]
+  },
+  {
+    "name": "Spray 1",
+    "slug": "spray-1",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The first numbered spray collectible confirmed through an in-game pickup sequence recorded in Pancake Station.",
+    "location": "Hidden in Pancake Station",
+    "howToGet": "Find and interact with the first spray pickup in Pancake Station. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/spray-1.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Spray 1",
+      "Spray 1 location"
+    ],
+    "relatedSlugs": [
+      "spray-2",
+      "boardmarker-1"
+    ]
+  },
+  {
+    "name": "Spray 2",
+    "slug": "spray-2",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The second numbered spray collectible confirmed through an in-game pickup sequence recorded in Pancake Station.",
+    "location": "Hidden in Pancake Station",
+    "howToGet": "Find and interact with the second spray pickup in Pancake Station. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/spray-2.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Spray 2",
+      "Spray 2 location"
+    ],
+    "relatedSlugs": [
+      "spray-1",
+      "spray-3"
+    ]
+  },
+  {
+    "name": "Spray 3",
+    "slug": "spray-3",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The third numbered spray collectible confirmed through an in-game pickup sequence recorded in Pancake Station.",
+    "location": "Hidden in Pancake Station",
+    "howToGet": "Find and interact with the third spray pickup in Pancake Station. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/spray-3.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Spray 3",
+      "Spray 3 location"
+    ],
+    "relatedSlugs": [
+      "spray-2",
+      "spray-4"
+    ]
+  },
+  {
+    "name": "Spray 4",
+    "slug": "spray-4",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The fourth numbered spray collectible confirmed through an in-game pickup sequence recorded in Pancake Station.",
+    "location": "Hidden in Pancake Station",
+    "howToGet": "Find and interact with the fourth spray pickup in Pancake Station. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/spray-4.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Spray 4",
+      "Spray 4 location"
+    ],
+    "relatedSlugs": [
+      "spray-3",
+      "spray-5"
+    ]
+  },
+  {
+    "name": "Spray 5",
+    "slug": "spray-5",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The fifth numbered spray collectible confirmed through an in-game pickup sequence recorded in Pancake Station.",
+    "location": "Hidden in Pancake Station",
+    "howToGet": "Find and interact with the fifth spray pickup in Pancake Station. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/spray-5.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Spray 5",
+      "Spray 5 location"
+    ],
+    "relatedSlugs": [
+      "spray-4",
+      "boardmarker-5"
+    ]
+  },
+  {
+    "name": "Boardmarker 1",
+    "slug": "boardmarker-1",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The first numbered boardmarker collectible confirmed through an in-game pickup sequence in the station environment.",
+    "location": "Hidden in the station environment",
+    "howToGet": "Find and interact with the first boardmarker pickup. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/boardmarker-1.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Boardmarker 1",
+      "Boardmarker 1 location"
+    ],
+    "relatedSlugs": [
+      "boardmarker-2",
+      "spray-1"
+    ]
+  },
+  {
+    "name": "Boardmarker 2",
+    "slug": "boardmarker-2",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The second numbered boardmarker collectible confirmed through an in-game pickup sequence in the station environment.",
+    "location": "Hidden in the station environment",
+    "howToGet": "Find and interact with the second boardmarker pickup. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/boardmarker-2.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Boardmarker 2",
+      "Boardmarker 2 location"
+    ],
+    "relatedSlugs": [
+      "boardmarker-1",
+      "boardmarker-3"
+    ]
+  },
+  {
+    "name": "Boardmarker 3",
+    "slug": "boardmarker-3",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The third numbered boardmarker collectible confirmed through an in-game pickup sequence in the station environment.",
+    "location": "Hidden in the station environment",
+    "howToGet": "Find and interact with the third boardmarker pickup. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/boardmarker-3.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Boardmarker 3",
+      "Boardmarker 3 location"
+    ],
+    "relatedSlugs": [
+      "boardmarker-2",
+      "boardmarker-4"
+    ]
+  },
+  {
+    "name": "Boardmarker 4",
+    "slug": "boardmarker-4",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The fourth numbered boardmarker collectible confirmed through an in-game pickup sequence in the station environment.",
+    "location": "Hidden in the station environment",
+    "howToGet": "Find and interact with the fourth boardmarker pickup. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/boardmarker-4.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Boardmarker 4",
+      "Boardmarker 4 location"
+    ],
+    "relatedSlugs": [
+      "boardmarker-3",
+      "boardmarker-5"
+    ]
+  },
+  {
+    "name": "Boardmarker 5",
+    "slug": "boardmarker-5",
+    "rarity": "Collectible",
+    "value": "Check the latest in-game information.",
+    "tier": "Exploration",
+    "description": "The fifth numbered boardmarker collectible confirmed through an in-game pickup sequence in the station environment.",
+    "location": "Hidden in the station environment",
+    "howToGet": "Find and interact with the fifth boardmarker pickup. Check the latest game build if its position changes.",
+    "image": "/images/wiki/items/boardmarker-5.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Boardmarker 5",
+      "Boardmarker 5 location"
+    ],
+    "relatedSlugs": [
+      "boardmarker-4",
+      "spray-5"
+    ]
+  }
+]

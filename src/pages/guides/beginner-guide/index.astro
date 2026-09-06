@@ -1,0 +1,22 @@
+---
+import WikiArticleShell from "../../../components/WikiArticleShell.astro";
+import WikiArticleContent from "../../../components/WikiArticleContent.astro";
+import { getWikiArticleEntry, isArticleEntry } from "../../../lib/wikiContent";
+const articleEntry = await getWikiArticleEntry("guides", "beginner-guide");
+---
+<WikiArticleShell
+  title="RE:Heads, Please! Beginner Guide - How to Get Started"
+  description="Start RE:Heads, Please! with a clear beginner checklist, early priorities and progression tips."
+  label="Guides" h1="Beginner Guide" intro="A simple roadmap for learning RE:Heads, Please! without wasting early resources."
+  updatedAt={articleEntry?.data.updatedAt} image={articleEntry?.data.cover || undefined} pageType={isArticleEntry(articleEntry) ? "article" : "website"}
+  toc={[{ label: "Guide Summary", href: "#guide-summary" }, { label: "Requirements", href: "#requirements" }, { label: "Steps", href: "#steps" }, { label: "Your First Session", href: "#first-session" }, { label: "FAQ", href: "#faq" }]}
+  related={[{ label: "Progression Guide", href: "/guides/progression-guide" }, { label: "Farming Guide", href: "/guides/farming-guide" }, { label: "Game Mechanics", href: "/guides/game-mechanics" }]}
+>
+  <WikiArticleContent category="guides" slug="beginner-guide" entry={articleEntry} />
+  <div class="article-prose">
+    <section><h2 id="first-session">Your First Session</h2><p>Complete the introductory objectives, inspect the available menus and learn where the game displays currencies, inventory and upgrades. Claim only rewards you can identify so you understand what changed.</p></section>
+    <section><h2 id="priorities">Early Priorities</h2><ul><li>Read each objective before spending resources.</li><li>Keep a small reserve instead of buying every available option.</li><li>Check the database when comparing rarity, value or locations.</li></ul></section>
+    <section><h2 id="next-step">What to Do Next</h2><p>Once the basic loop feels familiar, use the progression guide to set milestones and the farming guide to make repeatable sessions more efficient.</p></section>
+  </div>
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/guides/progression-guide">Progression Guide</a></li><li><a href="/guides/farming-guide">Farming Guide</a></li><li><a href="/codes">Codes</a></li></ul></section>
+</WikiArticleShell>

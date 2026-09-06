@@ -1,0 +1,41 @@
+---
+import { adsConfig, adsenseReady, type AdPosition } from "../../config/ads";
+
+interface Props {
+  position: AdPosition;
+}
+
+const { position } = Astro.props;
+const slotId = adsConfig.slots[position];
+const active = adsenseReady && Boolean(slotId);
+---
+
+{active && (
+  <aside class:list={["adsense-slot", `adsense-slot--${position}`]} aria-label="Advertisement">
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={adsConfig.clientId}
+      data-ad-slot={slotId}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+      data-ad-position={position}
+    ></ins>
+    <script is:inline>
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </aside>
+)}
+
+<style>
+  .adsense-slot {
+    width: min(100% - 2rem, 1040px);
+    min-height: 90px;
+    margin: 1.5rem auto;
+    overflow: hidden;
+  }
+
+  .adsense-slot--sidebar {
+    max-width: 300px;
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+interface InfoItem {
+  icon: string;
+  label: string;
+  value: string | number;
+}
+
+interface Props {
+  items: InfoItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="game-info" aria-labelledby="game-overview-title">
+  <div class="game-info__heading">
+    <span class="game-info__eyebrow">At a glance</span>
+    <h2 id="game-overview-title">Game Overview</h2>
+  </div>
+  <dl>
+    {items.map((item) => (
+      <div>
+        <span class="info-icon" aria-hidden="true">{item.icon}</span>
+        <span class="info-copy"><dt>{item.label}</dt><dd>{item.value}</dd></span>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<style>
+  .game-info { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 1.25rem; align-items: stretch; margin: -1.9rem 0 3.4rem; padding: 1rem; border: 1px solid var(--color-border); border-radius: 16px; background: rgba(255,255,255,.97); box-shadow: var(--shadow-panel); }
+  .game-info__heading { display: flex; justify-content: center; flex-direction: column; padding: .35rem .65rem; }
+  .game-info__eyebrow { color: var(--color-accent); font-size: .66rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { margin: .2rem 0 0; font-size: 1.18rem; letter-spacing: -.025em; }
+  dl { display: grid; margin: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .65rem; }
+  dl div { display: flex; min-width: 0; align-items: center; gap: .7rem; padding: .72rem .78rem; border: 1px solid #e1e6ed; border-radius: 11px; background: linear-gradient(145deg, #fafbfd, #f0f4f8); }
+  .info-icon { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; border: 1px solid rgba(195,50,37,.13); border-radius: 9px; background: var(--color-accent-soft); color: var(--color-accent-dark); font-size: .68rem; font-weight: 900; }
+  .info-copy { min-width: 0; }
+  dt { overflow: hidden; color: var(--color-muted); font-size: .65rem; font-weight: 800; letter-spacing: .07em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+  dd { overflow: hidden; margin: .18rem 0 0; color: var(--color-ink); font-size: clamp(.94rem, 1.65vw, 1.18rem); font-weight: 900; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+  @media (max-width: 880px) { .game-info { grid-template-columns: 1fr; margin-top: -1rem; } .game-info__heading { padding: .2rem; } }
+  @media (max-width: 620px) { .game-info { margin-bottom: 2.7rem; padding: .75rem; } dl { grid-template-columns: repeat(2, minmax(0, 1fr)); } dd { font-size: .94rem; } }
+</style>

@@ -1,0 +1,20 @@
+---
+import WikiLayout from "../../layouts/WikiLayout.astro";
+import Card from "../../components/Card.astro";
+const sections = [
+  { title: "Codes", description: "Working codes, rewards and redemption help.", href: "/codes" },
+  { title: "Database", description: "Items, coins, accessories and values.", href: "/database" },
+  { title: "Guides", description: "Beginner, farming and mechanics guides.", href: "/guides" },
+  { title: "Tier List", description: "Rankings based on usefulness, rarity and value.", href: "/tier-list" },
+];
+---
+<WikiLayout title="RE:Heads, Please! Wiki Index - Codes, Items & Guides" description="Browse the complete RE:Heads, Please! wiki index for codes, items, coins, values, tier lists and guides.">
+  <article class="page-shell"><h1>Wiki Index</h1><p class="page-intro">A central directory designed to support a growing library of RE:Heads, Please! pages.</p>
+    <p>The index organizes the Wiki by player intent. Use a category hub for broad discovery, an entity page for one verified item, coin, or accessory, and a guide when the question asks for a sequence or decision process. This separation keeps internal links useful and prevents a single page from competing with several unrelated searches.</p>
+    <div class="card-grid">{sections.map((section) => <Card {...section} />)}</div>
+    <h2>Choose the right section</h2><p><strong>Codes</strong> covers status checks, redemption, expiration, rewards, and common errors without publishing unverified strings. The <strong>Database</strong> provides structured Items, Coins, and Accessories records, plus indexes for values, rarity, locations, acquisition, and verification. <strong>Guides</strong> explain beginner decisions, progression, farming, controls, and mechanics. <strong>Tier List</strong> pages provide editorial comparisons whose criteria and limits should be read before using a rank.</p>
+    <h2>Entity pages and topic pages</h2><p>An entity URL answers a question about one named record. It keeps the local image, category, verification state, updated date, documented fields, acquisition note, and related entries together. A topic URL explains a broader system such as rarity, inventory, rolling, controls, or comparison. If the question changes from “What is this entry?” to “How does this system work?”, follow the relevant guide rather than expecting the entity page to cover the whole category.</p>
+    <h2>How to use the Wiki</h2><ol><li>Start with the hub that best matches the current goal.</li><li>Use the search box or database category when an exact name is known.</li><li>Read verification badges and update dates before relying on change-sensitive information.</li><li>Follow related pages only when they answer the next distinct question.</li><li>Check the latest in-game information whenever a requirement, value, location, menu, or result differs.</li></ol>
+    <h2>Information standards</h2><p>The Wiki leaves unknown details unfilled instead of inventing precise probability, value, cost, or official status. A current interface result is stronger evidence than memory or an isolated screenshot. Rankings remain editorial, codes require current verification, and database entries publish only the fields available through the project’s reviewed data workflow.</p>
+    <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/updates">Updates</a></li><li><a href="/faq">FAQ</a></li><li><a href="/">Home</a></li></ul></section></article>
+</WikiLayout>

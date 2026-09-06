@@ -1,0 +1,185 @@
+---
+import WikiLayout from "../layouts/WikiLayout.astro";
+import WikiImage from "./WikiImage.astro";
+import WikiVideoSection from "./WikiVideoSection.astro";
+import Badge from "./Badge.astro";
+import AdsenseSlot from "./ads/AdsenseSlot.astro";
+import { getEntryPath, getImageForEntry, getRelatedEntries, getRelatedGuides, type WikiCategory, type WikiEntry } from "../lib/data";
+
+interface Props { entry: WikiEntry; category: WikiCategory; categoryLabel: string; databaseHref: string; }
+const { entry, category, categoryLabel, databaseHref } = Astro.props;
+const originalTitle = `${entry.name} - Value, Rarity & How to Get | RE:Heads, Please!`;
+const compactTitle = `${entry.name} Value & Rarity | RE:Heads, Please! Wiki`;
+const title = originalTitle.length > 60 ? compactTitle : originalTitle;
+const sourceDescription = entry.description || `Learn the value, rarity and how to get ${entry.name} in RE:Heads, Please!`;
+const description = /RE:Heads, Please!/i.test(sourceDescription)
+  ? sourceDescription
+  : `Find ${entry.name} value, rarity and acquisition details in the verified RE:Heads, Please! database.`;
+const fallback = "Not yet documented";
+const acquisition = entry.howToGet || entry.location || entry.source || `The acquisition method for ${entry.name} has not been verified yet.`;
+const relatedEntries = getRelatedEntries(category, entry);
+const relatedGuides = getRelatedGuides(category);
+const relatedPath = (related: WikiEntry) => getEntryPath(category, related);
+const location = entry.location || entry.source || fallback;
+const imageMetadata = getImageForEntry(category, entry.slug);
+const imageAlt = imageMetadata?.alt || `${entry.name} wiki image`;
+const faqEntries = [
+  { question: `What is the value of ${entry.name}?`, answer: entry.value ? `The currently documented value is ${entry.value}.` : "A verified value has not been added yet." },
+  { question: `What rarity is ${entry.name}?`, answer: entry.rarity ? `${entry.name} is listed as ${entry.rarity} rarity.` : "Its rarity has not been verified yet." },
+  { question: `How do you get ${entry.name}?`, answer: acquisition },
+];
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqEntries.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
+};
+const formattedDate = entry.updatedAt && !Number.isNaN(Date.parse(entry.updatedAt))
+  ? new Intl.DateTimeFormat("en", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }).format(new Date(entry.updatedAt))
+  : entry.updatedAt;
+const sectionLabels = category === "items"
+  ? { overview: "Item Overview", obtain: "How To Obtain", related: "Related Items" }
+  : category === "coins"
+    ? { overview: "Coin Overview", obtain: "How To Obtain", related: "Related Coins" }
+    : { overview: "Accessory Overview", obtain: "How To Unlock", related: "Related Accessories" };
+const detailSeed = [...entry.slug].reduce((total, character) => total + character.charCodeAt(0), 0);
+const detailReviewNotes = [
+  `Begin with the visual record for ${entry.name}, then confirm the label in the current ${categoryLabel.toLowerCase()} interface. This order prevents a similar icon or neighboring entry from being treated as the same entity.`,
+  `Use ${location} as a review clue for ${entry.name}, not as proof that the route is permanent. If the current game presents a different source, document the new path before relying on it.`,
+  `For ${entry.name}, separate recognition, ownership, and usefulness. Seeing the entry does not prove it is owned, and ownership does not establish its value for every progression goal.`,
+  `A reliable check for ${entry.name} compares one field at a time. Confirm the displayed name first, then review rarity, value context, source, and use without inferring one from another.`,
+  `When ${entry.name} appears after an action, inspect the relevant inventory or collection state before naming the result. A prompt by itself may not show every condition connected to the entry.`,
+  `Treat the ${entry.rarity || "unconfirmed"} rarity recorded for ${entry.name} as classification context. It should not be converted into an unsupported drop rate, demand estimate, or universal ranking.`,
+  `If two observations of ${entry.name} disagree, compare update timing, progression state, platform, and visible prerequisites. Those differences are more useful than choosing one result by assumption.`,
+  `The record for ${entry.name} stays entity-focused. Broader questions about ${category === "items" ? "inventory or item use" : category === "coins" ? "collection and comparison" : "gacha and unlock systems"} belong on the linked guide pages.`,
+  `Before acting on ${entry.name}, read the full current prompt and note the expected destination of the result. This makes a later inventory or collection check easier to interpret.`,
+  `Use the updated date for ${entry.name} to judge when a recheck is worthwhile. It records editorial review timing but cannot guarantee that a later game build has not changed a field.`,
+  `Compare ${entry.name} only with entries that answer the same player question. A useful match may concern category, source, progression purpose, or rarity, but those criteria should not be mixed.`,
+  `Keep any undocumented detail about ${entry.name} visibly unresolved. A precise-looking estimate can be more misleading than an explicit gap when the live game provides no confirmation.`,
+];
+const selectedDetailNotes = [detailReviewNotes[detailSeed % detailReviewNotes.length], detailReviewNotes[(detailSeed * 3 + 5) % detailReviewNotes.length]];
+---
+
+<WikiLayout title={title} description={description} image={entry.image || undefined} schema={pageSchema}>
+  <article class="page-shell detail-shell">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/database">Database</a></li><li><a href={databaseHref}>{categoryLabel}</a></li><li aria-current="page">{entry.name}</li></ol></nav>
+    <header class="detail-heading">
+      <div><div class="detail-badges"><Badge label={categoryLabel} tone="accent" /><span class="verified-badge"><i aria-hidden="true"></i>{entry.verified ? "Verified Entry" : "Reference Entry"}</span></div><h1>{entry.name}</h1><p class="page-intro">{description}</p></div>
+      <p class="updated"><strong>Last Updated:</strong> {formattedDate ? <time datetime={entry.updatedAt}>{formattedDate}</time> : fallback}</p>
+    </header>
+
+    <section class="quick-answer" aria-labelledby="quick-answer-title">
+      <span>Quick Answer</span>
+      <h2 id="quick-answer-title">What to know about {entry.name}</h2>
+      <p>{entry.name} is a {categoryLabel.toLowerCase()} record in the RE:Heads, Please! Wiki, currently documented as {entry.rarity || "an entry with unconfirmed rarity"}. Use the verified description and acquisition note below for this entity, and check the current game whenever its displayed source, value, or availability differs from the recorded information.</p>
+    </section>
+
+    <div class="detail-layout">
+      <aside class="detail-sidebar" aria-label={`${entry.name} summary`}>
+        <div class="infobox-title"><span>{categoryLabel} Infobox</span><strong>{entry.name}</strong></div>
+        <WikiImage src={entry.image || undefined} alt={imageAlt} />
+        <div class="facts" aria-label={`${entry.name} key information`}>
+          <section><span>Value</span><strong>{entry.value || fallback}</strong></section>
+          <section><span>Rarity</span><strong>{entry.rarity || fallback}</strong></section>
+          <section><span>Location</span><strong>{location}</strong></section>
+          {entry.tier && <section><span>Tier</span><strong>{entry.tier}</strong></section>}
+        </div>
+      </aside>
+
+      <div class="detail-content">
+        <section aria-labelledby="overview"><h2 id="overview">{sectionLabels.overview}</h2><p>{entry.description || `${entry.name} is a ${categoryLabel.toLowerCase()} entry in the RE:Heads, Please! database.`}</p><p>This record keeps the verified name, category, rarity, value context, and acquisition note together so players can review one entity without mixing it with a broader list. Recheck the current game interface whenever a displayed field differs from this entry.</p></section>
+
+        {category === "items" && <section aria-labelledby="appearance"><h2 id="appearance">Appearance</h2><p>The infobox image is the local visual reference assigned to {entry.name}. Use it to identify the matching record, then compare it with the current in-game icon or model. The wiki does not add unsupported claims about colors, materials, animation, or alternate appearances that are not present in the verified data.</p></section>}
+        {category === "coins" && <section aria-labelledby="collection-information"><h2 id="collection-information">Collection Information</h2><p>Track {entry.name} by its exact displayed name and documented source. Rarity and value are separate fields: neither one automatically proves profit, usefulness, or availability. Confirm that the record appears in the current collection or inventory view before treating an older observation as current.</p></section>}
+        {category === "accessories" && <section aria-labelledby="rarity"><h2 id="rarity">Rarity</h2><p>{entry.name} is currently documented as {entry.rarity || "an unconfirmed"} rarity. A rarity label describes the recorded classification; it does not by itself prove strength, demand, roll probability, or permanent availability. Check the latest in-game information before using rarity as the basis for a resource decision.</p></section>}
+
+        <section aria-labelledby="how-to-get"><h2 id="how-to-get">{sectionLabels.obtain}</h2><p>{acquisition}</p><p>Follow only requirements and prompts that are visible in the current game. If the route, menu, event, or prerequisite is no longer shown, treat the acquisition method as needing a new check instead of substituting an estimate.</p></section>
+
+        {category === "items" && <section aria-labelledby="usage"><h2 id="usage">Usage</h2><p>Use the verified description and the current in-game prompt to determine how {entry.name} fits a progression or inventory decision. The recorded tier and value provide reference context, but they do not guarantee that the item is optimal for every player or every stage of play.</p></section>}
+        {category === "coins" && <section aria-labelledby="comparison"><h2 id="comparison">Comparison</h2><p>Compare {entry.name} with other verified coins using the same fields: source, rarity, documented value, and current availability. Avoid ranking two coins from rarity alone. A useful comparison states which field is being compared and leaves unknown or changing information clearly unconfirmed.</p></section>}
+        {category === "accessories" && <section aria-labelledby="gacha-information"><h2 id="gacha-information">Gacha Information</h2><p>If the current interface associates {entry.name} with an accessory roll or gacha system, verify the visible pool, requirement, and result before spending a limited resource. This record does not infer an exact probability, pity rule, or guarantee when those details are not present in the verified data.</p></section>}
+
+        <section aria-labelledby="tips"><h2 id="tips">Tips</h2>
+          <p>Use the exact name <strong>{entry.name}</strong> when searching the Wiki or comparing the live interface. Check the documented {category === "items" ? "location and intended use" : category === "coins" ? "source and collection status" : "unlock route and rarity"} separately; one field does not confirm another.</p>
+          <ul class="entry-tips">
+            <li>Confirm the current location or source shown by the game before following an older route: <strong>{location}</strong>.</li>
+            <li>Compare the visible result with this record’s updated date and verification badge.</li>
+            <li>{category === "items" ? "Read the current item prompt before using or spending the entry." : category === "coins" ? "Do not infer profit or availability from rarity alone." : "Do not infer an exact gacha probability from the rarity label."}</li>
+            <li>Open a related entry when the next question concerns a different entity rather than expanding this record beyond its scope.</li>
+          </ul>
+          <div class="entry-review-notes">{selectedDetailNotes.map((note) => <p>{note}</p>)}</div>
+        </section>
+
+        <section aria-labelledby="information-table"><h2 id="information-table">Information Table</h2><div class="record-table-wrap"><table class="record-table"><tbody><tr><th scope="row">Name</th><td>{entry.name}</td></tr><tr><th scope="row">Rarity</th><td>{entry.rarity || fallback}</td></tr><tr><th scope="row">Value</th><td>{entry.value || fallback}</td></tr><tr><th scope="row">Location or source</th><td>{location}</td></tr>{entry.tier && <tr><th scope="row">Tier</th><td>{entry.tier}</td></tr>}</tbody></table></div></section>
+
+        <AdsenseSlot position="content-middle" />
+        <WikiVideoSection category={category} relatedSlug={entry.slug} />
+
+        <section aria-labelledby="players-also-check"><h2 id="players-also-check">Players Also Check</h2><p>These {sectionLabels.related.toLowerCase()} come directly from the verified relatedSlugs assigned to {entry.name}.</p>{relatedEntries.length ? <ul class="entry-links">{relatedEntries.map((related) => <li><a href={relatedPath(related)}><strong>{related.name}</strong><span>{related.rarity || related.value || fallback}</span></a></li>)}</ul> : <p>Related database entries will appear here as more verified data is added.</p>}</section>
+        <section aria-labelledby="related-guides"><h2 id="related-guides">Related Guides</h2><ul class="guide-links">{relatedGuides.map((guide) => <li><a href={guide.href}>{guide.label}<span aria-hidden="true">→</span></a></li>)}</ul></section>
+
+        <section aria-labelledby="faq"><h2 id="faq">{entry.name} FAQ</h2><div class="faq-list">{faqEntries.map((faq) => <article><h3>{faq.question}</h3><p>{faq.answer}</p></article>)}</div></section>
+      </div>
+    </div>
+
+    <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href={databaseHref}>{categoryLabel} Database</a></li><li><a href="/database/value-list">Value List</a></li><li><a href="/updates">Updates</a></li></ul></section>
+  </article>
+</WikiLayout>
+
+<style>
+  .page-shell.detail-shell { width: min(100% - 2rem, 1240px); }
+  .breadcrumbs { margin-bottom: 1.4rem; color: var(--color-muted); font-size: .88rem; }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
+  .breadcrumbs li:not(:last-child)::after { margin-left: .45rem; color: #9aa0a6; content: "/"; }
+  .breadcrumbs a { color: var(--color-muted); text-decoration: none; }
+  .breadcrumbs a:hover { color: var(--color-accent); }
+  .detail-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; padding-bottom: 1.8rem; border-bottom: 1px solid var(--color-border); }
+  .detail-heading h1 { margin-top: .75rem; }
+  .detail-heading > div { max-width: 760px; }
+  .quick-answer { margin: 1.4rem 0 0; padding: 1rem 1.15rem; border: 1px solid rgba(195,50,37,.22); border-left: 4px solid var(--color-accent); border-radius: 0 11px 11px 0; background: linear-gradient(135deg, var(--color-accent-soft), #fff); }
+  .quick-answer > span { color: var(--color-accent-dark); font-size: .62rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+  .quick-answer h2 { margin: .24rem 0 .35rem; padding: 0; border: 0; font-size: 1.12rem; }
+  .quick-answer p { margin: 0; color: var(--color-muted); }
+  .detail-badges { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+  .verified-badge { display: inline-flex; align-items: center; gap: .38rem; padding: .3rem .55rem; border: 1px solid #cae9d7; border-radius: 999px; background: #effaf3; color: #237247; font-size: .62rem; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+  .verified-badge i { width: 7px; height: 7px; border-radius: 50%; background: #35b875; box-shadow: 0 0 0 3px rgba(53,184,117,.12); }
+  .updated { flex: 0 0 auto; margin: 0; padding: .55rem .7rem; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-soft); color: var(--color-muted); font-size: .75rem; }
+  .updated strong { color: var(--color-text); }
+  .detail-layout { display: grid; margin-top: 2rem; grid-template-columns: minmax(250px, 330px) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .detail-sidebar { position: sticky; top: 9.5rem; padding: .8rem; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-soft); }
+  .infobox-title { margin: -.8rem -.8rem .8rem; padding: .72rem .85rem; border-radius: var(--radius-card) var(--radius-card) 0 0; background: var(--color-ink); color: #fff; }
+  .infobox-title span, .infobox-title strong { display: block; }
+  .infobox-title span { color: #9eabc0; font-size: .58rem; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+  .infobox-title strong { margin-top: .12rem; font-size: .88rem; }
+  .detail-content { min-width: 0; }
+  .detail-content > section:first-child h2 { margin-top: 0; }
+  .detail-content h2 { padding-bottom: .65rem; border-bottom: 1px solid var(--color-border); font-size: 1.45rem; }
+  .facts { display: grid; gap: .45rem; margin-top: .7rem; }
+  .facts section { padding: .8rem .9rem; border: 1px solid var(--color-border); border-radius: 9px; background: var(--color-surface); }
+  .facts span { display: block; margin-bottom: .25rem; color: var(--color-muted); font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .facts strong { display: block; overflow-wrap: anywhere; font-size: .96rem; }
+  .entry-links, .guide-links { display: grid; gap: .55rem; padding: 0; list-style: none; }
+  .entry-tips { display: grid; gap: .55rem; padding-left: 1.25rem; }
+  .entry-tips li::marker { color: var(--color-accent); }
+  .entry-review-notes { margin-top: 1rem; padding: .9rem 1rem; border-left: 3px solid var(--color-accent); background: var(--color-soft); }
+  .entry-review-notes p { margin: 0; }
+  .entry-review-notes p + p { margin-top: .7rem; }
+  .entry-links a, .guide-links a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem .9rem; border: 1px solid var(--color-border); border-radius: 9px; background: var(--color-surface); color: var(--color-text); text-decoration: none; }
+  .entry-links a:hover, .guide-links a:hover { border-color: rgba(195,50,37,.4); background: var(--color-accent-soft); color: var(--color-text); }
+  .entry-links span { color: var(--color-muted); font-size: .78rem; }
+  .guide-links span { color: var(--color-accent); font-weight: 850; }
+  .faq-list { display: grid; gap: .65rem; }
+  .faq-list article { padding: 1rem 1.1rem; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-soft); }
+  .faq-list h3 { margin: 0 0 .35rem; font-size: 1rem; }
+  .faq-list p { margin: 0; color: var(--color-muted); }
+  .record-table-wrap { max-width: 100%; overflow-x: auto; border: 1px solid var(--color-border); border-radius: 10px; }
+  .record-table { width: 100%; border-collapse: collapse; background: var(--color-surface); font-size: .9rem; }
+  .record-table th, .record-table td { padding: .72rem .8rem; border-bottom: 1px solid var(--color-border); text-align: left; vertical-align: top; }
+  .record-table th { width: 34%; background: var(--color-soft); color: var(--color-muted); font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
+  .record-table tr:last-child th, .record-table tr:last-child td { border-bottom: 0; }
+  @media (max-width: 820px) { .detail-heading { align-items: flex-start; flex-direction: column; gap: 1rem; } .detail-layout { grid-template-columns: 1fr; } .detail-sidebar { position: static; display: grid; padding: .7rem; grid-template-columns: minmax(180px, .8fr) minmax(0, 1.2fr); gap: .7rem; } .infobox-title { grid-column: 1 / -1; margin: -.7rem -.7rem 0; } .facts { margin-top: 0; } }
+  @media (max-width: 560px) { .page-shell.detail-shell { width: min(100% - 1rem, 1240px); } .breadcrumbs li:nth-child(2) { display: none; } .detail-sidebar { display: block; } .infobox-title { margin: -.7rem -.7rem .7rem; } .facts { margin-top: .7rem; grid-template-columns: repeat(2, minmax(0,1fr)); } .updated { font-size: .7rem; } }
+</style>

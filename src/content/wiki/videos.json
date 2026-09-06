@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "home-gameplay-overview",
+    "category": "home",
+    "title": "RE:Heads, Please! Complete Gameplay Guide",
+    "youtubeId": "x8OQQ4ujH_g",
+    "description": "A supplementary visual overview of the main play loop. Use the written wiki and current in-game information for exact details.",
+    "relatedSlug": "index"
+  },
+  {
+    "slug": "codes-reward-planning",
+    "category": "codes",
+    "title": "RE:Heads, Please! Codes and Reward Planning Guide",
+    "youtubeId": "x8OQQ4ujH_g",
+    "description": "Visual context for placing code rewards within normal progression. Verify every code and reward against the current game before using it.",
+    "relatedSlug": "index"
+  },
+  {
+    "slug": "beginner-progression",
+    "category": "guides",
+    "title": "RE:Heads, Please! Beginner Progression Guide",
+    "youtubeId": "-6XxCXM_B4Q",
+    "description": "A visual companion for new players learning the early progression loop. Check the latest in-game information when menus or systems differ.",
+    "relatedSlug": "beginner-guide"
+  },
+  {
+    "slug": "coin-collection",
+    "category": "coins",
+    "title": "RE:Heads, Please! Coin Collection Guide",
+    "youtubeId": "jF7RaZvo5sc",
+    "description": "A supplementary look at coin presentation and collection variety. The live database remains the source for verified wiki fields.",
+    "relatedSlug": "index"
+  },
+  {
+    "slug": "accessories-quest-progression",
+    "category": "accessories",
+    "title": "RE:Heads, Please! Accessories and Quest Progression Guide",
+    "youtubeId": "uXFH1UGr2Jw",
+    "description": "Visual support for understanding how quests connect with broader progression and unlocks. Confirm current requirements inside the game.",
+    "relatedSlug": "index"
+  },
+  {
+    "slug": "skateboard-exploration",
+    "category": "items",
+    "title": "RE:Heads, Please! Skateboard Exploration Guide",
+    "youtubeId": "qYzZHmJlohE",
+    "description": "A visual companion for station exploration and collectible routes connected with skateboard travel. Controls may change between updates.",
+    "relatedSlug": "skateboard"
+  }
+]

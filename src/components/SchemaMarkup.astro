@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type WikiArticleData = CollectionEntry<"wikiArticles">["data"];
+
+interface Props { data: WikiArticleData; }
+
+const { data } = Astro.props;
+const pagePath = Astro.url.pathname;
+const toSchemaURL = (value: string) => Astro.site ? new URL(value, Astro.site).href : value;
+const categoryLabel = data.category
+  .split("-")
+  .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+  .join(" ");
+const isArticle = data.tags.includes("priority-1") && data.slug !== "index";
+const graph: Record<string, unknown>[] = [];
+
+if (isArticle) {
+  graph.push({
+    "@type": "Article",
+    "@id": `${toSchemaURL(pagePath)}#article`,
+    headline: data.h1,
+    description: data.description,
+    url: toSchemaURL(pagePath),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": toSchemaURL(pagePath),
+    },
+    datePublished: data.publishedAt,
+    dateModified: data.updatedAt,
+    articleSection: categoryLabel,
+    keywords: data.keywords.join(", "),
+    about: data.keyword,
+    inLanguage: "en",
+    author: {
+      "@type": "Organization",
+      name: "RE:Heads, Please! Wiki",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "RE:Heads, Please! Wiki",
+    },
+    ...(data.cover ? { image: [toSchemaURL(data.cover)] } : {}),
+  });
+}
+
+if (data.faq.length > 0) {
+  graph.push({
+    "@type": "FAQPage",
+    "@id": `${toSchemaURL(pagePath)}#faq`,
+    mainEntity: data.faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  });
+}
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": graph,
+};
+---
+
+{graph.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

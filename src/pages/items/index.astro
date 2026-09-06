@@ -1,0 +1,42 @@
+---
+import Table from "../../components/Table.astro";
+import HubEntryGrid from "../../components/HubEntryGrid.astro";
+import WikiArticleContent from "../../components/WikiArticleContent.astro";
+import WikiHubShell from "../../components/WikiHubShell.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { getEntryPath, getItems } from "../../lib/data";
+import { getKeywordCategory } from "../../lib/keywords";
+import { getWikiArticleEntry } from "../../lib/wikiContent";
+
+const category = getKeywordCategory("items");
+const entry = await getWikiArticleEntry("items", "index");
+if (!category || !entry) throw new Error("[items-hub] Missing keyword or MDX data.");
+const items = getItems();
+const verified = items.filter((item) => item.verified);
+const columns = [{ key: "name", label: "Item", hrefKey: "href" }, { key: "rarity", label: "Rarity" }, { key: "value", label: "Value" }, { key: "status", label: "Status" }];
+const rows = verified.slice(0, 6).map((item) => ({ name: item.name, rarity: item.rarity, value: item.value, status: "Verified", href: getEntryPath("items", item) }));
+const previewEntries = verified.slice(0, 4).map((item) => ({ name: item.name, category: "Item", image: item.image, href: getEntryPath("items", item), meta: `${item.rarity} · ${item.value}`, status: "Verified" }));
+const popularPages = category.l3.slice(0, 3).map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/items/${page.slug}` }));
+const allPages = category.l3.map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/items/${page.slug}` }));
+---
+<WikiHubShell
+  title="RE:Heads, Please! Items - Database, Values & Tiers"
+  description="Find RE:Heads, Please! items, rarity, values, locations and tier information."
+  label="Items" h1="RE:Heads, Please! Items" intro="Use the complete items database to search verified rarity, value, location and tier information."
+  updatedAt={entry.data.updatedAt} status="Verified"
+  stats={[{ label: "Verified Items", value: verified.length }, { label: "Database Entries", value: items.length }, { label: "Reference Pages", value: category.l3.length }]}
+  actions={[{ label: "Browse Items", href: "/database/items" }, { label: "Value List", href: "/database/value-list" }, { label: "How to Get Items", href: "/items/how-to-get-items" }]}
+  onThisPage={[{ label: "Items Database", href: "#database-preview" }, { label: "Overview", href: "#overview" }, { label: "Priority Topics", href: "#priority-topics" }, { label: "FAQ", href: "#faq" }]}
+  popularPages={popularPages}
+  allPages={allPages}
+  relatedSections={[{ label: "Accessories", href: "/accessories" }, { label: "Coins", href: "/coins" }, { label: "Tier List", href: "/tier-list" }]}
+>
+  <section class="hub-data-panel" id="database-preview" aria-labelledby="items-data-title">
+    <SectionHeader id="items-data-title" eyebrow="Live database" title="Verified Items" description="A compact preview sourced from the current items database." />
+    <HubEntryGrid entries={previewEntries} />
+    <div class="panel-actions"><a href="#site-search-input">Search Wiki Database</a><a href="/database/items">Browse All Items</a></div>
+    <Table columns={columns} rows={rows} caption="Verified item records" />
+  </section>
+  <WikiArticleContent category="items" slug="index" entry={entry} variant="hub" />
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database/accessories">Accessories</a></li><li><a href="/database/value-list">Value List</a></li><li><a href="/tier-list">Tier List</a></li></ul></section>
+</WikiHubShell>

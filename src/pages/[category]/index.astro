@@ -1,0 +1,22 @@
+---
+import KeywordHub from "../../components/KeywordHub.astro";
+import { getKeywordCategories, type KeywordCategory } from "../../lib/keywords";
+
+export function getStaticPaths() {
+  const existingStaticCategories = new Set(["codes", "items", "coins", "guides", "tier-list", "database"]);
+  return getKeywordCategories()
+    .filter((category) => !existingStaticCategories.has(category.slug))
+    .map((category) => ({
+      params: { category: category.slug },
+      props: { category },
+    }));
+}
+
+interface Props {
+  category: KeywordCategory;
+}
+
+const { category } = Astro.props;
+---
+
+<KeywordHub category={category} />

@@ -1,0 +1,76 @@
+---
+interface Props { guide: "farming" | "mechanics" | "progression" | "tips"; }
+const { guide } = Astro.props;
+const guides = {
+  farming: {
+    introduction: "Farming in RE:Heads, Please! is most useful when a session has one measurable purpose. Instead of assuming that one route is always optimal, identify the resource or unlock you are working toward, note the current menus and areas available to the account, and compare repeatable results under the same conditions. This approach keeps route choice separate from unverified claims about exact yield or hidden probability.",
+    requirements: ["Choose one resource, item, coin, accessory goal, or progression requirement to track.", "Confirm the relevant area, interface, inventory space, and visible requirement in the current game.", "Record a simple starting state so the session result can be compared without relying on memory."],
+    steps: ["Define a short test session and follow one available route without changing equipment or goals halfway through.", "Record the visible rewards or progression change at the end of the run.", "Repeat only when the same route and conditions remain available, then compare consistency rather than one unusually strong result.", "Use the database to identify a named reward and the progression guide when the farming goal unlocks a new system."],
+    tips: "Reduce downtime before chasing an assumed maximum yield. Prepare inventory space, learn the current travel controls, and stop to inspect a newly unlocked prompt. A slightly simpler route can be more useful when it is repeatable and keeps the player focused on the chosen resource. Preserve a reserve before spending on a shortcut whose benefit is not visible.",
+    mistakes: "Avoid mixing several resources into one comparison or declaring a route best from a single run. Do not convert a video example, old screenshot, or player estimate into a fixed rate. Updates, account progression, and visible prerequisites may change the result. When the live game differs, record the difference and check the latest in-game information.",
+    faq: [
+      ["What should I farm first?", "Choose the resource connected to the next visible progression goal. The answer depends on the current account state rather than a universal route."],
+      ["How do I compare farming routes?", "Use the same session length, starting state, and tracked resource. Compare repeatability and downtime as well as the visible result."],
+      ["Does this guide provide exact yields?", "No. Exact rates are not stated when they have not been verified in the current game."],
+    ],
+  },
+  mechanics: {
+    introduction: "Game mechanics are the rules and interfaces that connect collection, acquisition, resources, and progression in RE:Heads, Please!. This guide explains how to read those systems without treating every label as interchangeable. Rarity, value, tier, location, source, and usefulness answer different questions, so a reliable decision begins by identifying which field the current goal actually requires.",
+    requirements: ["Open the current interface that displays the mechanic instead of relying on an isolated label.", "Identify the starting state, visible requirement, action, and resulting feedback.", "Use an entity page for a named record and a guide or index page for a system-wide question."],
+    steps: ["Read the full prompt and note whether it describes ownership, rarity, a requirement, a source, or an effect.", "Perform one action and inspect the immediate response before changing another variable.", "Match named items, coins, or accessories with their verified database record.", "Leave hidden rates, permanent costs, and unsupported outcomes unknown until current evidence is available."],
+    tips: "Use consistent definitions when comparing entries. A rare label does not automatically establish value, power, demand, or acquisition probability. An editorial tier explains a comparison goal but is not an official rule. Update dates show when information was reviewed; they do not guarantee that the game cannot change afterward.",
+    mistakes: "The main mistake is drawing a broad rule from one screen or one result. Another is using a field from one category as if it has the same meaning everywhere. If a requirement or result is unclear, return to the relevant menu, reproduce the action, and separate what is visible from what is inferred.",
+    faq: [
+      ["Is rarity the same as value?", "No. They are separate fields and should be reviewed independently."],
+      ["Are Wiki tiers official?", "No. Tier pages are editorial comparisons with stated limits and should not be treated as official rankings."],
+      ["What if a mechanic changes?", "Use the current interface for the immediate decision and treat the affected Wiki statement as needing review."],
+    ],
+  },
+  progression: {
+    introduction: "Progression becomes easier to evaluate when it is divided into visible milestones. In RE:Heads, Please!, a player may move between collection goals, resources, areas, equipment, and other interfaces, but the next useful action should still support one current objective. This guide provides a decision framework rather than a fixed route, because available systems and account states can differ.",
+    requirements: ["Choose a milestone that can be confirmed through the current game, such as a visible unlock or completed collection step.", "Review the resources and prerequisites shown by the relevant interface.", "Keep enough flexibility to respond when a new prompt or verified opportunity appears."],
+    steps: ["Write down the next milestone and the visible condition that marks it complete.", "Select one activity that directly supports that condition instead of dividing the session across unrelated goals.", "Before spending, compare the documented purpose, acquisition note, and current requirement.", "After reaching the milestone, review newly available menus or areas and choose the next goal from the updated state."],
+    tips: "A rarer entry is not automatically the best progression choice. Prefer a decision whose benefit is visible and relevant to the current milestone. Use the Beginner Guide for orientation, the Farming Guide for repeatable resource work, and the database for exact entity lookup. Recheck any update-sensitive requirement before committing limited resources.",
+    mistakes: "Avoid copying a late-game priority into an early account without confirming its prerequisites. Do not pursue several milestones at once if that makes progress impossible to measure. A changed interface is a reason to review the step, not a reason to guess what the developer intended.",
+    faq: [
+      ["What makes a useful milestone?", "It has a visible completion condition and connects directly to the next decision the player wants to make."],
+      ["Should rarity determine progression?", "No. Rarity is only one recorded field and does not establish usefulness for every stage."],
+      ["When should priorities be reviewed?", "Review them after reaching a milestone, opening a new system, or seeing a relevant game update."],
+    ],
+  },
+  tips: {
+    introduction: "Good habits in RE:Heads, Please! reduce avoidable mistakes without pretending that one strategy fits every player. The most reliable habits are simple: keep the current goal visible, verify names and requirements, preserve resources when an outcome is uncertain, and use the Wiki page that matches the exact question. These practices support codes, collection, progression, and database research alike.",
+    requirements: ["Know whether the current question concerns a code, entity, guide, comparison, or update.", "Check the current game before relying on a time-sensitive value, location, or availability claim.", "Use exact names when searching so a related topic does not replace the intended record."],
+    steps: ["Start each session with one practical objective and open the matching Wiki hub.", "Check the live requirement before spending, redeeming, rolling, or changing an important account state.", "Use related pages only when the question changes, such as moving from an item record to its acquisition guide.", "Review the result and leave uncertain information marked as unknown."],
+    tips: "Keep a resource reserve, compare the same fields, and read update dates as context. For codes, enter the exact verified text and inspect the response. For items, coins, and accessories, match the current label before using value or rarity context. For rankings, read the criteria rather than acting from the tier letter alone.",
+    mistakes: "Repeatedly trying an unverified code, trusting an old screenshot, assuming that rarity proves value, or spending before a requirement is visible can all create confusion. Another common mistake is reading a general hub as if it were an exact entity record. Move to the focused page and check the latest in-game information when details conflict.",
+    faq: [
+      ["What is the most important habit?", "Verify the current label, requirement, and result before making a decision that uses a limited resource."],
+      ["Can an older guide still help?", "It can provide context, but changing menus, requirements, and availability must be checked in the live game."],
+      ["Where should I start browsing?", "Choose the Codes, Items, Coins, Accessories, Database, Guides, or Tier List hub that matches the immediate question."],
+    ],
+  },
+} as const;
+const content = guides[guide];
+---
+
+<div class="guide-expansion">
+  <section><h2 id="introduction">Introduction</h2><p>{content.introduction}</p></section>
+  <section><h2 id="requirements">Requirements</h2><ul>{content.requirements.map((item) => <li>{item}</li>)}</ul></section>
+  <section><h2 id="steps">Steps</h2><ol>{content.steps.map((item) => <li>{item}</li>)}</ol></section>
+  <section><h2 id="tips">Tips</h2><p>{content.tips}</p></section>
+  <section><h2 id="mistakes">Mistakes</h2><p>{content.mistakes}</p></section>
+  <section><h2 id="faq">FAQ</h2><div class="guide-faq">{content.faq.map(([question, answer]) => <article><h3>{question}</h3><p>{answer}</p></article>)}</div></section>
+</div>
+
+<style>
+  .guide-expansion { max-width: 820px; }
+  section { margin-top: 2.5rem; }
+  h2 { padding-bottom: .65rem; border-bottom: 1px solid var(--color-border); }
+  p, li { line-height: 1.72; }
+  li + li { margin-top: .55rem; }
+  .guide-faq { display: grid; gap: .65rem; }
+  .guide-faq article { padding: 1rem; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-soft); }
+  .guide-faq h3, .guide-faq p { margin: 0; }
+  .guide-faq p { margin-top: .4rem; color: var(--color-muted); }
+</style>

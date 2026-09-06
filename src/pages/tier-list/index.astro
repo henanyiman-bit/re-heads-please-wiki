@@ -1,0 +1,36 @@
+---
+import Table from "../../components/Table.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import WikiArticleContent from "../../components/WikiArticleContent.astro";
+import WikiHubShell from "../../components/WikiHubShell.astro";
+import { getKeywordCategory } from "../../lib/keywords";
+import { getWikiArticleEntry } from "../../lib/wikiContent";
+
+const category = getKeywordCategory("tier-list");
+const entry = await getWikiArticleEntry("tier-list", "index");
+if (!category || !entry) throw new Error("[tier-list-hub] Missing keyword or MDX data.");
+const columns = [{ key: "item", label: "Item" }, { key: "rank", label: "Rank" }, { key: "reason", label: "Reason" }];
+const rows = [{ item: "Coming soon", rank: "—", reason: "Rankings are awaiting verified item data." }];
+const popularPages = category.l3.slice(0, 3).map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/tier-list/${page.slug}` }));
+const allPages = category.l3.map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/tier-list/${page.slug}` }));
+---
+<WikiHubShell
+  title="RE:Heads, Please! Tier List - Best Items Ranking"
+  description="Complete RE:Heads, Please! Tier List ranking the best items, characters and resources."
+  label="Tier List" h1="RE:Heads, Please! Tier List" intro="Compare items and resources using rankings based on documented value, rarity, usefulness and demand."
+  updatedAt={entry.data.updatedAt} status="Reference"
+  stats={[{ label: "Ranking Pages", value: category.l3.length }, { label: "Verified Rankings", value: 0 }, { label: "Current Status", value: "Awaiting data" }]}
+  actions={[{ label: "Best Coins", href: "/tier-list/best-coins" }, { label: "Item Tier List", href: "/tier-list/item-tier-list" }, { label: "How Rankings Work", href: "/tier-list/how-tier-rankings-work" }]}
+  onThisPage={[{ label: "Ranking Status", href: "#rankings" }, { label: "Overview", href: "#overview" }, { label: "Priority Topics", href: "#priority-topics" }, { label: "FAQ", href: "#faq" }]}
+  popularPages={popularPages}
+  allPages={allPages}
+  relatedSections={[{ label: "Items", href: "/items" }, { label: "Coins", href: "/coins" }, { label: "Database", href: "/database" }]}
+>
+  <section class="hub-data-panel" id="rankings" aria-labelledby="rankings-title">
+    <SectionHeader id="rankings-title" eyebrow="Ranking database" title="Current Rankings" description="Rankings remain clearly labeled until sufficient verified data is available." />
+    <Table columns={columns} rows={rows} caption="Current tier list status" />
+  </section>
+  <WikiArticleContent category="tier-list" slug="index" entry={entry} variant="hub" />
+  <section id="method"><h2>How Tier Rankings Work</h2><p>Rankings consider item value, rarity, usefulness and player demand. They are revised when verified game data changes.</p></section>
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database/items">Items Database</a></li><li><a href="/database/value-list">Value List</a></li><li><a href="/guides/game-mechanics">Game Mechanics</a></li></ul></section>
+</WikiHubShell>

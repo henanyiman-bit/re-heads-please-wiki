@@ -1,0 +1,36 @@
+---
+import Table from "../../components/Table.astro";
+import WikiArticleContent from "../../components/WikiArticleContent.astro";
+import WikiHubShell from "../../components/WikiHubShell.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { getKeywordCategory } from "../../lib/keywords";
+import { getWikiArticleEntry } from "../../lib/wikiContent";
+
+const category = getKeywordCategory("codes");
+const entry = await getWikiArticleEntry("codes", "index");
+if (!category || !entry) throw new Error("[codes-hub] Missing keyword or MDX data.");
+const columns = [{ key: "code", label: "Code" }, { key: "reward", label: "Reward" }, { key: "status", label: "Status" }];
+const rows = [{ code: "COMING SOON", reward: "To be confirmed", status: "Awaiting verification" }];
+const popularPages = category.l3.slice(0, 3).map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/codes/${page.slug}` }));
+const allPages = category.l3.map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/codes/${page.slug}` }));
+---
+<WikiHubShell
+  title="RE:Heads, Please! Codes - Working Codes & Rewards"
+  description="Find all working RE:Heads, Please! codes, latest rewards, expired codes and how to redeem codes."
+  label="Codes" h1="RE:Heads, Please! Codes" intro="Find the latest verified codes, their rewards and current status."
+  updatedAt={entry.data.updatedAt} status="Reference"
+  stats={[{ label: "Status", value: "Awaiting verification" }, { label: "Last Checked", value: entry.data.updatedAt }, { label: "Reference Guides", value: category.l3.length }]}
+  actions={[{ label: "Working Codes", href: "/codes/working-codes" }, { label: "How to Redeem", href: "/codes/how-to-redeem-codes" }, { label: "Expired Codes", href: "/codes/expired-codes" }]}
+  onThisPage={[{ label: "Code Status", href: "#code-status" }, { label: "Overview", href: "#overview" }, { label: "Priority Topics", href: "#priority-topics" }, { label: "FAQ", href: "#faq" }]}
+  popularPages={popularPages}
+  allPages={allPages}
+  relatedSections={[{ label: "Guides", href: "/guides" }, { label: "Items", href: "/items" }, { label: "Database", href: "/database" }]}
+>
+  <section class="hub-data-panel" id="code-status" aria-labelledby="codes-table-title">
+    <SectionHeader id="codes-table-title" eyebrow="Verification first" title="Latest Working Codes" description="Only confirmed code information belongs in this status table." />
+    <Table columns={columns} rows={rows} caption="Current RE:Heads, Please! code status" />
+  </section>
+  <WikiArticleContent category="codes" slug="index" entry={entry} variant="hub" />
+  <section aria-labelledby="redeem-codes"><h2 id="redeem-codes">How to Redeem Codes</h2><ol><li>Open RE:Heads, Please! on Roblox.</li><li>Find the Codes button.</li><li>Enter a code exactly as displayed.</li><li>Claim the reward and confirm it was added.</li></ol></section>
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/tier-list">Tier List</a></li><li><a href="/database">Database</a></li><li><a href="/guides">Guides</a></li></ul></section>
+</WikiHubShell>

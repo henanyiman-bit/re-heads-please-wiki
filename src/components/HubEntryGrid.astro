@@ -1,0 +1,54 @@
+---
+import { getOptimizedWikiImageSources } from "../lib/wikiImage";
+
+interface EntryCard {
+  name: string;
+  category: string;
+  image: string;
+  href: string;
+  meta: string;
+  status?: string;
+}
+interface Props { entries: EntryCard[]; }
+const { entries } = Astro.props;
+---
+
+<div class="entry-grid">
+  {entries.map((entry) => (
+    <a class="entry-card" href={entry.href}>
+      <div class="entry-image">
+        <picture>
+          {getOptimizedWikiImageSources(entry.image).avif && <source srcset={getOptimizedWikiImageSources(entry.image).avif} type="image/avif" />}
+          {getOptimizedWikiImageSources(entry.image).webp && <source srcset={getOptimizedWikiImageSources(entry.image).webp} type="image/webp" />}
+          <img src={entry.image} alt={`${entry.name} — RE:Heads, Please! ${entry.category}`} width="1254" height="1254" loading="lazy" decoding="async" />
+        </picture>
+      </div>
+      <div class="entry-copy">
+        <span class="entry-category">{entry.category}</span>
+        <strong>{entry.name}</strong>
+        <small>{entry.meta}</small>
+        <span class="entry-link">View database entry <b aria-hidden="true">→</b></span>
+      </div>
+      {entry.status && <span class="entry-status"><i aria-hidden="true"></i>{entry.status}</span>}
+    </a>
+  ))}
+</div>
+
+<style>
+  .entry-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; margin-top: 1rem; }
+  .entry-card { position: relative; display: grid; min-width: 0; min-height: 132px; overflow: hidden; border: 1px solid var(--color-border); border-radius: 11px; background: #fff; color: var(--color-text); grid-template-columns: 118px minmax(0, 1fr); text-decoration: none; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .entry-card:hover { transform: translateY(-2px); border-color: rgba(195,50,37,.35); box-shadow: var(--shadow-card); color: var(--color-text); }
+  .entry-image { aspect-ratio: 1; min-height: 132px; overflow: hidden; border-right: 1px solid var(--color-border); background: #edf1f6; }
+  picture, img { display: block; width: 100%; height: 100%; }
+  img { object-fit: cover; }
+  .entry-copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: .8rem; }
+  .entry-category { color: var(--color-accent-dark); font-size: .57rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+  strong { overflow: hidden; margin: .18rem 0; color: var(--color-ink); font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; }
+  small { overflow: hidden; color: var(--color-muted); font-size: .67rem; text-overflow: ellipsis; white-space: nowrap; }
+  .entry-link { margin-top: .48rem; color: var(--color-accent-dark); font-size: .65rem; font-weight: 850; }
+  .entry-link b { margin-left: .25rem; }
+  .entry-status { position: absolute; top: .45rem; left: .45rem; display: inline-flex; align-items: center; gap: .3rem; padding: .2rem .38rem; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; background: rgba(16,26,42,.86); color: #dff8e9; font-size: .52rem; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; backdrop-filter: blur(6px); }
+  .entry-status i { width: 6px; height: 6px; border-radius: 50%; background: #4dd889; }
+  @media (max-width: 760px) { .entry-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 390px) { .entry-card { grid-template-columns: 102px minmax(0, 1fr); } .entry-image { min-height: 122px; } .entry-copy { padding: .7rem; } }
+</style>

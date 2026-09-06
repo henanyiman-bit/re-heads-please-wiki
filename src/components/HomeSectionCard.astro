@@ -1,0 +1,36 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  href: string;
+  count: string;
+}
+
+const { icon, title, description, href, count } = Astro.props;
+---
+
+<article class="section-card">
+  <div class="section-card__top">
+    <span class="section-card__icon" aria-hidden="true">{icon}</span>
+    <span class="section-card__count">{count}</span>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <a href={href} aria-label={`Explore ${title}`}>Explore <span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+  .section-card { position: relative; display: flex; min-width: 0; min-height: 225px; flex-direction: column; padding: 1.2rem; overflow: hidden; border: 1px solid var(--color-border); border-radius: 15px; background: linear-gradient(145deg, #fff 60%, #f4f7fa); box-shadow: 0 8px 22px rgba(19,31,50,.055); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .section-card::after { position: absolute; right: -24px; bottom: -34px; width: 78px; height: 78px; transform: rotate(12deg); border: 10px solid rgba(195,50,37,.055); border-radius: 19px; content: ""; }
+  .section-card:hover { transform: translateY(-3px); border-color: rgba(195,50,37,.34); box-shadow: 0 15px 34px rgba(19,31,50,.1); }
+  .section-card__top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+  .section-card__icon { display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid rgba(255,255,255,.11); border-radius: 11px; background: linear-gradient(145deg, #1b2a42, var(--color-ink)); color: #fff; font-size: 1.05rem; font-weight: 900; box-shadow: 0 7px 16px rgba(16,26,42,.16); }
+  .section-card__count { padding: .28rem .5rem; border: 1px solid #e1e6ed; border-radius: 999px; background: #fff; color: var(--color-muted); font-size: .66rem; font-weight: 800; white-space: nowrap; }
+  h3 { margin: 1rem 0 .35rem; color: var(--color-ink); font-size: 1.16rem; }
+  p { display: -webkit-box; margin: 0 0 1rem; overflow: hidden; color: var(--color-muted); font-size: .84rem; line-height: 1.55; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  a { position: relative; z-index: 1; display: inline-flex; min-height: 38px; align-items: center; justify-content: space-between; gap: .7rem; margin-top: auto; padding-top: .6rem; border-top: 1px solid var(--color-border); color: var(--color-accent-dark); font-size: .78rem; font-weight: 850; text-decoration: none; }
+  a span { transition: transform .18s ease; }
+  a:hover span { transform: translateX(3px); }
+  @media (max-width: 620px) { .section-card { min-height: 210px; padding: .9rem; } .section-card__icon { width: 36px; height: 36px; border-radius: 9px; font-size: .9rem; } .section-card__count { max-width: 76px; overflow: hidden; text-overflow: ellipsis; } h3 { margin-top: .8rem; font-size: 1rem; } p { font-size: .76rem; -webkit-line-clamp: 3; } }
+</style>

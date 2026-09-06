@@ -1,0 +1,19 @@
+---
+import HomeHubCard, { type HomeHubIcon } from "./HomeHubCard.astro";
+interface Entry { icon: HomeHubIcon; title: string; count: string; type: string; href: string; action: string; highlights: string[]; }
+interface Props { entries: Entry[]; }
+const { entries } = Astro.props;
+---
+
+<section class="collection-grid" aria-labelledby="collection-grid-title">
+  <header><p>Verified collections</p><h3 id="collection-grid-title">Collection Database</h3></header>
+  <div>{entries.map((entry) => <HomeHubCard {...entry} variant="collection" />)}</div>
+</section>
+
+<style>
+  header { margin-bottom: .8rem; }
+  header p { margin: 0 0 .18rem; color: var(--color-accent); font-size: .62rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+  h3 { margin: 0; color: var(--color-ink); font-size: 1.25rem; }
+  .collection-grid > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  @media (max-width: 768px) { .collection-grid > div { grid-template-columns: 1fr; gap: .75rem; } }
+</style>

@@ -1,0 +1,84 @@
+---
+import SiteSearch from "./SiteSearch.astro";
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/codes", label: "Codes" },
+  { href: "/items", label: "Items" },
+  { href: "/coins", label: "Coins" },
+  { href: "/accessories", label: "Accessories" },
+  { href: "/database", label: "Database" },
+  { href: "/guides", label: "Guides" },
+  { href: "/tier-list", label: "Tier List" },
+];
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) => href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="/" aria-label="RE:Heads, Please! Wiki home">
+      <span class="logo-mark" aria-hidden="true"><i></i><b>R:H</b></span>
+      <span class="logo-copy"><strong>RE:Heads, Please!</strong><small>Community Wiki</small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-toggle>
+      <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>Menu</span>
+    </button>
+    <div class="header-tools"><SiteSearch /></div>
+  </div>
+  <div class="nav-shell" data-nav-shell><nav id="primary-navigation" aria-label="Primary navigation">{links.map((link) => <a href={link.href} aria-current={isActive(link.href) ? "page" : undefined}>{link.label}</a>)}</nav></div>
+</header>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".site-header").forEach((header) => {
+    const toggle = header.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    if (!toggle) return;
+    toggle.addEventListener("click", () => {
+      const isOpen = header.toggleAttribute("data-menu-open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    });
+  });
+</script>
+
+<style>
+  .site-header { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid #24344d; background: rgba(16,26,42,.98); color: #fff; box-shadow: 0 8px 24px rgba(13, 23, 39, .14); backdrop-filter: blur(14px); }
+  .header-inner { display: flex; width: min(100% - 2rem, 1120px); min-height: 68px; align-items: center; justify-content: space-between; gap: 1.5rem; margin: 0 auto; }
+  .logo { display: inline-flex; align-items: center; gap: .75rem; color: #fff; text-decoration: none; white-space: nowrap; }
+  .logo:hover { color: #fff; }
+  .logo-mark { position: relative; display: grid; width: 38px; height: 38px; place-items: center; overflow: hidden; border: 1px solid rgba(255,255,255,.18); border-radius: 10px; background: #1c2b42; }
+  .logo-mark i { position: absolute; width: 20px; height: 20px; transform: rotate(12deg); border: 4px solid var(--color-accent-bright); border-radius: 5px; opacity: .85; }
+  .logo-mark b { position: relative; z-index: 1; font-size: .62rem; letter-spacing: .04em; }
+  .logo-copy strong, .logo-copy small { display: block; }
+  .logo-copy strong { font-size: .96rem; letter-spacing: -.01em; }
+  .logo-copy small { margin-top: .05rem; color: #96a5ba; font-size: .64rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+  .header-tools { width: min(100%, 320px); }
+  .menu-toggle { display: none; min-height: 40px; align-items: center; gap: .5rem; padding: .5rem .7rem; border: 1px solid rgba(255,255,255,.17); border-radius: 9px; background: rgba(255,255,255,.07); color: #fff; font: inherit; font-size: .76rem; font-weight: 800; cursor: pointer; }
+  .menu-icon { display: grid; width: 16px; gap: 3px; }
+  .menu-icon i { display: block; height: 2px; border-radius: 2px; background: currentColor; transition: transform .18s ease, opacity .18s ease; }
+  .nav-shell { border-top: 1px solid rgba(255,255,255,.075); background: rgba(21,34,56,.94); }
+  nav { display: flex; width: min(100% - 2rem, 1120px); margin: 0 auto; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav a { position: relative; flex: 0 0 auto; padding: .58rem .78rem; color: #aeb9c9; font-size: .77rem; font-weight: 750; letter-spacing: .01em; text-decoration: none; }
+  nav a::after { position: absolute; right: .8rem; bottom: 0; left: .8rem; height: 2px; transform: scaleX(0); background: var(--color-accent-bright); content: ""; transition: transform .18s ease; }
+  nav a:hover, nav a[aria-current="page"] { color: #fff; }
+  nav a:hover::after, nav a[aria-current="page"]::after { transform: scaleX(1); }
+  @media (max-width: 720px) {
+    .site-header { position: relative; }
+    .header-inner { display: grid; min-height: 0; grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; padding: .75rem 0; }
+    .header-tools { width: 100%; grid-column: 1 / -1; }
+    .logo { min-width: 0; }
+    .logo-copy { min-width: 0; }
+    .logo-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .logo-mark { width: 38px; height: 38px; flex: 0 0 auto; }
+    .menu-toggle { display: inline-flex; }
+    .nav-shell { display: none; }
+    .site-header[data-menu-open] .nav-shell { display: block; }
+    .site-header[data-menu-open] .menu-icon i:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+    .site-header[data-menu-open] .menu-icon i:nth-child(2) { opacity: 0; }
+    .site-header[data-menu-open] .menu-icon i:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+    nav { display: grid; width: min(100% - 1rem, 1120px); padding: .45rem 0 .65rem; overflow: visible; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .2rem; }
+    nav a { min-width: 0; padding: .58rem .65rem; border-radius: 7px; }
+    nav a::after { right: .65rem; left: .65rem; }
+  }
+</style>

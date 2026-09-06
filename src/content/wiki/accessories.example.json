@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Example Accessory",
+    "slug": "example-accessory",
+    "rarity": "Example Rarity",
+    "value": "Example Value",
+    "tier": "Example Tier",
+    "description": "Replace this example with an original description based on verified in-game information.",
+    "howToGet": "Explain the verified acquisition method here.",
+    "verified": false,
+    "verifiedAt": "",
+    "updatedAt": "2026-09-05",
+    "keywords": ["RE:Heads, Please! example accessory"],
+    "relatedSlugs": []
+  }
+]

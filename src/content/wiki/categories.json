@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Materials",
+    "slug": "materials",
+    "description": "Crafting and progression materials.",
+    "status": "planned"
+  },
+  {
+    "name": "Characters",
+    "slug": "characters",
+    "description": "Playable and non-playable characters.",
+    "status": "planned"
+  },
+  {
+    "name": "Pets",
+    "slug": "pets",
+    "description": "Pets, companions and their effects.",
+    "status": "planned"
+  },
+  {
+    "name": "Weapons",
+    "slug": "weapons",
+    "description": "Weapons, statistics and acquisition details.",
+    "status": "planned"
+  },
+  {
+    "name": "Maps",
+    "slug": "maps",
+    "description": "Maps, areas and important locations.",
+    "status": "planned"
+  }
+]

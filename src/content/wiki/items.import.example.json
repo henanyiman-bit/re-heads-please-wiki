@@ -1,0 +1,18 @@
+[
+  {
+    "name": "REPLACE_WITH_VERIFIED_ITEM_NAME",
+    "slug": "replace-with-verified-item-slug",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "Replace this template text with an original, verified item description between 50 and 320 characters before importing it.",
+    "location": "Check the latest in-game information.",
+    "howToGet": "Check the latest in-game information.",
+    "image": "",
+    "verified": false,
+    "verifiedAt": "",
+    "updatedAt": "2026-09-05",
+    "keywords": ["RE:Heads, Please! replace with verified item keyword"],
+    "relatedSlugs": []
+  }
+]

@@ -1,0 +1,188 @@
+[
+  {
+    "slug": "enchant-book",
+    "type": "item",
+    "prompt": "Original square game-item illustration of a closed arcane upgrade book, dark violet cover, subtle silver runes, soft studio lighting, isolated on a transparent background, no text, no logos.",
+    "alt": "Original illustration concept for the Enchant Book"
+  },
+  {
+    "slug": "accessory-ticket",
+    "type": "item",
+    "prompt": "Original square game-item illustration of a premium fashion raffle ticket with layered paper edges and a small star emblem, clean neutral backdrop, no words, no logos.",
+    "alt": "Original illustration concept for the Accessory Ticket"
+  },
+  {
+    "slug": "engraving-scroll",
+    "type": "item",
+    "prompt": "Original square game-item illustration of a compact parchment scroll etched with geometric coin symbols, warm rim light, isolated object, no readable text, no logos.",
+    "alt": "Original illustration concept for the Engraving Scroll"
+  },
+  {
+    "slug": "skateboard",
+    "type": "item",
+    "prompt": "Original square illustration of a compact urban skateboard for station travel, charcoal deck with restrained yellow accents, three-quarter view, isolated, no branding.",
+    "alt": "Original illustration concept for the standard Skateboard"
+  },
+  {
+    "slug": "vip-skateboard",
+    "type": "item",
+    "prompt": "Original square illustration of a premium black-and-gold skateboard with polished trucks and a subtle crown motif, three-quarter view, isolated, no text or branding.",
+    "alt": "Original illustration concept for the VIP Skateboard"
+  },
+  {
+    "slug": "spray-1",
+    "type": "item",
+    "prompt": "Original square collectible icon showing a red spray can with a simple white stripe, clean game inventory style, isolated, no text or logos.",
+    "alt": "Original illustration concept for Spray 1"
+  },
+  {
+    "slug": "spray-2",
+    "type": "item",
+    "prompt": "Original square collectible icon showing a cobalt blue spray can with a pale circular accent, clean game inventory style, isolated, no text or logos.",
+    "alt": "Original illustration concept for Spray 2"
+  },
+  {
+    "slug": "spray-3",
+    "type": "item",
+    "prompt": "Original square collectible icon showing a violet spray can with a silver cap and small geometric accent, clean inventory style, isolated, no text.",
+    "alt": "Original illustration concept for Spray 3"
+  },
+  {
+    "slug": "spray-4",
+    "type": "item",
+    "prompt": "Original square collectible icon showing a green spray can with a cream band, clean game inventory style, isolated object, no text or logos.",
+    "alt": "Original illustration concept for Spray 4"
+  },
+  {
+    "slug": "spray-5",
+    "type": "item",
+    "prompt": "Original square collectible icon showing a magenta spray can with a dark cap and tiny star accent, clean inventory style, isolated, no text.",
+    "alt": "Original illustration concept for Spray 5"
+  },
+  {
+    "slug": "boardmarker-1",
+    "type": "item",
+    "prompt": "Original square collectible icon of a red broad-tip paint marker, cap beside the barrel, clean game inventory lighting, isolated, no writing.",
+    "alt": "Original illustration concept for Boardmarker 1"
+  },
+  {
+    "slug": "boardmarker-2",
+    "type": "item",
+    "prompt": "Original square collectible icon of a blue broad-tip paint marker with a dark grip, clean game inventory lighting, isolated, no writing.",
+    "alt": "Original illustration concept for Boardmarker 2"
+  },
+  {
+    "slug": "boardmarker-3",
+    "type": "item",
+    "prompt": "Original square collectible icon of a purple broad-tip paint marker with a silver cap, clean game inventory lighting, isolated, no writing.",
+    "alt": "Original illustration concept for Boardmarker 3"
+  },
+  {
+    "slug": "boardmarker-4",
+    "type": "item",
+    "prompt": "Original square collectible icon of a white broad-tip paint marker with gold accent rings, clean game inventory lighting, isolated, no writing.",
+    "alt": "Original illustration concept for Boardmarker 4"
+  },
+  {
+    "slug": "boardmarker-5",
+    "type": "item",
+    "prompt": "Original square collectible icon of a bright green broad-tip paint marker with a charcoal cap, clean inventory lighting, isolated, no writing.",
+    "alt": "Original illustration concept for Boardmarker 5"
+  },
+  {
+    "slug": "seraphim",
+    "type": "accessory",
+    "prompt": "Original square fantasy accessory concept inspired by celestial tailoring, ivory feathers and pale gold filigree arranged as a wearable set, isolated, no character, no logos.",
+    "alt": "Original celestial accessory concept for Seraphim"
+  },
+  {
+    "slug": "void",
+    "type": "accessory",
+    "prompt": "Original square dark fantasy accessory concept built from black crystalline fragments and faint violet mist, wearable set presentation, isolated, no character.",
+    "alt": "Original dark accessory concept for Void"
+  },
+  {
+    "slug": "deep-web",
+    "type": "accessory",
+    "prompt": "Original square cyber accessory concept with layered blue mesh, luminous nodes and angular straps, wearable set presentation, isolated, no text or logos.",
+    "alt": "Original cyber accessory concept for Deep Web"
+  },
+  {
+    "slug": "hacker",
+    "type": "accessory",
+    "prompt": "Original square neon-tech accessory concept with black fabric, green terminal-like accents and compact wearable devices, isolated set, no readable text.",
+    "alt": "Original neon accessory concept for Hacker"
+  },
+  {
+    "slug": "black-rose",
+    "type": "accessory",
+    "prompt": "Original square gothic accessory concept of matte black rose petals, dark green stems and restrained silver hardware, wearable set, isolated.",
+    "alt": "Original gothic accessory concept for Black Rose"
+  },
+  {
+    "slug": "sleepingbeauty",
+    "type": "accessory",
+    "prompt": "Original square dreamlike accessory concept with soft pearl fabric, moonlit ribbon and tiny sleep-cloud charms, wearable set presentation, isolated.",
+    "alt": "Original dreamlike accessory concept for Sleepingbeauty"
+  },
+  {
+    "slug": "dalgona-coin",
+    "type": "coin",
+    "prompt": "Original square game-coin concept made from warm caramel-colored metal with a simple stamped star, centered three-quarter view, isolated, no text.",
+    "alt": "Original coin illustration concept for Dalgona Coin"
+  },
+  {
+    "slug": "plush-toy-coin",
+    "type": "coin",
+    "prompt": "Original square soft plush coin concept with stitched edging and a friendly embossed center, centered three-quarter view, isolated, no text.",
+    "alt": "Original coin illustration concept for Plush Toy Coin"
+  },
+  {
+    "slug": "slime-coin",
+    "type": "coin",
+    "prompt": "Original square translucent blue slime coin with rounded drips and a tiny friendly face motif, centered product lighting, isolated, no text.",
+    "alt": "Original coin illustration concept for Slime Coin"
+  },
+  {
+    "slug": "clover-coin",
+    "type": "coin",
+    "prompt": "Original square brass coin with a bright green four-leaf clover relief and softly worn rim, centered product view, isolated, no text.",
+    "alt": "Original coin illustration concept for Clover Coin"
+  },
+  {
+    "slug": "friendship-coin",
+    "type": "coin",
+    "prompt": "Original square silver friendship coin with two interlocking abstract figures in relief, calm studio lighting, centered, isolated, no text.",
+    "alt": "Original coin illustration concept for Friendship Coin"
+  },
+  {
+    "slug": "graph-coin",
+    "type": "coin",
+    "prompt": "Original square dark coin with a luminous multicolor line graph crossing its face, modern technical finish, centered, isolated, no numbers.",
+    "alt": "Original coin illustration concept for Graph Coin"
+  },
+  {
+    "slug": "rhythm-coin",
+    "type": "coin",
+    "prompt": "Original square monochrome rhythm coin with concentric sound-wave grooves and a subtle beat marker, centered product view, isolated, no text.",
+    "alt": "Original coin illustration concept for Rhythm Coin"
+  },
+  {
+    "slug": "zone-coin",
+    "type": "coin",
+    "prompt": "Original square futuristic zone coin with concentric violet rings and small radial lights, centered three-quarter view, isolated, no text.",
+    "alt": "Original coin illustration concept for Zone Coin"
+  },
+  {
+    "slug": "lock-coin",
+    "type": "coin",
+    "prompt": "Original square steel lock coin with a stitched lockplate motif, dark engraved rim and restrained highlights, centered, isolated, no text.",
+    "alt": "Original coin illustration concept for Lock Coin"
+  },
+  {
+    "slug": "calendar-coin",
+    "type": "coin",
+    "prompt": "Original square antique calendar coin with a segmented bronze rim and abstract date-grid engraving, centered product view, isolated, no text.",
+    "alt": "Original coin illustration concept for Calendar Coin"
+  }
+]

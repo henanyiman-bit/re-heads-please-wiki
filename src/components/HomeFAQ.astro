@@ -1,0 +1,37 @@
+---
+const questions = [
+  { question: "What is RE:Heads, Please?", answer: "RE:Heads, Please! is a Roblox experience built around collection, progression, resources, and discovering how its connected systems work." },
+  { question: "Where can I find codes?", answer: "Open the RE:Heads, Please! Codes hub for working-code status, redemption guidance, expired-code references, and troubleshooting pages." },
+  { question: "How does the database work?", answer: "The RE:Heads, Please! Database organizes verified item, coin, and accessory records. Each published entry links to its own focused reference page." },
+  { question: "Where are guides?", answer: "The Guides hub connects beginner, farming, progression, and game-mechanics references so players can choose the next topic that matches their goal." },
+  { question: "Is the Wiki updated?", answer: "Database records display their recorded update dates and verification state. For changing game details, always check the latest in-game information." },
+];
+---
+
+<section class="home-faq" aria-labelledby="home-faq-title">
+  <header><span>Quick help</span><h2 id="home-faq-title">RE:Heads, Please! Wiki FAQ</h2><p>Short answers for choosing the right wiki section.</p></header>
+  <div>
+    {questions.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.question}<span aria-hidden="true">+</span></summary>
+        <p>{item.answer}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .home-faq { display: grid; grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr); gap: 2rem; margin: 4rem 0 0; padding: clamp(1.15rem, 2.5vw, 1.6rem); border: 1px solid var(--color-border); border-radius: 17px; background: #fff; box-shadow: var(--shadow-card); }
+  header > span { color: var(--color-accent); font-size: .62rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+  h2 { margin: .2rem 0 .45rem; color: var(--color-ink); font-size: clamp(1.35rem, 2vw, 1.75rem); }
+  header p { margin: 0; color: var(--color-muted); font-size: .78rem; }
+  details { border-bottom: 1px solid var(--color-border); }
+  details:first-child { border-top: 1px solid var(--color-border); }
+  summary { display: flex; min-height: 54px; cursor: pointer; align-items: center; justify-content: space-between; gap: 1rem; color: var(--color-ink); font-size: .82rem; font-weight: 850; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { display: grid; width: 25px; height: 25px; flex: 0 0 auto; place-items: center; border-radius: 7px; background: var(--color-soft); color: var(--color-accent); transition: transform .18s ease; }
+  details[open] summary span { transform: rotate(45deg); }
+  details p { margin: -.1rem 2.5rem .9rem 0; color: var(--color-muted); font-size: .78rem; line-height: 1.6; }
+  @media (max-width: 720px) { .home-faq { grid-template-columns: 1fr; gap: 1rem; margin-top: 3rem; padding: 1rem; } }
+  @media (prefers-reduced-motion: reduce) { summary span { transition: none; } }
+</style>

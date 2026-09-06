@@ -1,0 +1,9 @@
+---
+import { adsConfig, adsenseReady } from "../../config/ads";
+
+const scriptUrl = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsConfig.clientId)}`;
+---
+
+{adsenseReady && (
+  <script is:inline async src={scriptUrl} crossorigin="anonymous"></script>
+)}

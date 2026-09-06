@@ -1,0 +1,39 @@
+---
+import Card from "../../components/Card.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import WikiArticleContent from "../../components/WikiArticleContent.astro";
+import WikiHubShell from "../../components/WikiHubShell.astro";
+import { getKeywordCategory } from "../../lib/keywords";
+import { getWikiArticleEntry } from "../../lib/wikiContent";
+
+const category = getKeywordCategory("guides");
+const entry = await getWikiArticleEntry("guides", "index");
+if (!category || !entry) throw new Error("[guides-hub] Missing keyword or MDX data.");
+const guides = [
+  { title: "Beginner Guide", description: "Learn the essential first steps and build a strong start.", href: "/guides/beginner-guide", eyebrow: "Guides" },
+  { title: "Progression Guide", description: "Understand the milestones that shape long-term progress.", href: "/guides/progression-guide", eyebrow: "Guides" },
+  { title: "Farming Guide", description: "Plan efficient farming sessions and manage your resources.", href: "/guides/farming-guide", eyebrow: "Guides" },
+  { title: "Tips and Tricks", description: "Use practical habits that make each play session smoother.", href: "/guides/tips-and-tricks", eyebrow: "Guides" },
+  { title: "Game Mechanics", description: "Understand values, rarity, progression and other core systems.", href: "/guides/game-mechanics", eyebrow: "Guides" },
+];
+const allPages = category.l3.map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/guides/${page.slug}` }));
+---
+<WikiHubShell
+  title="RE:Heads, Please! Guides: Beginner, Farming & Mechanics"
+  description="Explore RE:Heads, Please! beginner, progression and farming guides, tips, tricks and game mechanics."
+  label="Guides" h1="RE:Heads, Please! Guides" intro="Practical guides for learning the game, planning progression and understanding its core systems."
+  updatedAt={entry.data.updatedAt} status="Reference"
+  stats={[{ label: "Featured Guides", value: guides.length }, { label: "Reference Pages", value: category.l3.length }, { label: "Content Status", value: "Reviewed" }]}
+  actions={[{ label: "Beginner Guide", href: "/guides/beginner-guide" }, { label: "Farming Guide", href: "/guides/farming-guide" }, { label: "Game Mechanics", href: "/guides/game-mechanics" }]}
+  onThisPage={[{ label: "Featured Guides", href: "#featured-guides" }, { label: "Overview", href: "#overview" }, { label: "Priority Topics", href: "#priority-topics" }, { label: "FAQ", href: "#faq" }]}
+  popularPages={guides.slice(0, 3).map((guide) => ({ label: guide.title, href: guide.href }))}
+  allPages={allPages}
+  relatedSections={[{ label: "Codes", href: "/codes" }, { label: "Database", href: "/database" }, { label: "Tier List", href: "/tier-list" }]}
+>
+  <section class="hub-data-panel" id="featured-guides" aria-labelledby="featured-guides-title">
+    <SectionHeader id="featured-guides-title" eyebrow="Start learning" title="Featured Guides" description="Choose a focused guide for your current goal." />
+    <div class="topic-grid">{guides.map((guide) => <Card {...guide} />)}</div>
+  </section>
+  <WikiArticleContent category="guides" slug="index" entry={entry} variant="hub" />
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/codes">Codes</a></li><li><a href="/database">Database</a></li><li><a href="/faq">FAQ</a></li></ul></section>
+</WikiHubShell>

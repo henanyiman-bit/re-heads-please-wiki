@@ -1,0 +1,20 @@
+---
+import HomeHubCard, { type HomeHubIcon } from "./HomeHubCard.astro";
+interface Entry { icon: HomeHubIcon; title: string; count: string; type: string; href: string; action: string; highlights: string[]; }
+interface Props { entries: Entry[]; }
+const { entries } = Astro.props;
+---
+
+<section class="quick-access" aria-labelledby="quick-access-title">
+  <header><p>Priority destinations</p><h3 id="quick-access-title">Quick Access</h3></header>
+  <div>{entries.map((entry) => <HomeHubCard {...entry} variant="quick" />)}</div>
+</section>
+
+<style>
+  .quick-access { margin-bottom: 2.5rem; }
+  header { margin-bottom: .8rem; }
+  header p { margin: 0 0 .18rem; color: var(--color-accent); font-size: .62rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+  h3 { margin: 0; color: var(--color-ink); font-size: 1.25rem; }
+  .quick-access > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  @media (max-width: 768px) { .quick-access > div { grid-template-columns: 1fr; gap: .75rem; } }
+</style>

@@ -1,0 +1,29 @@
+---
+import Badge from "./Badge.astro";
+interface Props { title: string; description: string; href: string; eyebrow?: string; meta?: string; }
+const { title, description, href, eyebrow, meta } = Astro.props;
+---
+<a class="wiki-card" href={href}>
+  <div class="card-top">
+    {eyebrow && <Badge label={eyebrow} tone="accent" />}
+    <span class="card-arrow" aria-hidden="true">↗</span>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {meta && <span class="meta">{meta}</span>}
+  <span class="card-edge" aria-hidden="true"></span>
+</a>
+<style>
+  .wiki-card { position: relative; display: flex; min-height: 205px; overflow: hidden; flex-direction: column; padding: 1.3rem; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: linear-gradient(145deg, #fff 0%, #fff 72%, #fafbfc 100%); box-shadow: var(--shadow-card); color: var(--color-text); text-decoration: none; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .wiki-card::after { position: absolute; right: -26px; bottom: -38px; width: 94px; height: 94px; transform: rotate(12deg); border: 13px solid var(--color-accent-soft); border-radius: 24px; content: ""; pointer-events: none; }
+  .wiki-card:hover { transform: translateY(-4px); border-color: rgba(195, 50, 37, .45); box-shadow: 0 18px 42px rgba(19, 31, 50, .13); color: var(--color-text); }
+  .card-top { display: flex; min-height: 26px; align-items: center; justify-content: space-between; gap: .75rem; }
+  .card-arrow { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-muted); font-weight: 800; transition: border-color .18s ease, background .18s ease, color .18s ease; }
+  .wiki-card:hover .card-arrow { border-color: var(--color-accent); background: var(--color-accent); color: #fff; }
+  h3 { position: relative; z-index: 1; margin: 1rem 0 .55rem; font-size: 1.17rem; }
+  p { position: relative; z-index: 1; margin: 0; color: var(--color-muted); font-size: .92rem; }
+  .meta { position: relative; z-index: 1; margin-top: auto; padding-top: 1rem; color: var(--color-muted); font-size: .75rem; font-weight: 700; }
+  .card-edge { position: absolute; inset: 0 auto 0 0; width: 3px; transform: scaleY(0); background: var(--color-accent); transform-origin: bottom; transition: transform .18s ease; }
+  .wiki-card:hover .card-edge { transform: scaleY(1); }
+  @media (prefers-reduced-motion: reduce) { .wiki-card, .card-edge, .card-arrow { transition: none; } }
+</style>

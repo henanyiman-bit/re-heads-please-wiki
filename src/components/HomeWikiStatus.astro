@@ -1,0 +1,36 @@
+---
+interface Props { pages: number; verified: number; sections: number; updatedAt: string; }
+const { pages, verified, sections, updatedAt } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${updatedAt}T00:00:00Z`));
+const stats = [
+  { label: "Wiki Pages", value: pages },
+  { label: "Verified Entries", value: verified },
+  { label: "Core Sections", value: sections },
+];
+---
+
+<section class="wiki-status" aria-labelledby="wiki-status-title">
+  <div class="wiki-status__heading">
+    <span class="wiki-status__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19V3"/><path d="M2 19h20"/></svg></span>
+    <div><p>Wiki Status</p><h2 id="wiki-status-title">Wiki Reliability</h2></div>
+  </div>
+  <div class="wiki-status__stats">
+    {stats.map((stat) => <div><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
+    <div class="wiki-status__date"><strong><time datetime={updatedAt}>{formattedDate}</time></strong><span>Last Updated</span></div>
+  </div>
+</section>
+
+<style>
+  .wiki-status { display: grid; grid-template-columns: minmax(210px, .34fr) minmax(0, 1fr); gap: 1rem; align-items: center; margin: 0 0 4rem; padding: 1.15rem; border: 1px solid #283a55; border-radius: 16px; background: linear-gradient(135deg, #101a2a, #17263e); box-shadow: 0 16px 36px rgba(16,26,42,.15); color: #fff; }
+  .wiki-status__heading { display: flex; align-items: center; gap: .75rem; }
+  .wiki-status__icon { display: grid; width: 42px; height: 42px; flex: 0 0 auto; place-items: center; border-radius: 11px; background: var(--color-accent); color: #fff; }
+  svg { width: 22px; height: 22px; }
+  .wiki-status__heading p { margin: 0; color: #ffac9f; font-size: .58rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  h2 { margin: .12rem 0 0; color: #fff; font-size: 1.25rem; }
+  .wiki-status__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+  .wiki-status__stats > div { display: flex; min-width: 0; min-height: 76px; flex-direction: column; justify-content: center; padding: .65rem; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(255,255,255,.05); }
+  .wiki-status__stats strong { overflow: hidden; color: #fff; font-size: 1.2rem; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+  .wiki-status__stats span { margin-top: .25rem; color: #aebbd0; font-size: .59rem; font-weight: 750; }
+  .wiki-status__date strong { font-size: .78rem; }
+  @media (max-width: 768px) { .wiki-status { grid-template-columns: 1fr; margin-bottom: 3rem; } .wiki-status__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

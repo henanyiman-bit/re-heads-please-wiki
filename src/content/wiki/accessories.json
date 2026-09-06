@@ -1,0 +1,128 @@
+[
+  {
+    "name": "Seraphim",
+    "slug": "seraphim",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "A named accessory family displayed twice in the live Accessory Gacha, representing two same-name wearable pieces.",
+    "howToGet": "Use Accessory Tickets in the Accessory Gacha. Check the latest in-game information for availability and rates.",
+    "image": "/images/wiki/accessories/seraphim.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Seraphim accessory",
+      "Seraphim accessory"
+    ],
+    "relatedSlugs": [
+      "void",
+      "deep-web"
+    ]
+  },
+  {
+    "name": "Void",
+    "slug": "void",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "A named accessory family displayed twice in the live Accessory Gacha, representing two same-name wearable pieces.",
+    "howToGet": "Use Accessory Tickets in the Accessory Gacha. Check the latest in-game information for availability and rates.",
+    "image": "/images/wiki/accessories/void.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Void accessory",
+      "Void accessory"
+    ],
+    "relatedSlugs": [
+      "seraphim",
+      "deep-web"
+    ]
+  },
+  {
+    "name": "Deep Web",
+    "slug": "deep-web",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "A named accessory family displayed twice in the live Accessory Gacha, representing two same-name wearable pieces.",
+    "howToGet": "Use Accessory Tickets in the Accessory Gacha. Check the latest in-game information for availability and rates.",
+    "image": "/images/wiki/accessories/deep-web.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Deep Web accessory",
+      "Deep Web accessory"
+    ],
+    "relatedSlugs": [
+      "void",
+      "hacker"
+    ]
+  },
+  {
+    "name": "Hacker",
+    "slug": "hacker",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "A named accessory family displayed twice in the live Accessory Gacha, representing two same-name wearable pieces.",
+    "howToGet": "Use Accessory Tickets in the Accessory Gacha. Check the latest in-game information for availability and rates.",
+    "image": "/images/wiki/accessories/hacker.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Hacker accessory",
+      "Hacker accessory"
+    ],
+    "relatedSlugs": [
+      "deep-web",
+      "black-rose"
+    ]
+  },
+  {
+    "name": "Black Rose",
+    "slug": "black-rose",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "A named accessory family displayed twice in the live Accessory Gacha, representing two same-name wearable pieces.",
+    "howToGet": "Use Accessory Tickets in the Accessory Gacha. Check the latest in-game information for availability and rates.",
+    "image": "/images/wiki/accessories/black-rose.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Black Rose accessory",
+      "Black Rose accessory"
+    ],
+    "relatedSlugs": [
+      "hacker",
+      "sleepingbeauty"
+    ]
+  },
+  {
+    "name": "Sleepingbeauty",
+    "slug": "sleepingbeauty",
+    "rarity": "Check the latest in-game information.",
+    "value": "Check the latest in-game information.",
+    "tier": "Check the latest in-game information.",
+    "description": "A named accessory family displayed twice in the live Accessory Gacha, representing two same-name wearable pieces.",
+    "howToGet": "Use Accessory Tickets in the Accessory Gacha. Check the latest in-game information for availability and rates.",
+    "image": "/images/wiki/accessories/sleepingbeauty.png",
+    "verified": true,
+    "verifiedAt": "2026-09-05",
+    "updatedAt": "2026-09-05",
+    "keywords": [
+      "RE Heads Please Sleepingbeauty accessory",
+      "Sleepingbeauty accessory"
+    ],
+    "relatedSlugs": [
+      "black-rose",
+      "seraphim"
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+---
+import WikiLayout from "../../../layouts/WikiLayout.astro";
+import SearchBox from "../../../components/SearchBox.astro";
+import Table from "../../../components/Table.astro";
+import WikiPageHeader from "../../../components/WikiPageHeader.astro";
+import { getEntryPath, getItems } from "../../../lib/data";
+
+const rows = getItems().map((item) => ({ ...item, detailUrl: getEntryPath("items", item) })) as Record<string, string>[];
+const columns = [
+  { key: "name", label: "Item", hrefKey: "detailUrl" }, { key: "rarity", label: "Rarity" }, { key: "value", label: "Value" },
+  { key: "location", label: "Location" }, { key: "tier", label: "Tier" }, { key: "description", label: "Description" },
+];
+---
+<WikiLayout title="RE:Heads, Please! Items: Values, Rarity & Locations" description="Browse RE:Heads, Please! items with values, rarity, locations, tiers and descriptions.">
+  <article class="page-shell">
+    <WikiPageHeader label="Database" title="Items Database" description="Search the complete item catalog as verified game information is added." />
+    <section class="database-explainer" aria-labelledby="items-database-guide"><h2 id="items-database-guide">How to use the Items Database</h2><p>This page is the searchable table for verified RE:Heads, Please! item records. Use it when the search intent is a catalog lookup: finding an exact item name, checking which fields are documented, or opening one entity page for its acquisition context. Broader questions about progression or strategy belong in the Items hub and Guides rather than in this table.</p><h3>What the table shows</h3><p>Each row keeps rarity, value, location, tier, and description in separate columns. Those fields should not be treated as interchangeable: rarity does not prove usefulness, and a tier does not replace the acquisition note. Search narrows the rows already present; it does not invent missing entries. Open an item name to review its image, verified status, update date, and related records.</p></section>
+    <SearchBox target="#items-table" placeholder="Search items, rarity or locations…" label="Search items" />
+    <Table id="items-table" columns={columns} rows={rows} caption="RE:Heads, Please! item information" emptyMessage="Item data is being verified and will be added soon." />
+    <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database/coins">Coins</a></li><li><a href="/database/accessories">Accessories</a></li><li><a href="/tier-list">Tier List</a></li></ul></section>
+  </article>
+</WikiLayout>

@@ -1,0 +1,27 @@
+---
+interface Props { number: string; badge: string; title: string; description: string; href: string; action: string; }
+const { number, badge, title, description, href, action } = Astro.props;
+---
+
+<article class="guide-card">
+  <div class="guide-card__top"><span class="guide-card__number" aria-hidden="true">{number}</span><span class="guide-card__badge">{badge}</span></div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <a href={href}>{action}<span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+  .guide-card { position: relative; display: flex; height: 224px; min-width: 0; flex-direction: column; padding: 1.15rem; overflow: hidden; border: 1px solid var(--color-border); border-top: 3px solid #087d88; border-radius: 14px; background: linear-gradient(145deg, #fff 62%, #ecf9fa); box-shadow: 0 8px 22px rgba(19,31,50,.065); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+  .guide-card::after { position: absolute; right: -34px; bottom: -42px; width: 120px; height: 120px; border: 18px solid rgba(8,125,136,.055); border-radius: 50%; content: ""; pointer-events: none; }
+  .guide-card:hover { transform: translateY(-6px); border-color: #087d88; box-shadow: 0 20px 44px rgba(19,31,50,.15); }
+  .guide-card__top, h3, p, a { position: relative; z-index: 1; }
+  .guide-card__top { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
+  .guide-card__number { display: grid; width: 40px; height: 40px; place-items: center; border-radius: 10px; background: #087d88; color: #fff; font-size: .72rem; font-weight: 900; box-shadow: 0 7px 16px rgba(8,125,136,.2); }
+  .guide-card__badge { padding: .26rem .48rem; border-radius: 999px; background: #e6f7f8; color: #08727c; font-size: .58rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; white-space: nowrap; }
+  h3 { margin: .75rem 0 .28rem; color: var(--color-ink); font-size: 1.08rem; line-height: 1.25; }
+  p { display: -webkit-box; margin: 0; overflow: hidden; color: var(--color-muted); font-size: .76rem; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  a { display: flex; min-height: 38px; align-items: end; justify-content: space-between; gap: .6rem; margin-top: auto; padding-top: .62rem; border-top: 1px solid rgba(8,125,136,.16); color: #08727c; font-size: .72rem; font-weight: 850; text-decoration: none; }
+  a span { transition: transform .18s ease; }
+  a:hover span { transform: translateX(4px); }
+  @media (prefers-reduced-motion: reduce) { .guide-card, a span { transition: none; } }
+</style>

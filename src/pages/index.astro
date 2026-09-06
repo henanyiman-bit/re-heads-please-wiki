@@ -1,17 +1,219 @@
 ---
+import WikiLayout from "../layouts/WikiLayout.astro";
+import HeroSection from "../components/HeroSection.astro";
+import GameInfoBar from "../components/GameInfoBar.astro";
+import HomeHubCard from "../components/HomeHubCard.astro";
+import HomeDatabaseHero from "../components/HomeDatabaseHero.astro";
+import HomeQuickAccess from "../components/HomeQuickAccess.astro";
+import HomeCollectionGrid from "../components/HomeCollectionGrid.astro";
+import HomeActivityCard from "../components/HomeActivityCard.astro";
+import HomeGuideCard from "../components/HomeGuideCard.astro";
+import HomeGameOverview from "../components/HomeGameOverview.astro";
+import HomeWikiStatus from "../components/HomeWikiStatus.astro";
+import HomeDatabaseCard from "../components/HomeDatabaseCard.astro";
+import HomePopularSearches from "../components/HomePopularSearches.astro";
+import HomeLatestEntries from "../components/HomeLatestEntries.astro";
+import HomeFAQ from "../components/HomeFAQ.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import WikiVideoSection from "../components/WikiVideoSection.astro";
+import AdsenseSlot from "../components/ads/AdsenseSlot.astro";
+import { getSearchIndex } from "../lib/search";
+import { getAccessories, getCoins, getItems, getEntryPath, type WikiCategory, type WikiEntry } from "../lib/data";
+import { getWikiArticleEntries } from "../lib/wikiContent";
 
+const searchIndex = getSearchIndex();
+const items = getItems();
+const coins = getCoins();
+const accessories = getAccessories();
+const allEntries = [...items, ...coins, ...accessories];
+const verifiedEntries = allEntries.filter((entry) => entry.verified).length;
+const wikiArticles = await getWikiArticleEntries();
+const countPages = (category: string) => searchIndex.filter((entry) => entry.href.startsWith(`/${category}/`)).length;
+
+const gameInfo = [
+  { icon: "R", label: "Platform", value: "Roblox" },
+  { icon: "W", label: "Wiki Pages", value: searchIndex.length },
+  { icon: "✓", label: "Verified Entries", value: verifiedEntries },
+  { icon: "#", label: "Categories", value: 7 },
+];
+
+const featuredSections = [
+  { icon: "database" as const, title: "Database", count: `${verifiedEntries} Verified Entries`, type: "Verified", intent: "Search Data?", href: "/database", action: "Open Database" },
+  { icon: "codes" as const, title: "Working Codes", count: `${countPages("codes")} Pages`, type: "Code Center", intent: "Need Rewards?", href: "/codes/working-codes", action: "Check Codes" },
+  { icon: "guides" as const, title: "Beginner Guide", count: `${countPages("guides")} Guides`, type: "Start Here", intent: "Learn Game?", href: "/guides/beginner-guide", action: "Read Guide" },
+];
+
+const quickAccess = [
+  { icon: "codes" as const, title: "Codes", count: `${countPages("codes")} Pages`, type: "Rewards Database", intent: "Need Rewards?", href: "/codes", action: "Explore Codes", highlights: ["Working Codes", "Redeem Guides"] },
+  { icon: "guides" as const, title: "Guides", count: `${countPages("guides")} Guides`, type: "Learning Center", intent: "Learn Game?", href: "/guides", action: "Explore Guides", highlights: ["Beginner", "Progression"] },
+  { icon: "tier-list" as const, title: "Tier List", count: `${countPages("tier-list")} Rankings`, type: "Comparison Hub", intent: "Compare Rankings?", href: "/tier-list", action: "View Rankings", highlights: ["Comparison", "Ranking"] },
+];
+
+const collectionDatabase = [
+  { icon: "items" as const, title: "Items", count: `${items.length} Entries`, type: "Item Database", intent: "Find Items?", href: "/items", action: "Browse Items", highlights: ["Verified"] },
+  { icon: "coins" as const, title: "Coins", count: `${coins.length} Entries`, type: "Coin Records", intent: "Compare Coins?", href: "/coins", action: "Browse Coins", highlights: ["Collection"] },
+  { icon: "accessories" as const, title: "Accessories", count: `${accessories.length} Entries`, type: "Accessory Database", intent: "Find Accessories?", href: "/accessories", action: "Browse Accessories", highlights: ["Unlock", "Gacha"] },
+];
+
+const representativeEntries: { category: WikiCategory; entry: WikiEntry }[] = [
+  ...items.slice(0, 2).map((entry) => ({ category: "items" as const, entry })),
+  ...coins.slice(0, 2).map((entry) => ({ category: "coins" as const, entry })),
+  ...accessories.slice(0, 2).map((entry) => ({ category: "accessories" as const, entry })),
+];
+
+const guideCards = [
+  { number: "01", badge: "Start Here", title: "Beginner Guide", description: "Learn the basics, progression, and first steps.", href: "/guides/beginner-guide", action: "Start Playing" },
+  { number: "02", badge: "Improve Progress", title: "Farming Guide", description: "Learn efficient farming and resource planning.", href: "/guides/farming-guide", action: "View Farming Tips" },
+  { number: "03", badge: "Master Systems", title: "Game Mechanics", description: "Understand game systems and progression rules.", href: "/guides/game-mechanics", action: "Explore Systems" },
+];
+
+const heroEntry = items.find((entry) => entry.slug === "skateboard" && entry.image) ?? items[0];
+const previewImages = [{ src: heroEntry.image, alt: `${heroEntry.name} — RE:Heads, Please! Roblox game preview` }];
+const latestDataDate = allEntries.map((entry) => entry.updatedAt).sort((a, b) => b.localeCompare(a))[0];
+const latestGuide = wikiArticles.filter((entry) => entry.data.category === "guides" && entry.data.slug !== "index").sort((a, b) => b.data.updatedAt.localeCompare(a.data.updatedAt))[0];
+const beginnerGuide = wikiArticles.find((entry) => entry.data.category === "guides" && entry.data.slug === "beginner-guide") ?? latestGuide;
+const codesHub = wikiArticles.find((entry) => entry.data.category === "codes" && entry.data.slug === "index");
+const latestActivities = [
+  { icon: "database" as const, badge: "Database", title: `${verifiedEntries} Verified Records`, status: "Verified", count: `${verifiedEntries} records`, info: "Verified collection references", topics: ["Items", "Coins", "Accessories"], updatedAt: latestDataDate, href: "/database", action: "Explore Database" },
+  { icon: "codes" as const, badge: "Codes", title: "Working Codes Status", status: "Reference", count: `${countPages("codes")} pages`, info: "Verified redemption information", topics: ["Working", "Expired", "Redeem"], updatedAt: codesHub?.data.updatedAt ?? latestDataDate, href: "/codes", action: "View Codes" },
+  { icon: "guides" as const, badge: "Guide", title: "Beginner Guide", status: "Published", count: `${countPages("guides")} guides`, info: "Starting progression reference", topics: ["Beginner", "Farming", "Mechanics"], updatedAt: beginnerGuide.data.updatedAt, href: "/guides/beginner-guide", action: "Read Guide" },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<WikiLayout title="RE:Heads, Please! Wiki - Codes, Guides, Tier List & Database" description="Complete RE:Heads, Please! Roblox Wiki with codes, guides, tier list and database.">
+  <HeroSection title="RE:Heads, Please! Wiki" description="Find codes, compare verified values, understand game mechanics and plan your next goal." kicker="Roblox Community Database" previewImages={previewImages} tags={["Roblox Experience", "Verified Wiki Data", "Player Guides"]} verifiedCount={verifiedEntries}>
+    <a slot="actions" href="/codes">View Latest Codes</a>
+    <a slot="actions" href="/database">Explore Database</a>
+  </HeroSection>
+
+  <article class="page-shell home-content">
+    <GameInfoBar items={gameInfo} />
+
+    <HomeGameOverview />
+
+    <section class="home-section wiki-navigation" aria-labelledby="main-sections-title">
+      <SectionHeader id="main-sections-title" eyebrow="Browse the wiki" title="Roblox Wiki Navigation Dashboard" description="Start with the verified database, then move directly to codes, guides, rankings, or collection records." />
+      <section class="featured-dashboard" aria-labelledby="featured-dashboard-title">
+        <header><p>Recommended starting points</p><h3 id="featured-dashboard-title">Featured Sections</h3></header>
+        <div>{featuredSections.map((entry) => <HomeHubCard {...entry} variant="featured" />)}</div>
+      </section>
+      <div class="goal-heading"><span>Choose Your Goal</span><p>Search verified data, find rewards, learn the game, or compare collection records.</p></div>
+      <HomeDatabaseHero verified={verifiedEntries} items={items.length} coins={coins.length} accessories={accessories.length} />
+      <HomeQuickAccess entries={quickAccess} />
+      <HomeCollectionGrid entries={collectionDatabase} />
+    </section>
+
+    <HomePopularSearches />
+
+    <AdsenseSlot position="content-middle" />
+
+    <section class="database-preview" aria-labelledby="database-preview-title">
+      <div class="database-preview__heading">
+        <SectionHeader id="database-preview-title" eyebrow="Verified reference" title="Database Preview" description="Explore selected real records from all three live data collections." />
+        <div class="database-totals" aria-label="Database category totals">
+          <span><strong>{items.length}</strong> Items</span>
+          <span><strong>{coins.length}</strong> Coins</span>
+          <span><strong>{accessories.length}</strong> Accessories</span>
+        </div>
+      </div>
+      <div class="database-list">
+        {representativeEntries.map(({ category, entry }) => (
+          <HomeDatabaseCard
+            image={entry.image || "/images/wiki/items/enchant-book.png"}
+            name={entry.name}
+            category={category.charAt(0).toUpperCase() + category.slice(1)}
+            status={entry.verified ? "Verified" : "Reviewing"}
+            href={getEntryPath(category, entry)}
+          />
+        ))}
+      </div>
+      <a class="database-cta" href="/database">View Full Database <span aria-hidden="true">→</span></a>
+    </section>
+
+    <HomeLatestEntries />
+
+    <section class="wiki-updates" aria-labelledby="wiki-updates-title">
+      <SectionHeader id="wiki-updates-title" eyebrow="Activity Dashboard" title="Latest Verified Updates" description="Current database, codes, and guide references with their recorded update dates." href="/updates" linkLabel="Updates hub" />
+      <div class="update-grid">
+        {latestActivities.map((activity) => <HomeActivityCard {...activity} />)}
+      </div>
+    </section>
+
+    <section class="home-section" aria-labelledby="latest-guides-title">
+      <SectionHeader id="latest-guides-title" eyebrow="Recommended learning path" title="Start Here: Game Guides" description="Follow the three-step path from first play through efficient progress and core systems." href="/guides" linkLabel="All guides" />
+      <div class="guide-grid">{guideCards.map((guide) => <HomeGuideCard {...guide} />)}</div>
+    </section>
+
+    <HomeWikiStatus pages={searchIndex.length} verified={verifiedEntries} sections={7} updatedAt={latestDataDate} />
+
+    <WikiVideoSection category="home" relatedSlug="index" variant="featured" />
+
+    <section class="explore-wiki" aria-labelledby="explore-wiki-title">
+      <div>
+        <span>Keep exploring</span>
+        <h2 id="explore-wiki-title">Explore Wiki</h2>
+      </div>
+      <nav aria-label="More wiki destinations">
+        <a href="/faq">FAQ <span aria-hidden="true">→</span></a>
+        <a href="/updates">Updates <span aria-hidden="true">→</span></a>
+        <a href="/tier-list">Tier List <span aria-hidden="true">→</span></a>
+        <a href="/database">Database <span aria-hidden="true">→</span></a>
+      </nav>
+    </section>
+
+    <HomeFAQ />
+  </article>
+</WikiLayout>
+
+<style>
+  .home-content { width: min(100% - 2rem, 1240px); margin-top: 0; padding: 0 0 2.2rem; overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+  .home-content::before { display: none; }
+  .home-section { margin: 0 0 4rem; }
+  .featured-dashboard { margin: 1.1rem 0 1.25rem; }
+  .featured-dashboard header { margin-bottom: .8rem; }
+  .featured-dashboard header p { margin: 0 0 .18rem; color: var(--color-accent); font-size: .62rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+  .featured-dashboard header h3 { margin: 0; color: var(--color-ink); font-size: 1.25rem; }
+  .featured-dashboard > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .goal-heading { display: flex; min-width: 0; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 2.2rem 0 .4rem; }
+  .goal-heading span { color: var(--color-ink); font-size: 1.25rem; font-weight: 850; }
+  .goal-heading p { margin: 0; color: var(--color-muted); font-size: .75rem; text-align: right; }
+  .guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+  .database-preview { position: relative; margin: 0 0 4rem; padding: clamp(1.25rem, 3vw, 2rem); overflow: hidden; border: 1px solid #263750; border-radius: 18px; background: radial-gradient(circle at 92% 4%, rgba(255,101,77,.13), transparent 25%), #101a2a; box-shadow: 0 20px 50px rgba(16,26,42,.16); color: #fff; }
+  .database-preview::after { position: absolute; right: -48px; bottom: -60px; width: 150px; height: 150px; transform: rotate(12deg); border: 18px solid rgba(255,255,255,.025); border-radius: 32px; content: ""; }
+  .database-preview :global(.section-header h2) { color: #fff; }
+  .database-preview :global(.section-header p) { color: #aebacd; }
+  .database-preview__heading { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.2rem; align-items: end; }
+  .database-totals { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; padding-bottom: .15rem; }
+  .database-totals span { padding: .42rem .62rem; border: 1px solid rgba(255,255,255,.12); border-radius: 8px; background: rgba(255,255,255,.055); color: #aebacd; font-size: .68rem; font-weight: 750; }
+  .database-totals strong { margin-right: .2rem; color: #fff; font-size: .88rem; }
+  .database-list { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: 1.25rem; }
+  .database-cta { position: relative; z-index: 1; display: inline-flex; min-height: 42px; align-items: center; gap: .7rem; margin-top: 1rem; padding: .65rem .85rem; border: 1px solid rgba(255,255,255,.16); border-radius: 9px; background: rgba(255,255,255,.08); color: #fff; font-size: .8rem; font-weight: 850; text-decoration: none; }
+  .database-cta:hover { border-color: var(--color-accent-bright); background: rgba(255,101,77,.12); color: #fff; }
+  .wiki-updates { margin: 0 0 4rem; }
+  .update-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin-top: 1.15rem; }
+  .explore-wiki { display: grid; grid-template-columns: minmax(170px, .35fr) minmax(0, 1fr); gap: 1.5rem; align-items: center; margin-top: 4rem; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); box-shadow: var(--shadow-card); }
+  .explore-wiki > div { padding: .2rem .4rem; }
+  .explore-wiki > div > span { color: var(--color-accent); font-size: .66rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+  .explore-wiki h2 { margin: .15rem 0 0; font-size: 1.32rem; }
+  .explore-wiki nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .55rem; }
+  .explore-wiki nav a { display: flex; min-width: 0; min-height: 44px; align-items: center; justify-content: space-between; gap: .45rem; padding: .65rem .7rem; border: 1px solid var(--color-border); border-radius: 9px; background: var(--color-soft); color: var(--color-text); font-size: .76rem; font-weight: 800; text-decoration: none; }
+  .explore-wiki nav a:hover { border-color: rgba(195,50,37,.35); color: var(--color-accent-dark); }
+  @media (max-width: 768px) {
+    .home-content { width: min(100% - 1rem, 1120px); padding-top: 0; }
+    .home-section, .database-preview { margin-bottom: 3rem; }
+    .guide-grid { grid-template-columns: 1fr; gap: .75rem; }
+    .featured-dashboard > div { grid-template-columns: 1fr; gap: .75rem; }
+    .goal-heading { align-items: flex-start; flex-direction: column; gap: .2rem; }
+    .goal-heading p { text-align: left; }
+    .update-grid { grid-template-columns: 1fr; }
+    .database-preview__heading, .explore-wiki { grid-template-columns: 1fr; }
+    .database-list { grid-template-columns: 1fr; }
+    .database-totals { justify-content: flex-start; }
+    .explore-wiki { gap: .9rem; }
+    .explore-wiki nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 390px) {
+    .database-preview { padding: 1rem; }
+    .database-totals span { padding-inline: .48rem; }
+  }
+</style>

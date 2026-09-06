@@ -1,0 +1,31 @@
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-mark" aria-hidden="true">R:H</span>
+      <div class="footer-copy">
+        <p><strong>RE:Heads, Please! Wiki</strong><span>An independent community resource for Roblox players.</span></p>
+        <p class="maintenance-note">Maintained as a community reference for RE:Heads, Please! players. Verified information is separated from details that still require current in-game confirmation.</p>
+      </div>
+    </div>
+    <nav aria-label="Footer navigation"><a href="/wiki">Wiki</a><a href="/updates">Updates</a><a href="/faq">FAQ</a></nav>
+  </div>
+  <div class="footer-rule" aria-hidden="true"></div>
+</footer>
+
+<style>
+  footer { position: relative; margin-top: 5rem; overflow: hidden; border-top: 1px solid #263650; background: #101a2a; color: #fff; }
+  .footer-inner { display: flex; width: min(100% - 2rem, 1120px); min-height: 150px; align-items: center; justify-content: space-between; gap: 2rem; margin: 0 auto; padding: 2.4rem 0; }
+  .footer-brand { display: flex; align-items: center; gap: .9rem; }
+  .footer-copy { max-width: 640px; }
+  .footer-mark { display: grid; width: 44px; height: 44px; flex: 0 0 auto; place-items: center; border: 1px solid rgba(255,255,255,.16); border-radius: 11px; background: #1b2a41; color: var(--color-accent-bright); font-size: .68rem; font-weight: 900; letter-spacing: .05em; }
+  p { margin: 0; }
+  p strong, p span { display: block; }
+  p strong { font-size: .95rem; }
+  p span { margin-top: .2rem; color: #94a3b8; font-size: .8rem; }
+  .maintenance-note { max-width: 620px; margin-top: .65rem; color: #94a3b8; font-size: .72rem; line-height: 1.55; }
+  nav { display: flex; flex-wrap: wrap; gap: .35rem; }
+  a { padding: .55rem .7rem; border-radius: 8px; color: #b7c1cf; font-size: .84rem; font-weight: 700; text-decoration: none; }
+  a:hover { background: rgba(255,255,255,.07); color: #fff; }
+  .footer-rule { position: absolute; right: -40px; bottom: -65px; width: 190px; height: 120px; transform: rotate(-8deg); border: 18px solid rgba(255,101,77,.11); border-radius: 28px; }
+  @media (max-width: 620px) { footer { margin-top: 3rem; } .footer-inner { min-height: 0; align-items: flex-start; flex-direction: column; padding: 2rem 0; } nav { margin-left: -.7rem; } }
+</style>

@@ -1,0 +1,58 @@
+---
+import Card from "./Card.astro";
+import HubEntryGrid from "./HubEntryGrid.astro";
+import SectionHeader from "./SectionHeader.astro";
+import Table from "./Table.astro";
+import WikiArticleContent from "./WikiArticleContent.astro";
+import WikiHubShell from "./WikiHubShell.astro";
+import { getAccessories, getEntryPath } from "../lib/data";
+import { getWikiArticleEntry } from "../lib/wikiContent";
+import type { KeywordCategory } from "../lib/keywords";
+
+interface Props { category: KeywordCategory; }
+const { category } = Astro.props;
+const entry = await getWikiArticleEntry(category.slug, "index");
+if (!entry) throw new Error(`[wiki-hub] Missing MDX entry for ${category.slug}/index.`);
+const accessories = getAccessories();
+const verified = accessories.filter((item) => item.verified);
+const columns = [
+  { key: "name", label: "Accessory", hrefKey: "href" },
+  { key: "rarity", label: "Rarity" },
+  { key: "value", label: "Value" },
+  { key: "status", label: "Status" },
+];
+const rows = verified.slice(0, 6).map((item) => ({ name: item.name, rarity: item.rarity, value: item.value, status: "Verified", href: getEntryPath("accessories", item) }));
+const previewEntries = verified.slice(0, 4).map((item) => ({ name: item.name, category: "Accessory", image: item.image || "/images/wiki/accessories/seraphim.png", href: getEntryPath("accessories", item), meta: `${item.rarity} · ${item.value}`, status: "Verified" }));
+const actions = [
+  { label: "Browse Accessories", href: "/database/accessories" },
+  { label: "Accessory Gacha", href: "/accessories/accessory-gacha" },
+  { label: "How to Get", href: "/accessories/how-to-get-accessories" },
+];
+const popularPages = category.l3.slice(0, 3).map((page) => ({ label: page.h1.replace("RE:Heads, Please! ", ""), href: `/${category.slug}/${page.slug}` }));
+---
+
+<WikiHubShell title={category.title} description={category.description} keywords={[category.keyword]} label={category.navLabel} h1={category.h1} intro={category.intro} updatedAt={entry.data.updatedAt} status="Verified"
+  stats={[{ label: "Verified Accessories", value: verified.length }, { label: "Database Entries", value: accessories.length }, { label: "Reference Pages", value: category.l3.length }]}
+  actions={actions}
+  onThisPage={[{ label: "Accessory Database", href: "#database-preview" }, { label: "Overview", href: "#overview" }, { label: "Priority Topics", href: "#priority-topics" }, { label: "FAQ", href: "#faq" }]}
+  popularPages={popularPages}
+  relatedSections={[{ label: "Items", href: "/items" }, { label: "Coins", href: "/coins" }, { label: "Database", href: "/database" }]}
+>
+  <section class="hub-data-panel" id="database-preview" aria-labelledby="accessory-data-title">
+    <SectionHeader id="accessory-data-title" eyebrow="Live database" title="Verified Accessories" description="A compact preview sourced from the current accessories database." />
+    <HubEntryGrid entries={previewEntries} />
+    <nav class="hub-link-strip" aria-label="Accessory acquisition links"><a href="/accessories/accessory-gacha">Accessory Gacha</a><a href="/accessories/how-to-get-accessories">Acquisition Guide</a><a href="/database/accessories">Browse All Accessories</a></nav>
+    <Table columns={columns} rows={rows} caption="Verified accessory records" />
+    <a class="panel-action" href="/database/accessories">Open complete accessories database →</a>
+  </section>
+  <WikiArticleContent category={category.slug} slug="index" entry={entry} variant="hub" />
+  <section aria-labelledby="planned-pages"><SectionHeader id="planned-pages" eyebrow={category.navLabel} title={`${category.navLabel} Pages`} /><div class="topic-grid">{category.l3.map((page) => <Card title={page.h1} description={page.description} href={`/${category.slug}/${page.slug}`} eyebrow={category.navLabel} />)}</div></section>
+  <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database">Database</a></li><li><a href="/guides">Guides</a></li><li><a href="/tier-list">Tier List</a></li></ul></section>
+</WikiHubShell>
+
+<style>
+  .hub-data-panel { padding: 1.2rem; border: 1px solid var(--color-border); border-radius: 14px; background: linear-gradient(145deg, #fff, #f6f8fb); box-shadow: var(--shadow-card); scroll-margin-top: 8rem; }
+  .panel-action { display: inline-flex; margin-top: .85rem; color: var(--color-accent-dark); font-size: .78rem; font-weight: 850; text-decoration: none; }
+  .topic-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin-top: 1rem; }
+  @media (max-width: 640px) { .hub-data-panel { padding: .8rem; } .topic-grid { grid-template-columns: 1fr; } }
+</style>

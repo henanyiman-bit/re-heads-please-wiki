@@ -1,0 +1,29 @@
+---
+import KeywordPageView from "../../components/KeywordPage.astro";
+import {
+  getKeywordPagePaths,
+  type KeywordCategory,
+  type KeywordPage,
+} from "../../lib/keywords";
+
+export function getStaticPaths() {
+  const categorySpecificRoutes = ["items", "coins", "accessories"];
+  const staticRouteSlugs: Record<string, Set<string>> = {
+    guides: new Set(["beginner-guide", "farming-guide", "game-mechanics", "progression-guide", "tips-and-tricks"]),
+    database: new Set(["items", "coins", "accessories", "value-list"]),
+  };
+
+  return getKeywordPagePaths(categorySpecificRoutes).filter(({ params }) =>
+    !staticRouteSlugs[params.category]?.has(params.slug),
+  );
+}
+
+interface Props {
+  category: KeywordCategory;
+  page: KeywordPage;
+}
+
+const { category, page } = Astro.props;
+---
+
+<KeywordPageView category={category} page={page} />

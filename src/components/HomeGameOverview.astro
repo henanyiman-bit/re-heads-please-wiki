@@ -1,0 +1,67 @@
+<section class="game-overview" aria-labelledby="game-overview-title">
+  <div class="game-overview__copy">
+    <span>About RE:Heads, Please!</span>
+    <h2 id="game-overview-title">A collection and progression Roblox experience</h2>
+    <h3>What is RE:Heads, Please?</h3>
+    <p>
+      RE:Heads, Please! is a Roblox experience built around collecting recognizable records, moving through progression systems, and deciding how to use the resources a player finds. Items, coins, accessories, traversal tools, and other visible game elements create several different questions: what an entry is, where it belongs, how it can be obtained, and whether the information still matches the live game. The experience rewards careful discovery as much as quick action. A player may arrive looking for one collectible and then need a guide, a database field, or a related entry to understand the next step. Because interfaces and availability can change, exact requirements should always be checked against the latest in-game information.
+    </p>
+    <h3>Gameplay and progression</h3>
+    <p>
+      The main play loop connects exploration, collection, and progression. Players can identify items and accessories, review coin records, follow visible acquisition prompts, and use the game’s current menus to understand how a resource fits their account. Some goals are practical, such as finding an entry or learning a control; others involve comparison, collection completion, or planning which system to investigate next. The wiki separates those goals so a broad overview does not get confused with an exact entity record. It also avoids presenting an editorial tier, an old screenshot, or an unconfirmed value as a permanent game rule. When a mechanic is unclear, the safest approach is to observe the current label, requirement, and result before making a limited-resource decision.
+    </p>
+    <h3>What this Wiki provides</h3>
+    <p>
+      The RE:Heads, Please! Wiki is a navigation and reference layer for that experience. The Codes section explains working-status checks, redemption, expiration, and common problems without inventing code strings. Items, Coins, and Accessories provide focused database records with local images, verification state, acquisition notes, and related pages. Guides cover beginner steps, farming, progression, controls, and game mechanics, while the Tier List hub explains comparisons and their limits. Start with the section that matches your immediate question, use the database search when you know an entity name, and follow related links when the question changes. This structure keeps each page focused while giving readers a clear path from a quick answer to deeper supporting context.
+    </p>
+  </div>
+  <aside class="game-overview__info" aria-label="Game information">
+    <div class="game-overview__info-head">
+      <span class="game-overview__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+      </span>
+      <strong>Game Information</strong>
+    </div>
+    <dl>
+      <div><dt>Game Type</dt><dd>Roblox Experience</dd></div>
+      <div><dt>Content</dt><dd><span>Collection</span><span>Progression</span><span>Database</span></dd></div>
+      <div><dt>Wiki Features</dt><dd><span>Codes</span><span>Items</span><span>Guides</span><span>Tier List</span></dd></div>
+    </dl>
+    <div class="game-overview__reasons">
+      <strong>Why Use This Wiki</strong>
+      <nav aria-label="Why use this wiki">
+        <a href="/codes/working-codes">Find Working Codes <span aria-hidden="true">→</span></a>
+        <a href="/items">Compare Items <span aria-hidden="true">→</span></a>
+        <a href="/database">Check Database <span aria-hidden="true">→</span></a>
+        <a href="/guides/progression-guide">Learn Progression <span aria-hidden="true">→</span></a>
+      </nav>
+    </div>
+  </aside>
+</section>
+
+<style>
+  .game-overview { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr); gap: clamp(1.2rem, 3vw, 2rem); align-items: stretch; margin: 0 0 4rem; padding: clamp(1.3rem, 3vw, 2rem); border: 1px solid var(--color-border); border-top: 3px solid var(--color-accent); border-radius: 18px; background: linear-gradient(135deg, #fff, #f5f8fb); box-shadow: var(--shadow-card); }
+  .game-overview__copy { min-width: 0; }
+  .game-overview__copy > span { display: block; color: var(--color-accent); font-size: .64rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { max-width: 700px; margin: .4rem 0 .75rem; font-size: clamp(1.5rem, 3vw, 2rem); }
+  .game-overview__copy h3 { margin: 1.1rem 0 .35rem; color: var(--color-ink); font-size: .98rem; }
+  .game-overview__copy h3:first-of-type { margin-top: .25rem; }
+  .game-overview__copy p { max-width: 760px; margin: 0; color: var(--color-muted); font-size: .95rem; line-height: 1.72; }
+  .game-overview__info { min-width: 0; padding: 1rem; border: 1px solid var(--color-border); border-radius: 13px; background: #fff; box-shadow: 0 10px 24px rgba(19,31,50,.06); }
+  .game-overview__info-head { display: flex; align-items: center; gap: .65rem; padding-bottom: .8rem; border-bottom: 1px solid var(--color-border); }
+  .game-overview__icon { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 10px; background: #101a2a; color: #fff; }
+  .game-overview__icon svg { width: 21px; height: 21px; }
+  .game-overview__info-head strong { color: var(--color-ink); font-size: .84rem; }
+  dl { display: grid; gap: .65rem; margin: .8rem 0 0; }
+  dl div { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: .7rem; align-items: start; }
+  dt { color: var(--color-muted); font-size: .64rem; font-weight: 800; }
+  dd { display: flex; min-width: 0; flex-wrap: wrap; gap: .3rem; margin: 0; color: var(--color-ink); font-size: .68rem; font-weight: 800; }
+  dd span { padding: .18rem .34rem; border-radius: 5px; background: var(--color-soft); white-space: nowrap; }
+  .game-overview__reasons { margin-top: .85rem; padding-top: .75rem; border-top: 1px solid var(--color-border); }
+  .game-overview__reasons > strong { display: block; margin-bottom: .45rem; color: var(--color-ink); font-size: .7rem; }
+  .game-overview__reasons nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .35rem; }
+  .game-overview__reasons a { display: flex; min-width: 0; min-height: 32px; align-items: center; justify-content: space-between; gap: .35rem; padding: .34rem .42rem; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-soft); color: var(--color-text); font-size: .6rem; font-weight: 800; text-decoration: none; }
+  .game-overview__reasons a:hover { border-color: rgba(195,50,37,.35); color: var(--color-accent-dark); }
+  @media (max-width: 768px) { .game-overview { grid-template-columns: 1fr; margin-bottom: 3rem; padding: 1.1rem; } }
+  @media (max-width: 390px) { dl div { grid-template-columns: 76px minmax(0, 1fr); gap: .5rem; } }
+</style>

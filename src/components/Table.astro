@@ -1,0 +1,27 @@
+---
+interface Column { key: string; label: string; hrefKey?: string; }
+interface Props { columns: Column[]; rows: Record<string, string>[]; caption?: string; emptyMessage?: string; id?: string; }
+const { columns, rows, caption, emptyMessage = "No entries have been added yet.", id } = Astro.props;
+---
+<div class="table-wrap" tabindex="0" role="region" aria-label={caption ?? "Wiki data table"}>
+  <table id={id}>
+    {caption && <caption>{caption}</caption>}
+    <thead><tr>{columns.map((column) => <th scope="col">{column.label}</th>)}</tr></thead>
+    <tbody>
+      {rows.length > 0 ? rows.map((row) => <tr data-search-row>{columns.map((column) => (
+        <td>{column.hrefKey && row[column.hrefKey] ? <a href={row[column.hrefKey]}>{row[column.key] || "—"}</a> : row[column.key] || "—"}</td>
+      ))}</tr>) : <tr><td class="empty" colspan={columns.length}>{emptyMessage}</td></tr>}
+    </tbody>
+  </table>
+</div>
+<style>
+  .table-wrap { max-width: 100%; overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); }
+  .table-wrap:focus-visible { outline: 3px solid rgba(180, 35, 24, .2); outline-offset: 2px; }
+  table { width: 100%; min-width: 640px; border-collapse: collapse; background: var(--color-surface); }
+  caption { padding: .8rem 1rem; border-bottom: 1px solid var(--color-border); background: #152238; color: #dce4ef; text-align: left; font-size: .78rem; font-weight: 750; letter-spacing: .04em; }
+  th, td { padding: .9rem 1rem; border-bottom: 1px solid var(--color-border); text-align: left; vertical-align: top; }
+  th { position: sticky; top: 0; z-index: 1; border-bottom-color: var(--color-border-strong); background: #edf1f6; color: #34445b; font-size: .74rem; letter-spacing: .07em; text-transform: uppercase; }
+  tbody tr:last-child td { border-bottom: 0; } tbody tr:nth-child(even) { background: #fafbfd; } tbody tr:hover { background: var(--color-accent-soft); }
+  td a { font-weight: 750; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .empty { color: var(--color-muted); text-align: center; } :global(tr[hidden]) { display: none; }
+</style>

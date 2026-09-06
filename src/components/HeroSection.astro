@@ -1,0 +1,87 @@
+---
+import Badge from "./Badge.astro";
+import { getOptimizedWikiImageSources } from "../lib/wikiImage";
+interface PreviewImage { src: string; alt: string; }
+interface Props { title: string; description: string; kicker?: string; previewImages?: PreviewImage[]; tags?: string[]; verifiedCount?: number; }
+const { title, description, kicker = "Independent game database", previewImages = [], tags = [], verifiedCount = 0 } = Astro.props;
+const previewImage = previewImages[0] ? {
+  ...previewImages[0],
+  sources: getOptimizedWikiImageSources(previewImages[0].src),
+} : undefined;
+---
+<section class="hero-section">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <Badge label={kicker} tone="accent" />
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <p class="hero-scope"><strong>Codes</strong><i></i><strong>Items</strong><i></i><strong>Coins</strong><i></i><strong>Accessories</strong><i></i><strong>Guides</strong></p>
+      {tags.length > 0 && <ul class="hero-tags" aria-label="Game classification">{tags.map((tag) => <li>{tag}</li>)}</ul>}
+      <div class="hero-actions"><slot name="actions" /></div>
+    </div>
+    <aside class="hero-panel" aria-label="RE:Heads, Please! game preview">
+      <div class="preview-visual">
+        {previewImage && (
+          <picture class="preview-picture">
+            {previewImage.sources.avif && <source srcset={previewImage.sources.avif} type="image/avif" />}
+            {previewImage.sources.webp && <source srcset={previewImage.sources.webp} type="image/webp" />}
+            <img class="preview-image" src={previewImage.sources.fallback} alt={previewImage.alt} width="1254" height="1254" loading="eager" decoding="async" fetchpriority="high" />
+          </picture>
+        )}
+        <span class="game-tag">Roblox Experience</span>
+        <div class="preview-copy">
+          <div class="game-logo" aria-label="RE:Heads, Please!">
+            <span aria-hidden="true">RE:</span>
+            <strong>Heads, Please!</strong>
+          </div>
+          <p class="panel-label">Community Wiki Database</p>
+          <ul class="game-categories" aria-label="Game categories"><li>Collection</li><li>Progression</li><li>Database</li></ul>
+          <div class="preview-meta">
+            <span class="status-line"><i aria-hidden="true"></i>Wiki Online</span>
+            <span class="verified-line"><b aria-hidden="true">✓</b>Verified Database · {verifiedCount}</span>
+          </div>
+          <a class="preview-link" href="/database">Explore Database <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+<style>
+  .hero-section { position: relative; overflow: hidden; border-bottom: 1px solid #26364f; background: radial-gradient(circle at 78% 18%, rgba(255,101,77,.13), transparent 28%), #101a2a; color: #fff; }
+  .hero-section::before { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 32px 32px; content: ""; mask-image: linear-gradient(to right, #000, transparent 85%); }
+  .hero-grid { position: relative; display: grid; width: min(100% - 2rem, 1120px); height: 560px; margin: 0 auto; padding: 2rem 0; grid-template-columns: minmax(0, 55fr) minmax(0, 45fr); gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }
+  h1 { max-width: 650px; margin: .9rem 0; color: #fff; font-size: clamp(2.75rem, 5.5vw, 4.25rem); letter-spacing: -.055em; }
+  .hero-copy > p { max-width: 670px; margin: 0; color: #bbc6d8; font-size: clamp(1rem, 2vw, 1.18rem); }
+  .hero-scope { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-top: 1rem !important; color: #eef3fa !important; font-size: .72rem !important; letter-spacing: .025em; }
+  .hero-scope strong { font-weight: 800; }
+  .hero-scope i { width: 3px; height: 3px; border-radius: 50%; background: var(--color-accent-bright); }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1.15rem 0 0; padding: 0; list-style: none; }
+  .hero-tags li { padding: .3rem .55rem; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(255,255,255,.055); color: #aebbd0; font-size: .64rem; font-weight: 800; letter-spacing: .04em; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.7rem; }
+  .hero-actions :global(a) { display: inline-flex; min-height: 44px; align-items: center; padding: .7rem 1rem; border: 1px solid rgba(255,255,255,.2); border-radius: 9px; color: #fff; font-weight: 750; text-decoration: none; }
+  .hero-actions :global(a:first-child) { border-color: var(--color-accent-bright); background: var(--color-accent-bright); color: #17191e; }
+  .hero-actions :global(a:hover) { border-color: #fff; }
+  .hero-panel { position: relative; width: 100%; max-width: 420px; height: 460px; justify-self: end; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 19px; background: #17243a; box-shadow: 0 25px 70px rgba(0,0,0,.3); }
+  .preview-visual { position: relative; width: 100%; max-width: 420px; height: 460px; overflow: hidden; background: #0d1625; }
+  .preview-visual::before { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 24px 24px; content: ""; }
+  .preview-visual::after { position: absolute; z-index: 2; inset: 42% 0 0; background: linear-gradient(transparent, rgba(10,17,29,.9) 58%, #0d1727); content: ""; }
+  .preview-picture { position: relative; z-index: 1; display: block; width: 100%; max-width: 420px; height: 460px; }
+  .preview-image { display: block; width: 100%; max-width: 420px; height: 460px; object-fit: cover; object-position: center; }
+  .game-tag { position: absolute; z-index: 3; top: 1rem; right: 1rem; padding: .36rem .6rem; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; background: rgba(16,26,42,.86); color: #fff; font-size: .62rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; backdrop-filter: blur(8px); }
+  .preview-copy { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; padding: 1.35rem; }
+  .panel-label { margin: 0; color: #bec9d8; font-size: .65rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .game-logo { display: flex; align-items: baseline; gap: .34rem; margin: 0 0 .2rem; color: #fff; letter-spacing: -.025em; }
+  .game-logo > span { color: var(--color-accent-bright); font-size: 1.45rem; font-weight: 950; }
+  .game-logo > strong { font-size: 1.45rem; }
+  .game-categories { display: flex; flex-wrap: wrap; gap: .3rem; margin: .48rem 0 .62rem; padding: 0; list-style: none; }
+  .game-categories li { padding: .18rem .36rem; border: 1px solid rgba(255,255,255,.13); border-radius: 5px; background: rgba(255,255,255,.065); color: #d7dfeb; font-size: .56rem; font-weight: 800; }
+  .preview-meta { display: flex; flex-wrap: wrap; gap: .55rem .85rem; color: #b9c5d6; font-size: .7rem; font-weight: 750; }
+  .status-line { display: inline-flex; align-items: center; gap: .4rem; }
+  .status-line i { width: 8px; height: 8px; border-radius: 50%; background: #51d88a; box-shadow: 0 0 0 4px rgba(81,216,138,.13); }
+  .verified-line { display: inline-flex; align-items: center; gap: .32rem; }
+  .verified-line b { display: grid; width: 16px; height: 16px; place-items: center; border-radius: 50%; background: rgba(255,101,77,.18); color: #ffc1b7; font-size: .58rem; }
+  .preview-link { display: flex; min-height: 40px; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; padding: .58rem .72rem; border: 1px solid rgba(255,255,255,.18); border-radius: 9px; background: rgba(255,255,255,.09); color: #fff; font-size: .74rem; font-weight: 850; text-decoration: none; backdrop-filter: blur(8px); }
+  .preview-link:hover { border-color: var(--color-accent-bright); background: rgba(255,101,77,.14); color: #fff; }
+  @media (max-width: 760px) { .hero-grid { height: auto; padding: 2.5rem 0 3rem; grid-template-columns: 1fr; gap: 1.6rem; } .hero-panel { width: 100%; max-width: 420px; height: min(92vw, 410px); justify-self: start; } h1 { max-width: 10ch; font-size: clamp(2.35rem, 11vw, 3.35rem); } .preview-visual, .preview-picture, .preview-image { height: min(92vw, 410px); } }
+  @media (max-width: 420px) { .hero-actions { display: grid; grid-template-columns: 1fr 1fr; } .hero-actions :global(a) { justify-content: center; padding-inline: .7rem; font-size: .76rem; text-align: center; } }
+</style>

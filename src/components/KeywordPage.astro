@@ -1,0 +1,66 @@
+---
+import WikiLayout from "../layouts/WikiLayout.astro";
+import WikiArticleContent from "./WikiArticleContent.astro";
+import TopicArticleFallback from "./TopicArticleFallback.astro";
+import Badge from "./Badge.astro";
+import {
+  getKeywordInternalLinks,
+  type KeywordCategory,
+  type KeywordPage,
+} from "../lib/keywords";
+import { getWikiArticleEntry, isArticleEntry } from "../lib/wikiContent";
+
+interface Props {
+  category: KeywordCategory;
+  page: KeywordPage;
+}
+
+const { category, page } = Astro.props;
+const articleEntry = await getWikiArticleEntry(category.slug, page.slug);
+const internalLinks = getKeywordInternalLinks(category, page);
+---
+
+<WikiLayout
+  title={page.title}
+  description={page.description}
+  keywords={[page.keyword, ...page.variants]}
+  image={articleEntry?.data.cover || undefined}
+  pageType={isArticleEntry(articleEntry) ? "article" : "website"}
+>
+  <article class="page-shell article-shell">
+    <header class="article-heading">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href={`/${category.slug}`}>{category.navLabel}</a></li>
+          <li aria-current="page">{page.h1}</li>
+        </ol>
+      </nav>
+      <div class="article-labels"><Badge label={category.navLabel} tone="accent" /><Badge label={`Priority ${page.priority}`} /></div>
+      <h1>{page.h1}</h1>
+      <p class="page-intro">{page.description}</p>
+    </header>
+    <WikiArticleContent category={category.slug} slug={page.slug} entry={articleEntry}>
+      <TopicArticleFallback category={category} page={page} internalLinks={internalLinks} />
+    </WikiArticleContent>
+
+    {articleEntry && <section class="related-pages">
+      <h2>Related Pages</h2>
+      <ul class="related-links">
+        <li><a href={`/${category.slug}`}>All {category.navLabel} pages</a></li>
+        {internalLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </section>}
+  </article>
+</WikiLayout>
+
+<style>
+  .article-heading { max-width: 820px; padding-bottom: 1.8rem; border-bottom: 1px solid var(--color-border); }
+  .article-labels { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .85rem; }
+  .breadcrumbs { margin-bottom: 1.4rem; color: var(--color-muted); font-size: .88rem; }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
+  .breadcrumbs li:not(:last-child)::after { margin-left: .45rem; color: #9aa0a6; content: "/"; }
+  .breadcrumbs a { color: var(--color-muted); text-decoration: none; }
+  .breadcrumbs a:hover { color: var(--color-accent); }
+  @media (max-width: 640px) { .article-heading { padding-bottom: 1.25rem; } .breadcrumbs li[aria-current="page"] { display: none; } }
+</style>

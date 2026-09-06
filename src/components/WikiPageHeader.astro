@@ -1,0 +1,18 @@
+---
+import Badge from "./Badge.astro";
+interface Props { title: string; description: string; label: string; }
+const { title, description, label } = Astro.props;
+---
+<header class="wiki-page-header">
+  <Badge label={label} tone="accent" />
+  <h1>{title}</h1>
+  <p class="page-intro">{description}</p>
+</header>
+<style>
+  .wiki-page-header { position: relative; margin: calc(clamp(1.5rem, 3.5vw, 2.6rem) * -1) calc(clamp(1.5rem, 3.5vw, 2.6rem) * -1) 2rem; padding: clamp(1.6rem, 4vw, 2.7rem); overflow: hidden; border-bottom: 1px solid var(--color-border); border-radius: 18px 18px 0 0; background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%); }
+  .wiki-page-header::after { position: absolute; right: -38px; bottom: -54px; width: 150px; height: 110px; transform: rotate(12deg); border: 18px solid var(--color-accent-soft); border-radius: 28px; content: ""; }
+  h1, p, :global(.badge) { position: relative; z-index: 1; }
+  h1 { max-width: 850px; margin-top: .8rem; }
+  p { margin-bottom: 0; }
+  @media (max-width: 720px) { .wiki-page-header { margin: -1rem -1rem 1.5rem; padding: 1.3rem 1rem 1.5rem; border-radius: 14px 14px 0 0; } }
+</style>

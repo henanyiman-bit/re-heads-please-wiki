@@ -1,0 +1,18 @@
+---
+import WikiLayout from "../../../layouts/WikiLayout.astro";
+import SearchBox from "../../../components/SearchBox.astro";
+import Table from "../../../components/Table.astro";
+import WikiPageHeader from "../../../components/WikiPageHeader.astro";
+import { getAccessories, getEntryPath } from "../../../lib/data";
+const rows = getAccessories().map((item) => ({ ...item, detailUrl: getEntryPath("accessories", item) })) as Record<string, string>[];
+const columns = [{ key: "name", label: "Accessory", hrefKey: "detailUrl" }, { key: "rarity", label: "Rarity" }, { key: "value", label: "Value" }, { key: "location", label: "Location" }, { key: "tier", label: "Tier" }, { key: "description", label: "Description" }];
+---
+<WikiLayout title="RE:Heads, Please! Accessories Database - Values & Rarity" description="Browse RE:Heads, Please! accessories with values, rarity, locations, tiers and descriptions.">
+  <article class="page-shell">
+    <WikiPageHeader label="Database" title="Accessories Database" description="Search accessory information, including rarity, values and known acquisition locations." />
+    <section class="database-explainer" aria-labelledby="accessories-database-guide"><h2 id="accessories-database-guide">How to use the Accessories Database</h2><p>Use this page for a verified accessory lookup: search the exact name, compare documented fields, and open the entity record that matches the current game. Questions about rolling, tickets, or equipping are separate guide intents and should be followed through the related accessory pages rather than inferred from a short table row.</p><h3>Reading accessory rows</h3><p>The table separates rarity, value, location, tier, and description so readers can compare one field at a time. It does not publish hidden roll rates or treat rarity as proof of power. Search filters the six verified accessory records currently available. A missing value or location remains a visible data gap until it can be confirmed from the game.</p></section>
+    <SearchBox target="#accessories-table" placeholder="Search accessories, rarity or tiers…" label="Search accessories" />
+    <Table id="accessories-table" columns={columns} rows={rows} caption="RE:Heads, Please! accessory information" emptyMessage="Accessory data is being verified and will be added soon." />
+    <section class="related-pages"><h2>Related Pages</h2><ul class="related-links"><li><a href="/database/items">Items</a></li><li><a href="/database/value-list">Value List</a></li><li><a href="/tier-list">Tier List</a></li></ul></section>
+  </article>
+</WikiLayout>

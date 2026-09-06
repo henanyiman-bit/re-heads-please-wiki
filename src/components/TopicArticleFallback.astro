@@ -1,0 +1,160 @@
+---
+import type { KeywordCategory, KeywordPage, KeywordInternalLink } from "../lib/keywords";
+
+interface Props {
+  category: KeywordCategory;
+  page: KeywordPage;
+  internalLinks: KeywordInternalLink[];
+}
+
+const { category, page, internalLinks } = Astro.props;
+const topic = page.h1.replace(/^RE:Heads, Please!\s*/i, "");
+const verification = "Check the latest in-game information whenever the current interface does not confirm a detail.";
+const topicSeed = [...page.slug].reduce((total, character) => total + character.charCodeAt(0), 0);
+const outlineFocus = page.outline.length ? page.outline : [topic];
+const scopeSummary = outlineFocus.slice(0, 3).join(", ");
+const variationNotes = [
+  `A useful review starts by recording the exact screen where ${topic} appears and the action that opened it. That makes the observation easier to repeat after an update.`,
+  `Keep a short before-and-after note for ${topic}. A visible state change is stronger evidence than memory, an isolated screenshot, or a label copied without context.`,
+  `If two observations about ${topic} disagree, compare game version, device, progression stage, and visible prerequisites before deciding that either one represents a permanent rule.`,
+  `Separate discovery from evaluation: first confirm that ${topic} exists in the current interface, then decide which documented field answers the player’s actual question.`,
+  `Use one test action at a time when checking ${topic}. Combining a claim, equipment change, reward collection, and menu change can hide which action produced the result.`,
+  `The updated date is a review signal for ${topic}, not a guarantee. A live interface difference should be documented as a new verification task rather than explained with a guess.`,
+  `For planning purposes, compare ${topic} against one goal at a time. Collection, progression, convenience, appearance, and value context can lead to different valid decisions.`,
+  `A missing field for ${topic} should remain visibly unknown. Preserving that gap protects readers from treating an estimate as official or verified game information.`,
+  `When following a related page from ${topic}, check that the next URL answers a different question. This keeps the current article focused and prevents duplicated search intent.`,
+  `Names alone rarely explain every condition around ${topic}. Read the nearby prompt, requirement, status message, and resulting account state before drawing a conclusion.`,
+  `Avoid converting a temporary event, one-session observation, or player preference into a universal claim about ${topic}. State only what the available evidence supports.`,
+  `If ${topic} affects a limited resource, pause before spending while the result is uncertain. Confirm the relevant field and acquisition or unlock condition in the current game first.`,
+];
+
+const sectionsByCategory: Record<string, { id: string; heading: string; body: string }[]> = {
+  items: [
+    { id: "item-overview", heading: "Item Overview", body: `${topic} is an item-focused reference within the RE:Heads, Please! wiki. Use it to answer one defined question about the named item, item group, or inventory topic. Keep an entity record separate from a broader collection guide, and treat missing values, tiers, or requirements as unknown rather than filling them with estimates.` },
+    { id: "appearance", heading: "Appearance", body: `Identify ${topic} by the exact label and visual shown in the current game. An image can help with recognition, but it does not prove rarity, function, value, or availability. Compare the current icon or model with the relevant verified entry and avoid adding color, animation, or variant claims that the database does not document.` },
+    { id: "how-to-get", heading: "How To Get", body: `Follow only acquisition information that the current game displays through a menu, reward, location, code result, event, or progression step. Record the visible prerequisite and the result separately. If an older route no longer appears, do not assume that it remains active. ${verification}` },
+    { id: "usage", heading: "Usage", body: `Read the in-game description before using or spending ${topic}. A tier or value field is reference context, not a promise that an item is best for every player. Compare the item against one goal at a time, such as collection, progression, convenience, or resource planning, and confirm the effect after the action.` },
+    { id: "information-table", heading: "Information Table", body: `A useful item table separates name, rarity, value, tier, location, acquisition, and update date. Search for the exact term first, then compare fields across records using the same definitions. Blank fields should remain visible as verification gaps so readers can distinguish confirmed information from details that still need review.` },
+  ],
+  coins: [
+    { id: "coin-overview", heading: "Coin Overview", body: `${topic} covers one coin-related search intent in RE:Heads, Please!. The page should help a player identify the relevant coin, system, or collection question without blending it into every currency topic. Use the exact in-game name and keep documented observations separate from assumptions about hidden mechanics.` },
+    { id: "location", heading: "Location", body: `A location or source is useful only when another player can follow it in the current game. Note the visible menu, area, reward screen, or progression condition that leads to the coin. Do not convert an old observation into a permanent location claim. ${verification}` },
+    { id: "collection", heading: "Collection Information", body: `Confirm collection progress through the current inventory or collection interface. Record a new entry only after its name and resulting state are visible. Rarity, source, value, and ownership answer different questions; one field should not be used to infer the others. Keep uncertain availability clearly marked.` },
+    { id: "comparison", heading: "Comparison", body: `Compare ${topic} with related coins using consistent fields rather than a broad “better” label. Decide whether the comparison concerns documented value, rarity, acquisition effort, collection status, or progression relevance. Avoid invented profit, probability, and ranking numbers. A fair comparison also records when one side lacks verified information.` },
+    { id: "related-coins", heading: "Related Coins", body: `Use related coin pages to move from this topic to a specific verified record or a focused guide. The complete coin list supports discovery, while value, rarity, and acquisition pages explain individual fields. Returning to the Coins hub is the safest way to explore without merging several search intents into this page.` },
+  ],
+  accessories: [
+    { id: "accessory-overview", heading: "Accessory Overview", body: `${topic} is an accessory-specific reference for RE:Heads, Please!. It focuses on the named accessory, accessory group, or acquisition question represented by this URL. Check the exact in-game label before connecting a record to rarity, value, appearance, or an unlock method.` },
+    { id: "unlock-method", heading: "Unlock Method", body: `Use the visible requirement, menu, ticket, event, or progression prompt as the starting evidence for an unlock. Record what was required and what changed after the action. Do not assume that an older route or limited source is still active. ${verification}` },
+    { id: "rarity", heading: "Rarity", body: `Rarity is a recorded classification, not an automatic measure of strength, value, roll probability, or player preference. Match the label exactly and keep it separate from tier discussion. If the live interface and the wiki disagree, use the game for the immediate decision and mark the record for review.` },
+    { id: "collection-guide", heading: "Collection Guide", body: `For a gacha or rolling decision, confirm the current pool and visible resource requirement before acting. The wiki does not infer exact odds or guarantees when they are not verified. Track collection progress by name, avoid spending based on an unsupported screenshot, and compare duplicate or inventory behavior only after observing it.` },
+    { id: "related-accessories", heading: "Related Accessories", body: `Related accessory pages help compare verified records without turning this article into a complete catalog. Use the accessory database for entity lookup, the rarity and value pages for field definitions, and the acquisition guides for process questions. This keeps ${topic} focused on one primary intent.` },
+  ],
+  guides: [
+    { id: "guide-summary", heading: "Guide Summary", body: `${topic} is a practical RE:Heads, Please! guide for one player goal. Start by identifying the result you want and the current interface that supports it. This guide avoids hidden rates, guaranteed outcomes, and fixed costs that have not been verified.` },
+    { id: "requirements", heading: "Requirements", body: `Before starting, confirm the visible menu, area, resource, equipment, or progression condition involved. Keep a reserve of limited resources when the result is uncertain. Requirements can change after an update, so an older screenshot or remembered route should not override the current game.` },
+    { id: "steps", heading: "Steps", body: `Work through ${topic} one action at a time. Record the starting state, perform one change, and inspect the response before moving on. Separating actions makes it easier to identify which step produced the result and prevents an unrelated reward or equipment change from confusing the test.` },
+    { id: "tips", heading: "Tips", body: `Use exact labels, compare like with like, and stop before spending an important resource on an unconfirmed assumption. If another player reports a different outcome, compare version, device, progression state, and visible prerequisites. ${verification}` },
+  ],
+  database: [
+    { id: "database-overview", heading: "Database Overview", body: `${topic} is a focused lookup page within the RE:Heads, Please! database. It explains how to interpret a field, index, or record group without inventing missing game data. Entity pages hold verified records; index pages explain how those records can be found and compared.` },
+    { id: "table-explanation", heading: "Table Explanation", body: `Database tables separate names, categories, rarity, value, tier, source or location, acquisition notes, and update status. Not every category uses every field. An empty cell is a documented gap, not permission to estimate a value. Open the linked entity page for the context behind a row.` },
+    { id: "search-intent", heading: "Search Intent", body: `Use ${topic} when the question matches this page’s exact index purpose. Use Items, Coins, or Accessories for an individual entity; use the Value List for a cross-category value view; and use a Guide when the question asks for a process. This separation prevents one database URL from competing with several unrelated intents.` },
+    { id: "verification", heading: "Verification Rules", body: `A reliable database statement should be visible in the current game, repeatable under the same visible conditions, or clearly marked unconfirmed. Dates indicate when a record was reviewed, not a guarantee that nothing changed later. ${verification}` },
+    { id: "related-databases", heading: "Related Pages", body: `Move to a related database only when the next question changes. Category indexes support browsing, entity pages support exact lookup, and update or verification pages explain data status. Keeping those jobs separate makes search results clearer and preserves one primary keyword for each URL.` },
+  ],
+  codes: [
+    { id: "quick-answer", heading: "Quick Answer", body: `${topic} covers one code-related question for RE:Heads, Please!. A code claim is useful only after the current game accepts or rejects the exact entry. This page does not create code strings, rewards, or expiration dates that have not been verified.` },
+    { id: "current-status", heading: "Current Status", body: `Code status can change after an update or expiration. Treat the current redemption response as the strongest immediate signal and use the page’s review date as context rather than a permanent guarantee. ${verification}` },
+    { id: "available-information", heading: "Available Information", body: `Record the exact text, the time checked, the response shown, and any visible inventory or balance change. Keep acceptance, reward identity, and eligibility as separate facts. An old list or screenshot cannot confirm that every account receives the same current result.` },
+    { id: "how-to-redeem", heading: "How To Redeem", body: `Open the current code-entry control, enter one code exactly, remove accidental spaces, and read the full response. Do not change several account states at once if the result needs verification. Follow current in-game labels when an older guide shows a different menu.` },
+    { id: "step-by-step", heading: "Step By Step", body: `Note the starting balance or inventory, submit one entry, capture the response for your own comparison, then inspect the relevant account view. If no visible change appears, leave the reward unresolved. Repeating an entry may produce a prior-use message without identifying the original reward.` },
+    { id: "common-problems", heading: "Common Problems", body: `Spelling, capitalization, expiration, eligibility, prior redemption, or stale session state can explain a failed attempt. Test one cause at a time. Never treat an unverified title, thumbnail, or copied list as proof that a code currently works.` },
+  ],
+  "tier-list": [
+    { id: "ranking-summary", heading: "Ranking Summary", body: `${topic} explains one ranking question for RE:Heads, Please!. A tier is an editorial comparison built from stated criteria, not an official guarantee. Readers should know whether a rank concerns collection, progression, value context, acquisition, or another specific goal.` },
+    { id: "criteria", heading: "Comparison Criteria", body: `Use the same verified fields for every entry being compared. Rarity, value, source, tier, and availability are not interchangeable. When a field is missing, reduce confidence instead of inventing a score. Check the latest in-game information after meaningful updates.` },
+    { id: "using-the-ranking", heading: "How To Use This Ranking", body: `Start with your own goal, then read the reason behind a placement. A high rank for one stage or purpose may not apply to another. Open the linked entity and database pages before spending a limited resource or changing a progression plan.` },
+    { id: "limits", heading: "Ranking Limits", body: `The wiki cannot confirm hidden rates or permanent balance rules that the game does not expose. Rankings should change when verified evidence changes. Treat preference and appearance as player choices rather than universal performance facts.` },
+  ],
+};
+
+const sections = sectionsByCategory[category.slug] ?? sectionsByCategory.guides;
+const contextPatterns = [
+  (focus: string) => `For the ${focus.toLowerCase()} part of this topic, begin with the exact wording visible on the current screen. Record what the player can see before an action and what changes afterward. That narrow comparison helps this ${topic} page answer its own question without borrowing conclusions from a broader guide.`,
+  (focus: string) => `${focus} is included here because it supports the search intent behind ${page.keyword}. Treat it as a checkpoint: identify the relevant menu or record, confirm the visible condition, and leave any unsupported rate, cost, or result unfilled until it can be reproduced.`,
+  (focus: string) => `A reader checking ${focus.toLowerCase()} should separate identification from judgment. First match the current name, category, prompt, or status. Then compare only the documented fields that matter to ${topic}; a missing field is evidence that another check is needed, not evidence for a likely answer.`,
+  (focus: string) => `Use ${focus.toLowerCase()} to decide whether this page still matches the live experience. A changed button, requirement, source, or result can narrow the verification task. It should not be generalized into a new rule until the same conditions and outcome are clear.`,
+  (focus: string) => `The practical question behind ${focus.toLowerCase()} is whether a player can act on the information safely. If the answer depends on an unverified resource, probability, event window, or account condition, pause and consult the current game rather than treating this article as a permanent promise.`,
+  (focus: string) => `When reviewing ${focus.toLowerCase()}, keep the page’s updated context and its primary keyword together. The goal is not to repeat every fact in the Wiki, but to give ${topic} a distinct, testable answer and a clear route to the next related page when the player’s question changes.`,
+];
+const faqAnswerFor = (question: string, index: number) => {
+  if (/when|recheck|change|updated/i.test(question)) return `${topic} should be rechecked after a relevant game update, when the visible interface differs from this page, or before a decision involving a limited resource. The page date provides review context, while the current in-game result remains the immediate reference.`;
+  if (/how|get|unlock|use|find/i.test(question)) return `Start with the exact ${topic} label and follow the current visible menu, location, requirement, or feedback one step at a time. Confirm the result before continuing, and leave any missing requirement unresolved rather than filling it with an estimate.`;
+  if (/best|value|compare|worth|rarity/i.test(question)) return `Compare ${topic} only through fields that are documented for the same purpose. Rarity, value, availability, progression usefulness, and preference answer different questions, so one should not be used as proof of another.`;
+  return `This page focuses on ${topic} through ${outlineFocus[index % outlineFocus.length].toLowerCase()}. Use the current RE:Heads, Please! interface to verify its exact label, requirement, and result, and move to a related page when the question changes.`;
+};
+const bodyFaq = [
+  ...page.faq,
+  `How should a player use this ${topic} page?`,
+  `What evidence is useful when checking ${topic}?`,
+];
+---
+
+<div class="topic-article" data-article-type={category.slug}>
+  <aside class="quick-note" aria-label="Verification note">
+    <strong>Reference approach</strong>
+    <p>This page answers one focused search intent and keeps unknown game details explicitly unconfirmed.</p>
+  </aside>
+
+  <section id="introduction">
+    <h2>{category.slug === "guides" ? "Introduction" : "Summary"}</h2>
+    <p>{page.description}</p>
+    <p>The page is intentionally limited to {scopeSummary}. Its primary intent is <strong>{page.intent}</strong>, so it explains the decision implied by {page.keyword} without turning the article into a complete category index. Use the linked hub when the question becomes broader.</p>
+  </section>
+
+  <nav class="topic-toc" aria-labelledby="topic-toc-title">
+    <h2 id="topic-toc-title">On This Page</h2>
+    <ol>{sections.map((section) => <li><a href={`#${section.id}`}>{section.heading}</a></li>)}</ol>
+  </nav>
+
+  {sections.map((section, index) => {
+    const focus = outlineFocus[(topicSeed + index) % outlineFocus.length];
+    const context = contextPatterns[(topicSeed + index * 3) % contextPatterns.length](focus);
+    return <section id={section.id}><h2>{section.heading}</h2><p>{section.body}</p><p>{context}</p><p class="context-note">{variationNotes[(topicSeed + index * 5) % variationNotes.length]}</p></section>;
+  })}
+
+  {category.slug === "guides" && <section id="mistakes"><h2>Common Mistakes</h2><p>A common mistake is treating {topic} as a fixed sequence even when the current menu, platform, progression state, or visible requirement differs. Another is changing several things at once and then attributing the result to the wrong step. Return to the last confirmed state, repeat one action, and read the complete response before continuing.</p><p>Avoid spending a limited resource simply because an older route or broad recommendation appears familiar. Confirm {outlineFocus[0].toLowerCase()} first, keep uncertain outcomes separate from verified steps, and use the related guides only when they answer a different part of the goal.</p></section>}
+
+  {category.slug === "codes" && page.slug === "code-rewards" && <section id="reward-verification"><h2>Reward Verification</h2><p>A complete reward check separates three stages. First, the current game must recognize the exact code. Second, the response must indicate whether the submission succeeded, failed, expired, or was previously used. Third, the player should confirm a visible change in the relevant inventory, balance, or collection view. A success message without an identifiable result is not enough to name a specific reward.</p><p>No formal code dataset is published in this project, so this page intentionally avoids listing a code string, amount, expiration time, or reward that cannot be verified. When a result appears, match its exact name to an existing Items, Coins, or Accessories record. If there is no matching verified entry, keep the reward description limited to what the current interface actually shows.</p><div class="topic-table-wrap"><table><thead><tr><th>Check</th><th>Useful evidence</th><th>Limit</th></tr></thead><tbody><tr><td>Acceptance</td><td>The current redemption response</td><td>Does not identify every reward by itself</td></tr><tr><td>Inventory</td><td>A visible new entry or changed count</td><td>Requires a before-and-after comparison</td></tr><tr><td>Database match</td><td>An exact verified entity name</td><td>Does not prove a code remains active</td></tr><tr><td>Older media</td><td>Historical context only</td><td>Cannot confirm current status</td></tr></tbody></table></div><p>When evidence is incomplete, use the Codes hub to check status, the redemption guide to review the entry process, and the relevant database category to identify a confirmed result. This keeps the page useful without turning an unverified claim into game data.</p></section>}
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <div class="topic-faq">
+      {bodyFaq.map((question, index) => <article><h3>{question}</h3><p>{faqAnswerFor(question, index)}</p></article>)}
+    </div>
+  </section>
+
+  <section id="related-topic-links">
+    <h2>{category.slug === "items" ? "Related Items" : category.slug === "coins" ? "Related Coins" : category.slug === "accessories" ? "Related Accessories" : category.slug === "codes" ? "Related Codes" : "Related Pages"}</h2>
+    <ul>{internalLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+  </section>
+</div>
+
+<style>
+  .quick-note { margin: 1.5rem 0; padding: 1rem 1.1rem; border: 1px solid rgba(195,50,37,.2); border-left: 4px solid var(--color-accent); border-radius: 0 10px 10px 0; background: var(--color-accent-soft); }
+  .quick-note strong { color: var(--color-accent-dark); }
+  .quick-note p { margin: .35rem 0 0; }
+  .topic-toc { padding: 1rem 1.1rem; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-soft); }
+  .topic-toc h2 { margin-top: 0; }
+  .topic-toc ol { columns: 2; }
+  .topic-article section { scroll-margin-top: 9rem; }
+  .context-note { padding-left: .9rem; border-left: 3px solid var(--color-border); color: var(--color-muted); }
+  .topic-faq { display: grid; gap: .65rem; }
+  .topic-table-wrap { max-width: 100%; overflow-x: auto; }
+  .topic-table-wrap table { min-width: 620px; }
+  .topic-faq article { padding: 1rem; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-soft); }
+  .topic-faq h3, .topic-faq p { margin: 0; }
+  .topic-faq p { margin-top: .4rem; }
+  @media (max-width: 640px) { .topic-toc ol { columns: 1; } }
+</style>

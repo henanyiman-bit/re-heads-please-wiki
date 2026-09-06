@@ -1,0 +1,85 @@
+---
+const searches = [
+  {
+    title: "Working Codes",
+    description: "Check the RE:Heads, Please! Codes reference before entering a reward code.",
+    href: "/codes/working-codes",
+    action: "Check codes",
+  },
+  {
+    title: "Items Database",
+    description: "Browse verified RE:Heads, Please! Items and open each available record.",
+    href: "/items",
+    action: "Browse items",
+  },
+  {
+    title: "Coins Collection",
+    description: "Compare the coin records currently published in the collection database.",
+    href: "/coins",
+    action: "View coins",
+  },
+  {
+    title: "Accessories Database",
+    description: "Find verified accessory records and their available acquisition notes.",
+    href: "/accessories",
+    action: "View accessories",
+  },
+  {
+    title: "Beginner Guide",
+    description: "Start with the RE:Heads, Please! Roblox progression and gameplay basics.",
+    href: "/guides/beginner-guide",
+    action: "Start here",
+  },
+  {
+    title: "Tier List",
+    description: "Open the comparison hub for rankings, methodology, and category references.",
+    href: "/tier-list",
+    action: "Compare entries",
+  },
+];
+---
+
+<section class="popular-searches" aria-labelledby="popular-searches-title">
+  <header>
+    <div>
+      <span>Popular searches</span>
+      <h2 id="popular-searches-title">Find Your Next Wiki Page</h2>
+    </div>
+    <p>Direct paths to the RE:Heads, Please! Wiki pages players use for rewards, records, guides, and comparisons.</p>
+  </header>
+  <div class="popular-searches__grid">
+    {searches.map((search, index) => (
+      <a class="search-intent-card" href={search.href}>
+        <span class="search-intent-card__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        <div><h3>{search.title}</h3><p>{search.description}</p></div>
+        <strong>{search.action} <span aria-hidden="true">→</span></strong>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .popular-searches { margin: 0 0 4rem; padding: clamp(1.1rem, 2.5vw, 1.6rem); border: 1px solid var(--color-border); border-radius: 17px; background: linear-gradient(145deg, #fff, #f5f8fb); box-shadow: var(--shadow-card); }
+  header { display: grid; grid-template-columns: minmax(0, .8fr) minmax(260px, .7fr); gap: 1.5rem; align-items: end; margin-bottom: 1rem; }
+  header span { color: var(--color-accent); font-size: .62rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+  h2 { margin: .18rem 0 0; color: var(--color-ink); font-size: clamp(1.35rem, 2vw, 1.75rem); }
+  header p { max-width: 520px; margin: 0; color: var(--color-muted); font-size: .78rem; line-height: 1.55; }
+  .popular-searches__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+  .search-intent-card { position: relative; display: flex; min-width: 0; min-height: 190px; flex-direction: column; padding: 1rem; overflow: hidden; border: 1px solid var(--color-border); border-radius: 13px; background: #fff; color: var(--color-text); text-decoration: none; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .search-intent-card::after { position: absolute; right: -30px; bottom: -38px; width: 95px; height: 95px; transform: rotate(22deg); border: 13px solid rgba(195,50,37,.045); border-radius: 24px; content: ""; }
+  .search-intent-card:hover { transform: translateY(-4px); border-color: rgba(195,50,37,.42); box-shadow: 0 14px 30px rgba(19,31,50,.1); color: var(--color-text); }
+  .search-intent-card__number { align-self: flex-start; padding: .28rem .45rem; border-radius: 7px; background: var(--color-soft); color: var(--color-accent); font-size: .64rem; font-weight: 900; }
+  h3 { margin: .75rem 0 .3rem; color: var(--color-ink); font-size: 1.02rem; }
+  .search-intent-card p { display: -webkit-box; margin: 0; overflow: hidden; color: var(--color-muted); font-size: .75rem; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  .search-intent-card strong { position: relative; z-index: 1; margin-top: auto; padding-top: .7rem; color: var(--color-accent-dark); font-size: .72rem; }
+  .search-intent-card strong span { margin-left: .25rem; transition: margin-left .18s ease; }
+  .search-intent-card:hover strong span { margin-left: .45rem; }
+  @media (max-width: 900px) { .popular-searches__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) {
+    .popular-searches { margin-bottom: 3rem; padding: 1rem; }
+    header { grid-template-columns: 1fr; gap: .45rem; }
+    .popular-searches__grid { grid-template-columns: 1fr; }
+    .search-intent-card { min-height: 168px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .search-intent-card, .search-intent-card strong span { transition: none; } }
+</style>

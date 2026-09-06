@@ -1,0 +1,96 @@
+---
+import { getOptimizedWikiImageSources } from "../lib/wikiImage";
+
+interface Props {
+  src?: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: "eager" | "lazy";
+}
+
+const {
+  src,
+  alt,
+  width = 1254,
+  height = 1254,
+  loading = "eager",
+} = Astro.props;
+
+const sources = src ? getOptimizedWikiImageSources(src) : undefined;
+---
+
+<div class="wiki-image" data-wiki-image>
+  {sources && (
+    <picture>
+      {sources.avif && <source srcset={sources.avif} type="image/avif" />}
+      {sources.webp && <source srcset={sources.webp} type="image/webp" />}
+      <img
+        src={sources.fallback}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loading}
+        decoding="async"
+        fetchpriority={loading === "eager" ? "high" : "auto"}
+      />
+    </picture>
+  )}
+  <div
+    class="wiki-image__fallback"
+    hidden={Boolean(src)}
+    role="img"
+    aria-label={`No verified image is available for ${alt}`}
+  >
+    Image coming soon
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-wiki-image]").forEach((container) => {
+    const image = container.querySelector("img");
+    const fallback = container.querySelector<HTMLElement>(".wiki-image__fallback");
+    image?.addEventListener("error", () => {
+      image.hidden = true;
+      if (fallback) fallback.hidden = false;
+    });
+  });
+</script>
+
+<style>
+  .wiki-image {
+    display: grid;
+    width: 100%;
+    aspect-ratio: 1;
+    margin: 0;
+    overflow: hidden;
+    place-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background-color: #e8edf3;
+    background-image: linear-gradient(45deg, rgba(255,255,255,.45) 25%, transparent 25%), linear-gradient(-45deg, rgba(255,255,255,.45) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255,255,255,.45) 75%), linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.45) 75%);
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    background-size: 20px 20px;
+  }
+
+  .wiki-image picture,
+  .wiki-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .wiki-image img {
+    object-fit: contain;
+    background: #fff;
+  }
+
+  .wiki-image__fallback {
+    color: var(--color-muted);
+    font-weight: 700;
+  }
+
+  .wiki-image__fallback[hidden] {
+    display: none;
+  }
+</style>

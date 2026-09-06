@@ -1,0 +1,154 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import AdsenseScript from "../components/ads/AdsenseScript.astro";
+import AdsenseSlot from "../components/ads/AdsenseSlot.astro";
+import { getOptimizedWikiSocialImage } from "../lib/wikiImage";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  keywords?: string[];
+  pageType?: "website" | "article";
+  schema?: Record<string, unknown>;
+}
+
+const {
+  title = "RE:Heads, Please! Wiki",
+  description = "Complete RE:Heads, Please! Wiki with codes, guides and database.",
+  image,
+  keywords = [],
+  pageType = "website",
+  schema,
+} = Astro.props;
+
+const siteURL = Astro.site ?? new URL("https://reheadsplease.ymmyi.wiki");
+const canonicalURL = new URL(Astro.url.pathname, siteURL).href;
+const defaultSocialImage = "/images/wiki/items/enchant-book.png";
+const socialImage = new URL(getOptimizedWikiSocialImage(image || defaultSocialImage), siteURL).href;
+const breadcrumbLabel = (segment: string) => segment
+  .split("-")
+  .map((part) => part.toUpperCase() === "FAQ" ? "FAQ" : part.charAt(0).toUpperCase() + part.slice(1))
+  .join(" ");
+const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": `${canonicalURL}#breadcrumb`,
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", siteURL).href },
+    ...pathSegments.map((segment, index) => ({
+      "@type": "ListItem",
+      position: index + 2,
+      name: breadcrumbLabel(segment),
+      item: new URL(`/${pathSegments.slice(0, index + 1).join("/")}/`, siteURL).href,
+    })),
+  ],
+};
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${new URL("/", siteURL).href}#website`,
+  name: "RE:Heads, Please! Wiki",
+  url: new URL("/", siteURL).href,
+  description: "Community wiki for the Roblox game RE:Heads, Please!",
+  inLanguage: "en",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101a2a" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <meta property="og:site_name" content="RE:Heads, Please! Wiki" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={pageType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    <AdsenseScript />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header />
+    <AdsenseSlot position="content-top" />
+    <main id="main-content"><slot /></main>
+    <AdsenseSlot position="content-bottom" />
+    <AdsenseSlot position="sidebar" />
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+    --color-text: #182235;
+    --color-muted: #657187;
+    --color-border: #dbe1e9;
+    --color-border-strong: #c8d0dc;
+    --color-surface: #ffffff;
+    --color-soft: #f1f4f8;
+    --color-accent: #c33225;
+    --color-accent-dark: #982419;
+    --color-accent-bright: #ff654d;
+    --color-accent-soft: #fff0ec;
+    --color-ink: #101a2a;
+    --color-ink-soft: #152238;
+    --radius-card: 13px;
+    --shadow-card: 0 10px 28px rgba(19, 31, 50, .075);
+    --shadow-panel: 0 18px 50px rgba(19, 31, 50, .09);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 9rem; }
+  body { margin: 0; background-color: #f5f7fa; background-image: linear-gradient(rgba(21,34,56,.024) 1px, transparent 1px), linear-gradient(90deg, rgba(21,34,56,.024) 1px, transparent 1px); background-size: 40px 40px; color: var(--color-text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.68; }
+  ::selection { background: rgba(255,101,77,.22); color: var(--color-ink); }
+  a { color: var(--color-accent); }
+  a:hover { color: var(--color-accent-dark); }
+  a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 3px solid rgba(255,101,77,.3); outline-offset: 3px; }
+  main { position: relative; min-height: calc(100vh - 190px); }
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { margin: 0 0 1rem; color: var(--color-ink); font-size: clamp(2.25rem, 6vw, 3.35rem); letter-spacing: -.045em; }
+  h2 { margin-top: 2.7rem; color: var(--color-ink); font-size: clamp(1.45rem, 3vw, 1.95rem); letter-spacing: -.028em; }
+  h3 { font-size: 1.15rem; }
+  .page-shell { width: min(100% - 2rem, 1120px); margin: 0 auto; padding: 3.5rem 0 1.5rem; }
+  article.page-shell { position: relative; margin-top: 1.6rem; padding: clamp(1.5rem, 3.5vw, 2.6rem); overflow: clip; border: 1px solid var(--color-border); border-radius: 18px; background: var(--color-surface); box-shadow: var(--shadow-panel); }
+  article.page-shell::before { position: absolute; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-bright) 28%, #e8edf3 28%); content: ""; }
+  .page-intro { max-width: 760px; color: var(--color-muted); font-size: clamp(1rem, 2vw, 1.1rem); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1rem; margin: 1.2rem 0; }
+  .toc, .notice { margin: 2rem 0; padding: 1.25rem 1.5rem; border: 1px solid var(--color-border); border-left: 4px solid var(--color-accent); border-radius: 0 var(--radius-card) var(--radius-card) 0; background: var(--color-soft); }
+  .toc h2, .notice h2 { margin: 0 0 .75rem; font-size: 1.25rem; }
+  .toc a { font-weight: 650; text-underline-offset: 3px; }
+  .toc ul { margin: 0; padding-left: 1.25rem; }
+  .toc li + li, .related-links li + li { margin-top: .4rem; }
+  .breadcrumbs { color: var(--color-muted); }
+  .breadcrumbs ol { align-items: center; }
+  .breadcrumbs li { overflow: hidden; max-width: min(52vw, 460px); text-overflow: ellipsis; white-space: nowrap; }
+  .related-pages { position: relative; margin-top: 3.5rem; padding: 1.4rem; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: linear-gradient(135deg, #f3f6f9, #fafbfd); }
+  .related-pages::after { position: absolute; right: -28px; bottom: -38px; width: 90px; height: 90px; transform: rotate(12deg); border: 12px solid rgba(195,50,37,.06); border-radius: 22px; content: ""; }
+  .related-pages h2 { position: relative; z-index: 1; margin-top: 0; font-size: 1.25rem; }
+  .related-links { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: .55rem; margin: 0; padding: 0; list-style: none; }
+  .related-links li + li { margin-top: 0; }
+  .related-links a { display: inline-flex; min-height: 36px; align-items: center; padding: .4rem .65rem; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); color: var(--color-text); font-size: .82rem; font-weight: 700; text-decoration: none; }
+  .related-links a:hover { border-color: rgba(195,50,37,.38); background: var(--color-accent-soft); color: var(--color-accent-dark); }
+  .skip-link { position: fixed; top: .75rem; left: .75rem; z-index: 100; transform: translateY(-160%); padding: .65rem 1rem; border-radius: 8px; background: var(--color-text); color: #fff; }
+  .skip-link:focus { transform: translateY(0); }
+  @media (max-width: 720px) { html { scroll-padding-top: 1.5rem; } body { background-size: 28px 28px; } .page-shell { width: min(100% - 1rem, 1120px); padding-top: 1.7rem; } article.page-shell { margin-top: .65rem; padding: 1rem; border-radius: 14px; } .related-pages { margin-top: 2.5rem; padding: 1rem; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+</style>

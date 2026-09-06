@@ -1,0 +1,150 @@
+---
+const inputId = "site-search-input";
+const resultsId = "site-search-results";
+---
+
+<div class="site-search" data-site-search>
+  <label class="sr-only" for={inputId}>Search the RE:Heads, Please! Wiki</label>
+  <div class="search-control">
+    <span class="search-icon" aria-hidden="true"></span>
+    <input
+      id={inputId}
+      type="search"
+      placeholder="Search the wiki…"
+      autocomplete="off"
+      aria-autocomplete="list"
+      aria-controls={resultsId}
+      aria-expanded="false"
+      role="combobox"
+    />
+    <kbd aria-hidden="true">/</kbd>
+  </div>
+  <div class="search-panel" id={resultsId} role="listbox" hidden>
+    <p class="search-summary" aria-live="polite"></p>
+    <div class="search-results"></div>
+  </div>
+</div>
+
+<script>
+  import { getSearchIndex } from "../lib/search";
+
+  interface SearchRecord { title: string; href: string; category: string; description: string; keywords: string[]; }
+
+  const normalize = (value: string) => value.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, " ").trim();
+
+  document.querySelectorAll<HTMLElement>("[data-site-search]").forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>("input[type='search']");
+    const panel = root.querySelector<HTMLElement>(".search-panel");
+    const results = root.querySelector<HTMLElement>(".search-results");
+    const summary = root.querySelector<HTMLElement>(".search-summary");
+    if (!input || !panel || !results || !summary) return;
+
+    const index = getSearchIndex() as SearchRecord[];
+    let activeIndex = -1;
+
+    const close = () => {
+      panel.hidden = true;
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
+      activeIndex = -1;
+    };
+
+    const setActive = (nextIndex: number) => {
+      const links = Array.from(results.querySelectorAll<HTMLAnchorElement>("a[role='option']"));
+      if (!links.length) return;
+      activeIndex = (nextIndex + links.length) % links.length;
+      links.forEach((link, index) => link.classList.toggle("is-active", index === activeIndex));
+      input.setAttribute("aria-activedescendant", links[activeIndex].id);
+      links[activeIndex].scrollIntoView({ block: "nearest" });
+    };
+
+    const render = () => {
+      const query = normalize(input.value);
+      results.replaceChildren();
+      activeIndex = -1;
+      input.removeAttribute("aria-activedescendant");
+      if (query.length < 2) {
+        close();
+        summary.textContent = "";
+        return;
+      }
+
+      const terms = query.split(/\s+/);
+      const matches = index
+        .map((entry) => {
+          const title = normalize(entry.title);
+          const category = normalize(entry.category);
+          const haystack = normalize(`${entry.title} ${entry.category} ${entry.description} ${entry.keywords.join(" ")}`);
+          if (!terms.every((term) => haystack.includes(term))) return null;
+          const score = (title === query ? 100 : 0) + (title.startsWith(query) ? 40 : 0) + (title.includes(query) ? 20 : 0) + (category.includes(query) ? 8 : 0);
+          return { entry, score };
+        })
+        .filter((match): match is { entry: SearchRecord; score: number } => Boolean(match))
+        .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title))
+        .slice(0, 8);
+
+      panel.hidden = false;
+      input.setAttribute("aria-expanded", "true");
+      summary.textContent = matches.length ? `${matches.length} best matches` : "No matching wiki pages";
+
+      matches.forEach(({ entry }, index) => {
+        const link = document.createElement("a");
+        link.href = entry.href;
+        link.id = `site-search-result-${index}`;
+        link.setAttribute("role", "option");
+        const copy = document.createElement("span");
+        const title = document.createElement("strong");
+        const description = document.createElement("small");
+        const category = document.createElement("span");
+        title.textContent = entry.title;
+        description.textContent = entry.description;
+        category.textContent = entry.category;
+        category.className = "result-category";
+        copy.append(title, description);
+        link.append(copy, category);
+        results.append(link);
+      });
+    };
+
+    input.addEventListener("input", render);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") { event.preventDefault(); setActive(activeIndex + 1); }
+      if (event.key === "ArrowUp") { event.preventDefault(); setActive(activeIndex - 1); }
+      if (event.key === "Enter" && activeIndex >= 0) {
+        event.preventDefault();
+        results.querySelectorAll<HTMLAnchorElement>("a[role='option']")[activeIndex]?.click();
+      }
+      if (event.key === "Escape") close();
+    });
+    document.addEventListener("click", (event) => { if (!root.contains(event.target as Node)) close(); });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey && document.activeElement?.tagName !== "INPUT" && document.activeElement?.tagName !== "TEXTAREA") {
+        event.preventDefault();
+        input.focus();
+      }
+    });
+  });
+</script>
+
+<style>
+  .site-search { position: relative; width: min(100%, 340px); }
+  .search-control { position: relative; display: flex; align-items: center; }
+  .search-icon { position: absolute; left: .9rem; width: 14px; height: 14px; border: 2px solid #8f9aad; border-radius: 50%; pointer-events: none; }
+  .search-icon::after { position: absolute; right: -5px; bottom: -3px; width: 6px; height: 2px; transform: rotate(45deg); border-radius: 2px; background: #8f9aad; content: ""; }
+  input { width: 100%; height: 42px; padding: 0 3rem 0 2.55rem; border: 1px solid rgba(255, 255, 255, .18); border-radius: 10px; background: rgba(255, 255, 255, .09); color: #fff; font: inherit; font-size: .9rem; outline: none; transition: border-color .18s ease, background .18s ease, box-shadow .18s ease; }
+  input::placeholder { color: #aeb8c8; }
+  input:focus { border-color: var(--color-accent-bright); background: rgba(255, 255, 255, .14); box-shadow: 0 0 0 3px rgba(255, 98, 72, .2); }
+  kbd { position: absolute; right: .7rem; display: grid; min-width: 24px; height: 24px; place-items: center; border: 1px solid rgba(255, 255, 255, .2); border-radius: 6px; color: #aeb8c8; font: 700 .72rem/1 ui-monospace, monospace; }
+  .search-panel { position: absolute; z-index: 30; top: calc(100% + .55rem); right: 0; width: min(92vw, 430px); overflow: hidden; border: 1px solid var(--color-border-strong); border-radius: 14px; background: var(--color-surface); box-shadow: 0 22px 60px rgba(12, 20, 34, .22); color: var(--color-text); }
+  .search-summary { margin: 0; padding: .65rem .85rem; border-bottom: 1px solid var(--color-border); background: var(--color-soft); color: var(--color-muted); font-size: .75rem; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+  .search-results { max-height: min(62vh, 470px); overflow-y: auto; padding: .4rem; }
+  .search-results :global(a) { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .75rem; border-radius: 9px; color: var(--color-text); text-decoration: none; }
+  .search-results :global(a:hover), .search-results :global(a.is-active) { background: var(--color-soft); color: var(--color-text); }
+  .search-results :global(a > span:first-child) { min-width: 0; }
+  .search-results :global(strong), .search-results :global(small) { display: block; }
+  .search-results :global(strong) { overflow: hidden; font-size: .88rem; text-overflow: ellipsis; white-space: nowrap; }
+  .search-results :global(small) { overflow: hidden; margin-top: .12rem; color: var(--color-muted); font-size: .74rem; text-overflow: ellipsis; white-space: nowrap; }
+  .search-results :global(.result-category) { flex: 0 0 auto; padding: .25rem .45rem; border: 1px solid var(--color-border); border-radius: 999px; background: #fff; color: var(--color-muted); font-size: .67rem; font-weight: 750; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+  @media (max-width: 860px) { .site-search { width: 100%; max-width: none; } .search-panel { right: auto; left: 0; width: 100%; } }
+</style>

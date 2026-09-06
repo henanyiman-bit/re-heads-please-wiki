@@ -1,0 +1,87 @@
+---
+import WikiLayout from "../layouts/WikiLayout.astro";
+import Badge from "./Badge.astro";
+
+interface LinkItem { label: string; href: string; }
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  label: string;
+  intro: string;
+  toc: LinkItem[];
+  related: LinkItem[];
+  updatedAt?: string;
+  image?: string;
+  pageType?: "website" | "article";
+}
+const { title, description, h1, label, intro, toc, related, updatedAt, image, pageType = "website" } = Astro.props;
+const formattedDate = updatedAt ? new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${updatedAt}T00:00:00Z`)) : undefined;
+---
+
+<WikiLayout title={title} description={description} image={image} pageType={pageType}>
+  <article class="page-shell article-template">
+    <header class="article-hero">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/guides">Guides</a></li><li aria-current="page">{h1}</li></ol></nav>
+      <div class="article-badges"><Badge label={label} tone="accent" /><span>Reference Guide</span></div>
+      <h1>{h1}</h1>
+      <p class="page-intro">{intro}</p>
+      <div class="article-meta"><span>RE:Heads, Please! Wiki</span>{formattedDate && <><i aria-hidden="true"></i><time datetime={updatedAt}>Updated {formattedDate}</time></>}</div>
+    </header>
+
+    <nav class="mobile-toc" aria-labelledby="mobile-toc-title"><h2 id="mobile-toc-title">On This Page</h2><ol>{toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ol></nav>
+
+    <div class="article-layout">
+      <div class="article-main"><slot /></div>
+      <aside class="article-sidebar" aria-label={`${h1} article navigation`}>
+        <div class="article-sidebar__sticky">
+          <section><h2>On This Page</h2><nav>{toc.map((item) => <a href={item.href}>{item.label}</a>)}</nav></section>
+          <section><h2>Related Guides</h2><nav>{related.map((item) => <a href={item.href}>{item.label}<span aria-hidden="true">→</span></a>)}</nav></section>
+          <section class="article-status"><h2>Wiki Status</h2><p><i aria-hidden="true"></i>Reference article</p>{formattedDate && <small>Reviewed {formattedDate}</small>}</section>
+        </div>
+      </aside>
+    </div>
+  </article>
+</WikiLayout>
+
+<style>
+  .page-shell.article-template { width: min(100% - 2rem, 1240px); padding: 0; overflow: visible; }
+  .article-template::before { z-index: 2; }
+  .article-hero { position: relative; padding: clamp(1.5rem, 3.5vw, 2.6rem); overflow: hidden; border-radius: 18px 18px 0 0; background: radial-gradient(circle at 88% 20%, rgba(255,101,77,.12), transparent 25%), linear-gradient(135deg, #101a2a, #17263e); color: #fff; }
+  .article-hero::after { position: absolute; right: -42px; bottom: -70px; width: 190px; height: 150px; transform: rotate(12deg); border: 22px solid rgba(255,255,255,.035); border-radius: 36px; content: ""; }
+  .breadcrumbs, .article-badges, .article-hero h1, .article-hero > p, .article-meta { position: relative; z-index: 1; }
+  .breadcrumbs { margin-bottom: 1.1rem; color: #98a7bb; font-size: .78rem; }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+  .breadcrumbs li:not(:last-child)::after { margin-left: .4rem; color: #65748a; content: "/"; }
+  .breadcrumbs a { color: #bdc8d8; text-decoration: none; }
+  .article-badges { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+  .article-badges > span { padding: .3rem .55rem; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(255,255,255,.06); color: #d6dfeb; font-size: .62rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+  .article-hero h1 { max-width: 850px; margin: .8rem 0 .65rem; color: #fff; }
+  .article-hero > p { max-width: 780px; margin: 0; color: #b8c4d5; }
+  .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .85rem; color: #8f9db1; font-size: .7rem; font-weight: 750; }
+  .article-meta i { width: 3px; height: 3px; border-radius: 50%; background: var(--color-accent-bright); }
+  .article-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 320px); gap: clamp(1.5rem, 3vw, 2.4rem); padding: clamp(1.25rem, 3vw, 2.25rem); }
+  .article-main { min-width: 0; max-width: 808px; font-size: 1.01rem; }
+  .article-sidebar { min-width: 0; }
+  .article-sidebar__sticky { position: sticky; top: 8.3rem; padding: 1rem; border: 1px solid var(--color-border); border-radius: 13px; background: #f8fafc; box-shadow: var(--shadow-card); }
+  .article-sidebar section + section { margin-top: 1.15rem; padding-top: 1.15rem; border-top: 1px solid var(--color-border); }
+  .article-sidebar h2 { margin: 0 0 .55rem; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+  .article-sidebar nav { display: grid; gap: .2rem; }
+  .article-sidebar nav a { display: flex; min-height: 34px; align-items: center; justify-content: space-between; gap: .5rem; padding: .35rem .45rem; border-radius: 7px; color: var(--color-muted); font-size: .78rem; font-weight: 700; text-decoration: none; }
+  .article-sidebar nav a:hover { background: var(--color-accent-soft); color: var(--color-accent-dark); }
+  .article-status p { display: flex; align-items: center; gap: .5rem; margin: 0; font-size: .8rem; font-weight: 800; }
+  .article-status i { width: 8px; height: 8px; border-radius: 50%; background: #4dd889; box-shadow: 0 0 0 4px rgba(77,216,137,.12); }
+  .article-status small { display: block; margin: .3rem 0 0 1rem; color: var(--color-muted); font-size: .68rem; }
+  .mobile-toc { display: none; }
+  :global(.article-prose h2) { margin-top: 2.7rem; padding-bottom: .65rem; border-bottom: 1px solid var(--color-border); }
+  :global(.article-prose p), :global(.article-prose li) { color: #344258; }
+  @media (max-width: 1023px) {
+    .article-layout { grid-template-columns: 1fr; }
+    .article-sidebar { display: none; }
+    .mobile-toc { display: block; margin: 1rem; padding: 1rem; border: 1px solid var(--color-border); border-radius: 11px; background: var(--color-soft); }
+    .mobile-toc h2 { margin: 0 0 .55rem; font-size: .9rem; }
+    .mobile-toc ol { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+    .mobile-toc a { display: inline-flex; padding: .35rem .5rem; border: 1px solid var(--color-border); border-radius: 7px; background: #fff; color: var(--color-text); font-size: .72rem; font-weight: 750; text-decoration: none; }
+  }
+  @media (max-width: 620px) { .page-shell.article-template { width: min(100% - 1rem, 1240px); } .article-hero { border-radius: 14px 14px 0 0; } .article-hero h1 { max-width: 12ch; font-size: clamp(2rem, 10vw, 2.65rem); } .article-layout { padding: 1rem; } }
+</style>
