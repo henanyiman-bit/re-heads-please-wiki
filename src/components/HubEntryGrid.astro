@@ -20,7 +20,7 @@ const { entries } = Astro.props;
         <picture>
           {getOptimizedWikiImageSources(entry.image).avif && <source srcset={getOptimizedWikiImageSources(entry.image).avif} type="image/avif" />}
           {getOptimizedWikiImageSources(entry.image).webp && <source srcset={getOptimizedWikiImageSources(entry.image).webp} type="image/webp" />}
-          <img src={entry.image} alt={`${entry.name} — RE:Heads, Please! ${entry.category}`} width="1254" height="1254" loading="lazy" decoding="async" />
+          <img src={entry.image} alt={`${entry.name} — RE:Heads, Please! ${entry.category}`} title={`${entry.name} — RE:Heads, Please! ${entry.category}`} width="1254" height="1254" loading="lazy" decoding="async" />
         </picture>
       </div>
       <div class="entry-copy">

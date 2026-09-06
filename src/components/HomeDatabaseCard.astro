@@ -18,7 +18,7 @@ const sources = getOptimizedWikiImageSources(image);
     <picture>
       {sources.avif && <source srcset={sources.avif} type="image/avif" />}
       {sources.webp && <source srcset={sources.webp} type="image/webp" />}
-      <img src={sources.fallback} alt={`${name} — RE:Heads, Please! ${category} preview`} width="1254" height="1254" loading="lazy" decoding="async" />
+      <img src={sources.fallback} alt={`${name} — RE:Heads, Please! ${category} preview`} title={`${name} — RE:Heads, Please! ${category} preview`} width="1254" height="1254" loading="lazy" decoding="async" />
     </picture>
     <span>{status}</span>
   </div>

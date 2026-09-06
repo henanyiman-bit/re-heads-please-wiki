@@ -50,10 +50,26 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${new URL("/", siteURL).href}#website`,
-  name: "RE:Heads, Please! Wiki",
+  name: "RE:Heads, Please Wiki",
   url: new URL("/", siteURL).href,
   description: "Community wiki for the Roblox game RE:Heads, Please!",
   inLanguage: "en",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${new URL("/", siteURL).href}?search={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${new URL("/", siteURL).href}#organization`,
+  name: "RE:Heads, Please Wiki",
+  url: new URL("/", siteURL).href,
+  logo: new URL("/favicon.svg", siteURL).href,
 };
 ---
 
@@ -81,6 +97,7 @@ const websiteSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
     <AdsenseScript />

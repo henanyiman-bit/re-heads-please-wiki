@@ -123,6 +123,11 @@ const resultsId = "site-search-results";
         input.focus();
       }
     });
+    const initialQuery = new URLSearchParams(window.location.search).get("search")?.trim();
+    if (initialQuery) {
+      input.value = initialQuery;
+      render();
+    }
   });
 </script>
 

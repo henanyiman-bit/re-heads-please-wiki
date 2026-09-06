@@ -25,7 +25,7 @@ const previewImage = previewImages[0] ? {
           <picture class="preview-picture">
             {previewImage.sources.avif && <source srcset={previewImage.sources.avif} type="image/avif" />}
             {previewImage.sources.webp && <source srcset={previewImage.sources.webp} type="image/webp" />}
-            <img class="preview-image" src={previewImage.sources.fallback} alt={previewImage.alt} width="1254" height="1254" loading="eager" decoding="async" fetchpriority="high" />
+            <img class="preview-image" src={previewImage.sources.fallback} alt={previewImage.alt} title={previewImage.alt} width="1254" height="1254" loading="eager" decoding="async" fetchpriority="high" />
           </picture>
         )}
         <span class="game-tag">Roblox Experience</span>
