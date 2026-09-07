@@ -66,15 +66,60 @@ export function getKeywordInternalLinks(
   limit = 4,
 ): KeywordInternalLink[] {
   const currentIndex = category.l3.findIndex((page) => page.slug === currentPage.slug);
-  const candidates = [
-    ...category.l3.slice(currentIndex + 1),
-    ...category.l3.slice(0, currentIndex),
-  ];
+  const stopWords = new Set(["re", "heads", "please", "wiki", "guide", "guides", "game", category.slug.replace("-", " ")]);
+  const tokensFor = (page: KeywordPage) => new Set(
+    `${page.slug} ${page.keyword} ${page.variants.join(" ")}`
+      .toLowerCase()
+      .match(/[a-z0-9]+/g)
+      ?.filter((token) => token.length > 2 && !stopWords.has(token)) ?? [],
+  );
+  const currentTokens = tokensFor(currentPage);
+  const candidates = category.l3
+    .map((page, index) => {
+      if (page.slug === currentPage.slug) return undefined;
+      const sharedTokens = [...tokensFor(page)].filter((token) => currentTokens.has(token)).length;
+      const forwardDistance = (index - currentIndex + category.l3.length) % category.l3.length;
+      return { page, sharedTokens, forwardDistance };
+    })
+    .filter((candidate): candidate is { page: KeywordPage; sharedTokens: number; forwardDistance: number } => Boolean(candidate))
+    .sort((a, b) => b.sharedTokens - a.sharedTokens || a.forwardDistance - b.forwardDistance)
+    .slice(0, limit)
+    .map(({ page }) => page);
 
-  return candidates.slice(0, limit).map((page) => ({
+  return candidates.map((page) => ({
     href: `/${category.slug}/${page.slug}`,
     label: page.h1,
   }));
+}
+
+const crossCategoryMap: Record<string, string[]> = {
+  codes: ["items", "database", "guides"],
+  items: ["database", "accessories", "tier-list"],
+  coins: ["database", "guides", "tier-list"],
+  accessories: ["database", "items", "guides"],
+  guides: ["database", "codes", "tier-list"],
+  "tier-list": ["database", "items", "coins"],
+  database: ["items", "coins", "accessories"],
+};
+
+export function getCrossCategoryHubLinks(categorySlug: string, limit = 2): KeywordInternalLink[] {
+  return (crossCategoryMap[categorySlug] ?? [])
+    .map((slug) => getKeywordCategory(slug))
+    .filter((category): category is KeywordCategory => Boolean(category))
+    .slice(0, limit)
+    .map((category) => ({ href: `/${category.slug}`, label: category.navLabel }));
+}
+
+export function getKeywordLinkLabel(href: string): string {
+  const [categorySlug, pageSlug] = href.split("/").filter(Boolean);
+  const category = getKeywordCategory(categorySlug);
+  if (category && !pageSlug) return category.navLabel;
+  const page = category?.l3.find((candidate) => candidate.slug === pageSlug);
+  if (page) return page.h1.replace("RE:Heads, Please! ", "");
+  return (pageSlug ?? categorySlug ?? "Wiki")
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
 
 export function getKeywordPagePaths(excludedCategories: string[] = []) {

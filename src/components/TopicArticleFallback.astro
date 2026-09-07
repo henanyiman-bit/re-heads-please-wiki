@@ -5,9 +5,10 @@ interface Props {
   category: KeywordCategory;
   page: KeywordPage;
   internalLinks: KeywordInternalLink[];
+  discoveryLinks?: KeywordInternalLink[];
 }
 
-const { category, page, internalLinks } = Astro.props;
+const { category, page, internalLinks, discoveryLinks = [] } = Astro.props;
 const topic = page.h1.replace(/^RE:Heads, Please!\s*/i, "");
 const verification = "Check the latest in-game information whenever the current interface does not confirm a detail.";
 const topicSeed = [...page.slug].reduce((total, character) => total + character.charCodeAt(0), 0);
@@ -137,7 +138,11 @@ const bodyFaq = [
 
   <section id="related-topic-links">
     <h2>{category.slug === "items" ? "Related Items" : category.slug === "coins" ? "Related Coins" : category.slug === "accessories" ? "Related Accessories" : category.slug === "codes" ? "Related Codes" : "Related Pages"}</h2>
-    <ul>{internalLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+    <ul>
+      <li><a href={`/${category.slug}`}>All {category.navLabel} pages</a></li>
+      {internalLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      {discoveryLinks.map((link) => <li><a href={link.href}>Explore {link.label}</a></li>)}
+    </ul>
   </section>
 </div>
 
