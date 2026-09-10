@@ -17,7 +17,5 @@ const [width, height] = sizes[kind];
   .ad-slot { display: none; box-sizing: border-box; width: 100%; min-width: 0; margin: 2.5rem auto; padding: 1rem 0; border-top: 1px solid #e3e7ee; border-bottom: 1px solid #e3e7ee; text-align: center; overflow: hidden; }
   .ad-label { display: block; height: 22px; font: 11px/22px system-ui, sans-serif; color: #697586; }
   .ad-mount { width: min(100%, var(--ad-width)); height: var(--ad-height); min-height: var(--ad-height); margin: 0 auto; overflow: hidden; }
-  @media (min-width: 1024px) { .ad-slot--leaderboard, .ad-slot--rectangle { display: block; } }
-  @media (min-width: 768px) and (max-width: 1023px) { .ad-slot--native { display: block; } }
-  @media (max-width: 767px) { .ad-slot--mobile { display: block; } }
+  .ad-slot[data-ad-selected] { display: block; }
 </style>
