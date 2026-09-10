@@ -1,5 +1,6 @@
 ---
 import WikiLayout from "../layouts/WikiLayout.astro";
+import AdsterraRectangle from "./ads/AdsterraRectangle.astro";
 import WikiImage from "./WikiImage.astro";
 import WikiVideoSection from "./WikiVideoSection.astro";
 import Badge from "./Badge.astro";
@@ -87,6 +88,7 @@ const selectedDetailNotes = [detailReviewNotes[detailSeed % detailReviewNotes.le
           <section><span>Location</span><strong>{location}</strong></section>
           {entry.tier && <section><span>Tier</span><strong>{entry.tier}</strong></section>}
         </div>
+        <AdsterraRectangle />
       </aside>
 
       <div class="detail-content">

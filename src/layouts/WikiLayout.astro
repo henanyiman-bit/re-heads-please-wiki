@@ -3,6 +3,9 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import AdsenseScript from "../components/ads/AdsenseScript.astro";
 import AdsenseSlot from "../components/ads/AdsenseSlot.astro";
+import AdsterraLeaderboard from "../components/ads/AdsterraLeaderboard.astro";
+import AdsterraMobileBanner from "../components/ads/AdsterraMobileBanner.astro";
+import AdsterraNative from "../components/ads/AdsterraNative.astro";
 import { getOptimizedWikiSocialImage } from "../lib/wikiImage";
 
 interface Props {
@@ -24,6 +27,9 @@ const {
 } = Astro.props;
 
 const siteURL = Astro.site ?? new URL("https://reheadsplease.ymmyi.wiki");
+// Existing core hubs and their descendants only. Homepage and utility pages stay ad-free.
+const adCategories = new Set(["codes", "items", "coins", "accessories", "database", "guides", "tier-list"]);
+const showLeaderboard = adCategories.has(Astro.url.pathname.split("/").filter(Boolean)[0]);
 const canonicalURL = new URL(Astro.url.pathname, siteURL).href;
 const defaultSocialImage = "/images/wiki/items/enchant-book.png";
 const socialImage = new URL(getOptimizedWikiSocialImage(image || defaultSocialImage), siteURL).href;
@@ -106,7 +112,7 @@ const organizationSchema = {
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Header />
     <AdsenseSlot position="content-top" />
-    <main id="main-content"><slot /></main>
+    <main id="main-content"><slot />{showLeaderboard && <div class="ad-content-end"><AdsterraLeaderboard /><AdsterraMobileBanner /><AdsterraNative /></div>}</main>
     <AdsenseSlot position="content-bottom" />
     <AdsenseSlot position="sidebar" />
     <Footer />
@@ -114,6 +120,7 @@ const organizationSchema = {
 </html>
 
 <style is:global>
+  .ad-content-end { width: min(100% - 2rem, 1240px); margin: 0 auto; }
   :root {
     color-scheme: light;
     --color-text: #182235;

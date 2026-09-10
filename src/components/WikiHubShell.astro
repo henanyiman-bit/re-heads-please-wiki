@@ -1,5 +1,6 @@
 ---
 import WikiLayout from "../layouts/WikiLayout.astro";
+import AdsterraRectangle from "./ads/AdsterraRectangle.astro";
 import Badge from "./Badge.astro";
 
 interface Stat { label: string; value: string | number; }
@@ -86,6 +87,7 @@ const formattedDate = new Intl.DateTimeFormat("en", { month: "short", day: "nume
               <section class="wiki-status"><h2>Wiki Status</h2><p><i aria-hidden="true"></i>{status} page</p><small>Reviewed {formattedDate}</small></section>
             </div>
           </details>
+          <AdsterraRectangle />
         </div>
       </aside>
     </div>

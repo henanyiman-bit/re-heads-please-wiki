@@ -1,5 +1,6 @@
 ---
 import WikiLayout from "../layouts/WikiLayout.astro";
+import AdsterraRectangle from "./ads/AdsterraRectangle.astro";
 import Badge from "./Badge.astro";
 
 interface LinkItem { label: string; href: string; }
@@ -39,6 +40,7 @@ const formattedDate = updatedAt ? new Intl.DateTimeFormat("en", { month: "short"
           <section><h2>Related Guides</h2><nav>{related.map((item) => <a href={item.href}>{item.label}<span aria-hidden="true">→</span></a>)}</nav></section>
           <section class="article-status"><h2>Wiki Status</h2><p><i aria-hidden="true"></i>Reference article</p>{formattedDate && <small>Reviewed {formattedDate}</small>}</section>
         </div>
+        <AdsterraRectangle />
       </aside>
     </div>
   </article>
