@@ -55,8 +55,8 @@ export function initializeAds() {
       window.addEventListener('message', status);
       disposers.push(() => window.removeEventListener('message', status));
       const body = kind === 'native'
-        ? `<div id="container-${unit.key}"></div><script async data-cfasync="false" src="https://pl31269990.profitableratecpmnetwork.com/${unit.key}/invoke.js"><\/script>`
-        : `<script>window.atOptions=${JSON.stringify({ key: unit.key, format: 'iframe', height: unit.height, width: unit.width, params: {} })};<\/script><script src="https://www.highrevenueformat.com/${unit.key}/invoke.js"><\/script>`;
+        ? `<div id="container-${unit.key}"></div><script async data-cfasync="false" src="https://harryinspectionlucy.com/${unit.key}/invoke.js"><\/script>`
+        : `<script>window.atOptions=${JSON.stringify({ key: unit.key, format: 'iframe', height: unit.height, width: unit.width, params: {} })};<\/script><script src="https://harryinspectionlucy.com/${unit.key}/invoke.js"><\/script>`;
       const diagnostics = `<script>
         const report = status => parent.postMessage({kind:'wiki-ad-status',status}, '*');
         report('ready');
