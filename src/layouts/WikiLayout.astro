@@ -27,9 +27,9 @@ const {
 } = Astro.props;
 
 const siteURL = Astro.site ?? new URL("https://reheadsplease.ymmyi.wiki");
-// Existing core hubs and their descendants only. Homepage and utility pages stay ad-free.
+// Core wiki content supports ads; the homepage is limited to one late-page placement.
 const adCategories = new Set(["codes", "items", "coins", "accessories", "database", "guides", "tier-list"]);
-const showLeaderboard = adCategories.has(Astro.url.pathname.split("/").filter(Boolean)[0]);
+const showLeaderboard = Astro.url.pathname === "/" || adCategories.has(Astro.url.pathname.split("/").filter(Boolean)[0]);
 const canonicalURL = new URL(Astro.url.pathname, siteURL).href;
 const defaultSocialImage = "/images/wiki/items/enchant-book.png";
 const socialImage = new URL(getOptimizedWikiSocialImage(image || defaultSocialImage), siteURL).href;
