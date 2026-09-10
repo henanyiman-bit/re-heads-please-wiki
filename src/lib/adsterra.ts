@@ -5,9 +5,13 @@ const units = {
   mobile: { key: '8a62b62c6204f4852d7ec286320bc5a7', width: 320, height: 50, media: '(max-width: 767px)' },
   native: { key: '8f46fc5471982f65cf6699c9c8c7f570', width: 640, height: 320, media: '(min-width: 768px) and (max-width: 1023px)' },
 };
+export const isAdsterraProductionHost = (hostname: string) => hostname === 'reheadsplease.ymmyi.wiki';
 let cleanup: (() => void) | undefined;
 export function initializeAds() {
   cleanup?.();
+  // The host decision belongs to the Wiki document. The isolated srcdoc never
+  // evaluates its own opaque-origin hostname.
+  if (!isAdsterraProductionHost(window.location.hostname)) return;
   // Local QA only: no analytics endpoint, no production measurement or transmission.
   if (import.meta.env.DEV && !document.documentElement.dataset.adQaCls) {
     document.documentElement.dataset.adQaCls = '0';
@@ -28,7 +32,6 @@ export function initializeAds() {
     const unit = units[kind];
     const media = matchMedia(unit.media);
     const mount = slot.querySelector<HTMLElement>('.ad-mount')!;
-    let near = false;
     let frame = mount.querySelector('iframe');
     let loaded = Boolean(frame);
     const update = () => {
@@ -37,7 +40,7 @@ export function initializeAds() {
         frame?.remove(); frame = null;
         return;
       }
-      if (!near || loaded || mount.clientWidth < unit.width || !slot.getClientRects().length) return;
+      if (loaded || mount.clientWidth < unit.width || !slot.getClientRects().length) return;
       loaded = true;
       frame = document.createElement('iframe');
       frame.title = `Advertisement — ${kind}`;
@@ -67,11 +70,11 @@ export function initializeAds() {
       frame.srcdoc = `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0;width:100%;min-height:100%;}body{overflow:${kind === 'native' ? 'auto' : 'hidden'};}img,iframe{max-width:100%;}</style>${diagnostics}</head><body>${body}</body></html>`;
       mount.append(frame);
     };
-    const intersection = new IntersectionObserver(([entry]) => { near = entry.isIntersecting; update(); }, { rootMargin: '100px' });
     const resize = new ResizeObserver(update);
-    intersection.observe(slot); resize.observe(mount);
+    resize.observe(mount);
     media.addEventListener('change', update);
-    disposers.push(() => { intersection.disconnect(); resize.disconnect(); media.removeEventListener('change', update); });
+    disposers.push(() => { resize.disconnect(); media.removeEventListener('change', update); });
+    update();
   });
   cleanup = () => disposers.forEach(dispose => dispose());
 }
